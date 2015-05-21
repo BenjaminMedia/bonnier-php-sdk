@@ -38,6 +38,7 @@ $single->save();
 
 Get list, add query and apply filters
 -----
+Get the results sets, query everything matching "hello", filter title by "myFilter" and content by "secondFilter". api() makes the final call to the webservice.
 ```php
 $results = $service->get()->query('hello')->addFilter('title', 'myFilter')->addFilter('content', 'secondFilter')->api();
 ```
@@ -45,7 +46,7 @@ $results = $service->get()->query('hello')->addFilter('title', 'myFilter')->addF
 Advanced usage
 -----
 
-Use DSL to apply even greater filters, by using the dsl method on the \Bonnier\Service\ServiceResult class. Please see the Elasticsearch documentation on how to use DSL:
+Use DSL to apply even greater filters, by using the "setDsl" method on the \Bonnier\Service\ServiceResult class. Please see the Elasticsearch documentation and examples on how to use DSL:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 ```php
