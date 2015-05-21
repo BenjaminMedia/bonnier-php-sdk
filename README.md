@@ -27,11 +27,15 @@ $single->update();
 
 Save single
 -----
+Create a new instance of the ServiceItem class. 
+
+Set your custom properties on the source property OR use the setSource method to set your custom array.
+
 ```php
 $item = array('title' => 'Hello world');
 
 $single = new \Bonnier\Service\ServiceItem($secret);
-$single->title = 'Hello world'; // Set single property
+$single->source->title = 'Hello world';
 $single->setSource($item); // Set entire source
 $single->save();
 ```
