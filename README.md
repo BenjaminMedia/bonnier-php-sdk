@@ -39,6 +39,16 @@ $single->save();
 Get list, add query and apply filters
 -----
 ```php
-// Get list with filter
 $results = $service->get()->query('hello')->addFilter('title', 'myFilter')->addFilter('content', 'secondFilter')->api();
+```
+
+Advanced usage
+-----
+
+Use DSL to apply even greater filters, by using the dsl method on the \Bonnier\Service\ServiceResult class. Please see the Elasticsearch documentation on how to use DSL:
+https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
+
+```php
+$filter = array('body' => array('query' => 'match' => array('testField' => 'abc')));
+$results = $service->get()->setDsl($filter);
 ```
