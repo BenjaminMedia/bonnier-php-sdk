@@ -8,7 +8,7 @@ Even though these examples are pretty rough, they should give you a basic unders
 
 ```php
 // Initialize service
-$service = new \Bonnier\Service('D97B2EE2D0FFC765501FEF5F76C95C62');
+$service = new \Bonnier\Service($secret);
 ```
 
 ```php
