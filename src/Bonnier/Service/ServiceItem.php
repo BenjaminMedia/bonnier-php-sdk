@@ -39,4 +39,33 @@ class ServiceItem extends \Bonnier\Service {
         }
         return $this;
     }
+    
+    public function getId(){
+        return $this->id;
+    }
+
+    public function getScore(){
+        return $this->score;
+    }
+
+    public function getSource(){
+        return $this->source;
+    }
+
+    public function getVersion(){
+        return $this->version;
+    }
+
+    public function getCreated(){
+        return $this->created;
+    }
+
+    public function getIndex(){
+        return $this->index;
+    }
+
+    public function getType(){
+        return $this->type;
+    }
+
 }
