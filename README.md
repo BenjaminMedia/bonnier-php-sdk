@@ -1,13 +1,10 @@
 # bonnier-php-sdk
 PHP SDK for communicating with the Bonnier search db webservice.
 
-## Version
-0.6
-
 ## Examples
 ------------
 
-Even though these examples are pretty rough, they should give you a basic understanding on how to use the service class. All classes extends from the \Bonnier\Service class - which contains the basic functionality for talking with the webservice.
+Even though these examples are pretty rough, they should give you a basic understanding on how to use the service class. All classes extends from the \Bonnier\Service\ServiceBase class - which contains the basic functionality for talking with the webservice.
 
 #### Initialize service
 ```php
@@ -21,8 +18,8 @@ $single = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
 
 #### Update single
 ```php
-$single->item->title = 'Hello world';
-$single->item->description = 'My new description';
+$single->title = 'Hello world';
+$single->description = 'My new description';
 $response = $single->update(); // Returns new object with updated response from service
 ```
 
@@ -46,8 +43,7 @@ You can also create a new item by calling the save method directly on the Servic
 
 ```php
 $item = new \Bonnier\Service\ServiceItem('D97B2EE2D0FFC765501FEF5F76C95C62', 'content');
-$item->setTitle('Hello world'); // Similar to doing $item->title = 'Hello world!';
-$item->setDescription('My description'); // Similar to doing $item->description = 'My description!';
+$item->title = 'Hello world'; // Magic method, similar to calling $item->item->title = 'Hello world';
 $item->save();
 ```
 
