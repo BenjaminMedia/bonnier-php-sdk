@@ -45,10 +45,9 @@ $response = $service->save($item); // Returns new object with updated response f
 You can also create a new item by calling the save method directly on the ServiceItem class. This requires you to  add the secret and type:
 
 ```php
-$item = new ServiceItem($secret, $type);
+$item = new \Bonnier\Service\ServiceItem('D97B2EE2D0FFC765501FEF5F76C95C62', 'content');
 $item->setTitle('Hello world'); // Similar to doing $item->title = 'Hello world!';
 $item->setDescription('My description'); // Similar to doing $item->description = 'My description!';
-
 $item->save();
 ```
 
