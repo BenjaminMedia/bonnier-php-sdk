@@ -2,10 +2,7 @@
 PHP SDK for communicating with the Bonnier search db webservice.
 
 ## Version
-0.5
-
-## Notes
-**This version is outdated and no longer works with the BonnierSearchDB. Please wait for an updated version of the SDK**
+0.6
 
 ## Examples
 ------------
