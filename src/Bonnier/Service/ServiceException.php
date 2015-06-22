@@ -1,5 +1,3 @@
 <?php
 namespace Bonnier\Service;
-class ServiceException extends \Exception {
-
-}
+class ServiceException extends \Exception { }
