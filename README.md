@@ -52,12 +52,12 @@ $response = $service->save($item); // Returns new object with updated response f
 #### Get list, add query and apply filters
 Get the results sets, query everything matching "hello", filter title by "myFilter" and content by "secondFilter". api() makes the final call to the webservice.
 ```php
-$results = $service->get() // Lets get the ServiceResult object
+$results = $service->get() // Get the queryable ServiceResult object
 ->query('hello') // Get everything that matches "hello"
 ->filter('title', 'myFilter') // Filter "title" by "myFilter"
 ->filter('content', 'secondFilter') // Add as many filters as you like
 ->sort('title') // Sort by title
-->order('asc') // Order ASC
+->order('asc') // Order results by ASC
 ->api(); // Call the service and get the results
 ```
 
