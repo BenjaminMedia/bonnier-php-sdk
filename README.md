@@ -27,10 +27,6 @@ $response = $single->update(); // Returns new object with updated response from 
 ```
 
 #### Save single
-Create a new instance of the ServiceItem class. 
-
-Set your custom properties on the source property OR use the setSource method to set your custom array.
-
 ```php
 $item = new stdClass();
 $item->title = 'Min titel';
@@ -44,6 +40,16 @@ $item->path = '/';
 $item->active = TRUE;
 
 $response = $service->save($item); // Returns new object with updated response from service
+```
+
+You can also create a new item by calling the save method directly on the ServiceItem class. This requires you to  add the secret and type:
+
+```php
+$item = new ServiceItem($secret, $type);
+$item->setTitle('Hello world'); // Similar to doing $item->title = 'Hello world!';
+$item->setDescription('My description'); // Similar to doing $item->description = 'My description!';
+
+$item->save();
 ```
 
 #### Get list, add query and apply filters
