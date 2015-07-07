@@ -3,7 +3,7 @@ namespace Bonnier\Service;
 
 abstract class ServiceBase {
 
-    const SERVICE_URL = 'http://bonnierindexdb.pecee.dk/api/%1$s/';
+    const SERVICE_URL = 'https://staging-indexdb.whitealbum.dk/api/%1$s/';
 
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
@@ -28,39 +28,6 @@ abstract class ServiceBase {
     }
 
     /**
-     * Get queryable service result
-     * @return ServiceResult
-     */
-    public function get() {
-        return new ServiceResult($this->secret, $this->type);
-    }
-
-    /**
-     * Get single item by id
-     * @param $id
-     * @return ServiceItem
-     * @throws ServiceException
-     */
-    public function getById($id) {
-        return $this->api($id);
-    }
-
-    /**
-     * Save item
-     * @param \stdClass $row
-     * @return $this
-     */
-    public function save(\stdClass $row) {
-        $item = new ServiceItem($this->secret, $this->type);
-        $item->row = $row;
-        return $item->save();
-    }
-
-    public function delete($id) {
-        return $this->api($id, self::METHOD_DELETE);
-    }
-
-    /**
      * @param string|null $url
      * @param string $method
      * @param array|NULL $data
@@ -82,10 +49,15 @@ abstract class ServiceBase {
             $postData = $data;
         }
 
-        $ch = curl_init(sprintf(self::SERVICE_URL, $this->type) . $url);
+        $apiUrl = sprintf(self::SERVICE_URL, $this->type) . $url;
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Auth-secret: ' . $this->secret));
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Auth-Secret: ' . $this->secret));
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
         if($method != self::METHOD_GET) {

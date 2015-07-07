@@ -2,13 +2,22 @@
 
 require_once '../src/Bonnier/Service/ServiceBase.php';
 require_once '../src/Bonnier/ServiceContent.php';
+require_once '../src/Bonnier/ServiceAuth.php';
+require_once '../src/Bonnier/ServiceApplications.php';
 require_once '../src/Bonnier/Service/ServiceException.php';
 require_once '../src/Bonnier/Service/ServiceResult.php';
 require_once '../src/Bonnier/Service/ServiceItem.php';
 
 // Save new item example
 
-$service = new \Bonnier\ServiceContent('D97B2EE2D0FFC765501FEF5F76C95C62');
+//$service = new \Bonnier\ServiceAuth('A25B21A1127D904E555B9D73A048D703');
+//$role = $service->check('translate_create');
+
+//$service = new \Bonnier\ServiceApplications('A25B21A1127D904E555B9D73A048D703');
+
+// $applications = $service->get();
+
+//$single = $service->getById(1);
 
 
 /*$item = new \Bonnier\Service\ServiceItem('D97B2EE2D0FFC765501FEF5F76C95C62', 'content');
@@ -38,15 +47,15 @@ $item->active = TRUE;*/
 //die(var_dump($single));
 
 // Get single example
-/*$single = $service->getById('6A5AC910F92A518C6D1C7DC080A3E777');
+//$single = $service->getById('6159EDE362030FF937927C9A16A4E9D5');
 
-$single->title = 'Ny ny titel';
+/*$single->title = 'Ny ny titel';
 $single->description = 'new new description';
 
 $single->update();*/
 
 
-//die(var_dump($single));
+die(var_dump($single));
 
 
 // Get list with filter

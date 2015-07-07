@@ -11,13 +11,7 @@ class ServiceResult extends ServiceBase {
     public $rows;
 
     public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
-        if(is_array($data)) {
-            $data = array_merge($this->_data, $data);
-        } else {
-            $data = $this->_data;
-        }
-
-
+        $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;
         return parent::api($url, $method, $data);
     }
 
