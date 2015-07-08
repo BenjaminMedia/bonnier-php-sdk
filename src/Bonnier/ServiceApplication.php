@@ -5,7 +5,7 @@ use Bonnier\Service\ServiceBase;
 
 class ServiceApplications extends ServiceBase {
 
-    const TYPE = 'applications';
+    const TYPE = 'application';
 
     public function __construct($secret) {
         parent::__construct($secret, self::TYPE);

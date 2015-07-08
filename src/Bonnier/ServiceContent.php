@@ -1,9 +1,9 @@
 <?php
 namespace Bonnier;
 
-use Bonnier\Service\ServiceBase;
+use Bonnier\Service\ServiceItem;
 
-class ServiceContent extends ServiceBase {
+class ServiceContent extends ServiceItem {
 
     const TYPE = 'content';
 
@@ -38,6 +38,11 @@ class ServiceContent extends ServiceBase {
         $item = new ServiceItem($this->secret, $this->type);
         $item->row = $row;
         return $item->save();
+    }
+
+    public function update() {
+        $this->row = $this->api($this->row->id, self::METHOD_PUT, (array)$this->row);
+        return $this;
     }
 
     public function delete($id) {

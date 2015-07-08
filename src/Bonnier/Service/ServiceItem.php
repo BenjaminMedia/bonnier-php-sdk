@@ -19,15 +19,6 @@ class ServiceItem extends ServiceBase {
         return $this;
     }
 
-    public function delete() {
-        return $this->api($this->row->id, self::METHOD_DELETE);
-    }
-
-    public function update() {
-        $this->row = $this->api($this->row->id, self::METHOD_PUT, (array)$this->row);
-        return $this;
-    }
-
     public function __set($name, $value = NULL) {
         $this->row->$name = $value;
     }

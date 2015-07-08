@@ -46,33 +46,44 @@ abstract class ServiceBase {
         if($method == self::METHOD_GET && is_array($data)) {
             $url = $url . '?'.http_build_query($data);
         } else {
-            $postData = $data;
+            $postData = http_build_query($data);
         }
 
         $apiUrl = sprintf(self::SERVICE_URL, $this->type) . $url;
 
-        $ch = curl_init();
+        $options = array('http' => array('timeout' => 20));
+        $options['http']['header'] = "Content-type: "."application/x-www-form-urlencoded"."\r\n" . "Auth-Secret: " . $this->secret;
+        $options['http']['method'] = 'GET';
+
+
+        /*$ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Auth-Secret: ' . $this->secret));
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);*/
 
         if($method != self::METHOD_GET) {
-            curl_setopt($ch, CURLOPT_POST, TRUE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+            $options['http']['method'] = 'POST';
+            $options['http']['content'] = $postData;
+            /*curl_setopt($ch, CURLOPT_POST, TRUE);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));*/
         }
 
-        $response = @json_decode(curl_exec($ch), TRUE);
+        $context = stream_context_create($options);
+        $response = json_decode(file_get_contents($apiUrl, FALSE, $context), TRUE);
+
+        //$response = @json_decode(curl_exec($ch), TRUE);
 
         if(!$response || $response && isset($response['status'])) {
             throw new ServiceException($response['error'], $response['status']);
         }
 
         if(isset($response['id'])) {
-            $item = new ServiceItem($this->secret, $this->type);
+            $class = get_called_class();
+            $item = new $class($this->secret, $this->type);
             $item->row = (object)$response;
             return $item;
         }
