@@ -4,7 +4,7 @@ require_once '../src/Bonnier/Service/ServiceBase.php';
 require_once '../src/Bonnier/Service/ServiceItem.php';
 require_once '../src/Bonnier/ServiceContent.php';
 require_once '../src/Bonnier/ServiceAuth.php';
-require_once '../src/Bonnier/ServiceApplications.php';
+require_once '../src/Bonnier/ServiceApplication.php';
 require_once '../src/Bonnier/Service/ServiceException.php';
 require_once '../src/Bonnier/Service/ServiceResult.php';
 
@@ -16,7 +16,8 @@ require_once '../src/Bonnier/Service/ServiceResult.php';
 
 //$service = new \Bonnier\ServiceApplications('A25B21A1127D904E555B9D73A048D703');
 
-$service = new \Bonnier\ServiceContent('A25B21A1127D904E555B9D73A048D703');
+$service = new \Bonnier\ServiceApplications('test');
+$service->get();
 
 // $applications = $service->get();
 

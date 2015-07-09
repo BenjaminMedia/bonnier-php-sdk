@@ -46,36 +46,27 @@ abstract class ServiceBase {
         if($method == self::METHOD_GET && is_array($data)) {
             $url = $url . '?'.http_build_query($data);
         } else {
-            $postData = http_build_query($data);
+            $postData = $data;
         }
 
         $apiUrl = sprintf(self::SERVICE_URL, $this->type) . $url;
 
-        $options = array('http' => array('timeout' => 20));
-        $options['http']['header'] = "Content-type: "."application/x-www-form-urlencoded"."\r\n" . "Auth-Secret: " . $this->secret;
-        $options['http']['method'] = 'GET';
 
-
-        /*$ch = curl_init();
+        $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Auth-Secret: ' . $this->secret));
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);*/
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
         if($method != self::METHOD_GET) {
-            $options['http']['method'] = 'POST';
-            $options['http']['content'] = $postData;
-            /*curl_setopt($ch, CURLOPT_POST, TRUE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));*/
+            curl_setopt($ch, CURLOPT_POST, TRUE);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
         }
 
-        $context = stream_context_create($options);
-        $response = json_decode(file_get_contents($apiUrl, FALSE, $context), TRUE);
-
-        //$response = @json_decode(curl_exec($ch), TRUE);
+        $response = @json_decode(curl_exec($ch), TRUE);
 
         if(!$response || $response && isset($response['status'])) {
             throw new ServiceException($response['error'], $response['status']);
