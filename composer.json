@@ -1,0 +1,28 @@
+{
+    "name": "bonnier/php-sdk",
+    "description": "Bonnier PHP-SDK.",
+    "keywords": [ "bonnier", "php-sdk" ],
+    "license": "MIT",
+    "homepage": "http://www.bonnierpublications.com",
+    "support": {
+        "source": "https://github.com/BenjaminMedia/"
+    },
+    "authors": [
+        {
+            "name": "Interactive",
+            "email": "interactive@bonnier.dk"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
