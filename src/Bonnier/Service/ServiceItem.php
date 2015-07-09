@@ -1,5 +1,5 @@
 <?php
-namespace BonnierPHPSDK\Service;
+namespace Bonnier\Service;
 
 class ServiceItem extends ServiceBase {
 

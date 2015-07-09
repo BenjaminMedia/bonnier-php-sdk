@@ -1,7 +1,7 @@
 <?php
-namespace BonnierPHPSDK;
+namespace Bonnier;
 
-use BonnierPHPSDK\Service\ServiceItem;
+use Bonnier\Service\ServiceItem;
 
 class ServiceContent extends ServiceItem {
 

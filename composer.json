@@ -20,7 +20,9 @@
 
     },
     "autoload": {
-
+        "psr-4": {
+            "Bonnier\\": "src/Bonnier/"
+        }
     },
     "config": {
         "preferred-install": "dist"
