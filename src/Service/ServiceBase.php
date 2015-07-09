@@ -1,5 +1,5 @@
 <?php
-namespace Bonnier\Service;
+namespace BonnierPHPSDK\Service;
 
 abstract class ServiceBase {
 

@@ -1,3 +1,3 @@
 <?php
-namespace Bonnier\Service;
+namespace BonnierPHPSDK\Service;
 class ServiceException extends \Exception { }

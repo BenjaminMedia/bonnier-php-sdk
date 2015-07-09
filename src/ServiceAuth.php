@@ -1,7 +1,7 @@
 <?php
-namespace Bonnier;
+namespace BonnierPHPSDK;
 
-use Bonnier\Service\ServiceBase;
+use BonnierPHPSDK\Service\ServiceBase;
 
 class ServiceAuth extends ServiceBase {
 
