@@ -10,6 +10,9 @@ require_once '../src/Bonnier/ServiceApplication.php';
 require_once '../src/Bonnier/Service/ServiceException.php';
 
 
+$service = new \Bonnier\ServiceAuth('AAD902EBA6CA5F7C43E742DDF39AB81E');
+var_dump($service->check('translate_create'));
+
 
 // Save new item example
 
@@ -18,7 +21,7 @@ require_once '../src/Bonnier/Service/ServiceException.php';
 
 //$service = new \Bonnier\ServiceApplications('A25B21A1127D904E555B9D73A048D703');
 
-$service = new \Bonnier\ServiceContent('AAD902EBA6CA5F7C43E742DDF39AB81E');
+//$service = new \Bonnier\ServiceContent('AAD902EBA6CA5F7C43E742DDF39AB81E');
 //$role = $service->get()->api();
 
 //$single = $service->getById('60B80DA10CF40E5E2F60E812B1FD3A77');
@@ -39,14 +42,14 @@ die('test'.var_dump($test));*/
 
 // $applications = $service->get();
 
-$single = $service->getById('B87798F6672C8D7EB284EADEC8AAF65C');
+//$single = $service->getById('B87798F6672C8D7EB284EADEC8AAF65C');
 
-$single->title = 'Hej med dig';
+/*$single->title = 'Hej med dig';
 $single->content_url = 'http://www.bonnierpublications.com/test';
 $single->content_type = 'article';
-$single = $single->update();
+$single = $single->update();*/
 
-die(var_dump($single));
+//die(var_dump($single));
 
 
 /*$item = new \Bonnier\Service\ServiceItem('D97B2EE2D0FFC765501FEF5F76C95C62', 'content');

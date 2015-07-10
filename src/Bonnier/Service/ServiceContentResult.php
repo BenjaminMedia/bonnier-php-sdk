@@ -49,6 +49,21 @@ class ServiceContentResult extends ServiceResult {
         return $this;
     }
 
+    public function meta($key, $value) {
+        $this->_data['meta_' . strtolower($key)] = $value;
+        return $this;
+    }
+
+    public function app($appCode) {
+        $this->_data['app_code'] = $appCode;
+        return $this;
+    }
+
+    public function site($siteCode) {
+        $this->_data['site_code'] = $siteCode;
+        return $this;
+    }
+
     public function getTotal() {
         return $this->total;
     }
