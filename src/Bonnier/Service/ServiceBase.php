@@ -3,7 +3,7 @@ namespace Bonnier\Service;
 
 abstract class ServiceBase {
 
-    const SERVICE_URL = 'https://staging-indexdb.whitealbum.dk/api/%1$s/';
+    const SERVICE_URL = 'http://staging-indexdb.whitealbum.dk/api/%1$s/';
 
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
@@ -56,7 +56,8 @@ abstract class ServiceBase {
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Auth-Secret: ' . $this->secret));
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 10000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -66,39 +67,39 @@ abstract class ServiceBase {
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
         }
 
-        $response = @json_decode(curl_exec($ch), TRUE);
+        $response = json_decode(curl_exec($ch), TRUE);
 
-        if(!$response || $response && isset($response['status'])) {
+        if(!is_array($response) || $response && isset($response['status'])) {
             throw new ServiceException($response['error'], $response['status']);
         }
 
+        $class = get_called_class();
+
         if(isset($response['id'])) {
-            $class = get_called_class();
             $item = new $class($this->secret, $this->type);
             $item->row = (object)$response;
             return $item;
         }
 
         if(isset($response['rows'])) {
-            $result = new ServiceResult($this->secret, $this->type);
-            $result->searchTime = $response['searchTime'];
-            $result->skip = $response['skip'];
-            $result->limit = $response['limit'];
+
+            $result = new $class($this->secret, $this->type);
+            $result->setResponse($response);
 
             $items = array();
 
-            if(isset($response['rows'])) {
-                foreach($response['rows'] as $row) {
-                    $item = new ServiceItem($this->secret, $this->type);
-                    $item->row = (object)$row;
-                    $items[] = $item;
-                }
+            foreach($response['rows'] as $row) {
+                $item = new ServiceItem($this->secret, $this->type);
+                $item->row = (object)$row;
+                $items[] = $item;
             }
 
             $result->rows = $items;
             return $result;
         }
 
-        return $response;
+        $item = new ServiceItem($this->secret, $this->type);
+        $item->setRow((object)$response);
+        return $item;
     }
 }

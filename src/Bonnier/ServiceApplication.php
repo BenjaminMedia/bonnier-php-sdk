@@ -2,8 +2,9 @@
 namespace Bonnier;
 
 use Bonnier\Service\ServiceBase;
+use Bonnier\Service\ServiceResult;
 
-class ServiceApplications extends ServiceBase {
+class ServiceApplication extends ServiceBase {
 
     const TYPE = 'application';
 
@@ -12,7 +13,8 @@ class ServiceApplications extends ServiceBase {
     }
 
     public function get() {
-        return $this->api();
+        $result = new ServiceResult($this->secret, $this->type);
+        return $result->api();
     }
 
     public function getById($id) {

@@ -1,6 +1,7 @@
 <?php
 namespace Bonnier;
 
+use Bonnier\Service\ServiceContentResult;
 use Bonnier\Service\ServiceItem;
 
 class ServiceContent extends ServiceItem {
@@ -13,10 +14,10 @@ class ServiceContent extends ServiceItem {
 
     /**
      * Get queryable service result
-     * @return ServiceResult
+     * @return ServiceContentResult
      */
     public function get() {
-        return new ServiceResult($this->secret, $this->type);
+        return new ServiceContentResult($this->secret, $this->type);
     }
 
     /**
@@ -34,10 +35,9 @@ class ServiceContent extends ServiceItem {
      * @param \stdClass $row
      * @return $this
      */
-    public function save(\stdClass $row) {
-        $item = new ServiceItem($this->secret, $this->type);
-        $item->row = $row;
-        return $item->save();
+    public function save() {
+        $this->row = $this->api(NULL, self::METHOD_POST, (array)$this->row);
+        return $this;
     }
 
     public function update() {

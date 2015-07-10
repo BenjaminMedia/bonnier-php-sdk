@@ -2,11 +2,13 @@
 
 require_once '../src/Bonnier/Service/ServiceBase.php';
 require_once '../src/Bonnier/Service/ServiceItem.php';
+require_once '../src/Bonnier/Service/ServiceResult.php';
+require_once '../src/Bonnier/Service/ServiceContentResult.php';
 require_once '../src/Bonnier/ServiceContent.php';
 require_once '../src/Bonnier/ServiceAuth.php';
 require_once '../src/Bonnier/ServiceApplication.php';
 require_once '../src/Bonnier/Service/ServiceException.php';
-require_once '../src/Bonnier/Service/ServiceResult.php';
+
 
 
 // Save new item example
@@ -16,12 +18,35 @@ require_once '../src/Bonnier/Service/ServiceResult.php';
 
 //$service = new \Bonnier\ServiceApplications('A25B21A1127D904E555B9D73A048D703');
 
-$service = new \Bonnier\ServiceApplications('test');
-$service->get();
+$service = new \Bonnier\ServiceContent('AAD902EBA6CA5F7C43E742DDF39AB81E');
+//$role = $service->get()->api();
+
+//$single = $service->getById('60B80DA10CF40E5E2F60E812B1FD3A77');
+/*$single->title = 'DIN MOR';
+$single->locale = 'da-dk';
+$single->image = 'http://bonnier.imgix.net/cdn-connect/0c91532fb20249a69eae49f67aa8318c.jpg';
+$single->description = 'test';
+$single->active = TRUE;
+$single->created_at = '06-04-1990 10:00';
+$single->updated_at = '06-04-1990 10:00';
+
+$single->content_type = 'article';
+$single->content_url = 'http://www.google.dk/test';
+
+$test = $single->save();
+
+die('test'.var_dump($test));*/
 
 // $applications = $service->get();
 
-//$single = $service->getById(1);
+$single = $service->getById('B87798F6672C8D7EB284EADEC8AAF65C');
+
+$single->title = 'Hej med dig';
+$single->content_url = 'http://www.bonnierpublications.com/test';
+$single->content_type = 'article';
+$single = $single->update();
+
+die(var_dump($single));
 
 
 /*$item = new \Bonnier\Service\ServiceItem('D97B2EE2D0FFC765501FEF5F76C95C62', 'content');

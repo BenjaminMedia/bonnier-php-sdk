@@ -2,6 +2,7 @@
 namespace Bonnier;
 
 use Bonnier\Service\ServiceBase;
+use Bonnier\Service\ServiceItem;
 
 class ServiceAuth extends ServiceBase {
 
@@ -12,7 +13,8 @@ class ServiceAuth extends ServiceBase {
     }
 
     public function check($role) {
-        return $this->api($role);
+        $item = new ServiceItem($this->secret, $this->type);
+        return $item->api($role);
     }
 
 }
