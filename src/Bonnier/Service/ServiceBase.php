@@ -3,7 +3,7 @@ namespace Bonnier\Service;
 
 abstract class ServiceBase {
 
-    const SERVICE_URL = 'http://staging-indexdb.whitealbum.dk/api/%1$s/';
+    const SERVICE_URL = 'https://indexdb.whitealbum.dk/api/%1$s/';
 
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';

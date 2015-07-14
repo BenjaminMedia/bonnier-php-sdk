@@ -10,14 +10,11 @@ require_once '../src/Bonnier/ServiceApplication.php';
 require_once '../src/Bonnier/Service/ServiceException.php';
 
 
-$service = new \Bonnier\ServiceAuth('AAD902EBA6CA5F7C43E742DDF39AB81E');
-var_dump($service->check('translate_create'));
-
 
 // Save new item example
 
-//$service = new \Bonnier\ServiceAuth('A25B21A1127D904E555B9D73A048D703');
-//$role = $service->check('translate_create');
+$service = new \Bonnier\ServiceAuth('A25B21A1127D904E555B9D73A048D703');
+$role = $service->check('translate_create');
 
 //$service = new \Bonnier\ServiceApplications('A25B21A1127D904E555B9D73A048D703');
 
