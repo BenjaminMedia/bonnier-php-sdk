@@ -24,6 +24,7 @@ abstract class ServiceBase {
             throw new \Exception('This service requires the JSON PHP extension.');
         }
 
+        $this->username = $username;
         $this->secret = $secret;
         $this->type = $type;
     }
