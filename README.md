@@ -8,7 +8,7 @@ Even though these examples are pretty rough, they should give you a basic unders
 
 #### Initialize service
 ```php
-$service = new \Bonnier\ServiceContent($secret);
+$service = new \Bonnier\ServiceContent($username, $secret);
 ```
 
 #### Get single
@@ -42,7 +42,7 @@ $response = $service->save($item); // Returns new object with updated response f
 You can also create a new item by calling the save method directly on the ServiceItem class. This requires you to  add the secret and type:
 
 ```php
-$item = new \Bonnier\Service\ServiceContent('D97B2EE2D0FFC765501FEF5F76C95C62', 'content');
+$item = new \Bonnier\Service\ServiceContent($username, $secret);
 $item->title = 'Hello world'; // Magic method, similar to calling $item->item->title = 'Hello world';
 $item->save();
 ```
