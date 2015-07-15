@@ -9,8 +9,8 @@ class ServiceContentType extends ServiceItem {
 
     const TYPE = 'contenttype';
 
-    public function __construct($secret) {
-        parent::__construct($secret, self::TYPE);
+    public function __construct($username, $secret) {
+        parent::__construct($username, $secret, self::TYPE);
     }
 
     /**

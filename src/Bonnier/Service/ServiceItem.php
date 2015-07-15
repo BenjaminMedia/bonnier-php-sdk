@@ -5,8 +5,8 @@ class ServiceItem extends ServiceBase {
 
     public $row;
 
-    public function __construct($secret, $type) {
-        parent::__construct($secret, $type);
+    public function __construct($username, $secret, $type) {
+        parent::__construct($username, $secret, $type);
         $this->row = new \stdClass();
     }
 

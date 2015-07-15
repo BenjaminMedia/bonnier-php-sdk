@@ -12,10 +12,11 @@ abstract class ServiceBase {
 
     public static $METHODS = array(self::METHOD_GET, self::METHOD_POST, self::METHOD_PUT, self::METHOD_DELETE);
 
+    protected $username;
     protected $secret;
     protected $type;
 
-    public function __construct($secret, $type) {
+    public function __construct($username, $secret, $type) {
         if (!function_exists('curl_init')) {
             throw new \Exception('This service requires the CURL PHP extension.');
         }
@@ -55,7 +56,7 @@ abstract class ServiceBase {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Auth-Secret: ' . $this->secret));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization', 'Basic: ' . sprintf('%s:%s', $this->username, $this->secret)));
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 10000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);

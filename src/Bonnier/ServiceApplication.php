@@ -8,8 +8,8 @@ class ServiceApplication extends ServiceBase {
 
     const TYPE = 'application';
 
-    public function __construct($secret) {
-        parent::__construct($secret, self::TYPE);
+    public function __construct($username, $secret) {
+        parent::__construct($username, $secret, self::TYPE);
     }
 
     public function get() {
