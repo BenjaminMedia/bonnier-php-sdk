@@ -13,7 +13,7 @@ class ServiceApplication extends ServiceBase {
     }
 
     public function get() {
-        $result = new ServiceResult($this->secret, $this->type);
+        $result = new ServiceResult($this->username, $this->secret, $this->type);
         return $result->api();
     }
 

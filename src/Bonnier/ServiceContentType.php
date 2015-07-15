@@ -18,7 +18,7 @@ class ServiceContentType extends ServiceItem {
      * @return ServiceResult
      */
     public function get() {
-        return new ServiceResult($this->secret, $this->type);
+        return new ServiceResult($this->username, $this->secret, $this->type);
     }
 
     /**

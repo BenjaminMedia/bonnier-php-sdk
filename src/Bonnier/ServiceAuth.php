@@ -13,7 +13,7 @@ class ServiceAuth extends ServiceBase {
     }
 
     public function check($role) {
-        $item = new ServiceItem($this->secret, $this->type);
+        $item = new ServiceItem($this->username, $this->secret, $this->type);
         return $item->api($role);
     }
 
