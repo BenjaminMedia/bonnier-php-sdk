@@ -56,7 +56,7 @@ abstract class ServiceBase {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization', 'Basic: ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret))));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret))));
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 10000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -77,20 +77,20 @@ abstract class ServiceBase {
         $class = get_called_class();
 
         if(isset($response['id'])) {
-            $item = new $class($this->secret, $this->type);
+            $item = new $class($this->username, $this->secret, $this->type);
             $item->row = (object)$response;
             return $item;
         }
 
         if(isset($response['rows'])) {
 
-            $result = new $class($this->secret, $this->type);
+            $result = new $class($this->username, $this->secret, $this->type);
             $result->setResponse($response);
 
             $items = array();
 
             foreach($response['rows'] as $row) {
-                $item = new ServiceItem($this->secret, $this->type);
+                $item = new ServiceItem($this->username, $this->secret, $this->type);
                 $item->row = (object)$row;
                 $items[] = $item;
             }
@@ -99,7 +99,7 @@ abstract class ServiceBase {
             return $result;
         }
 
-        $item = new ServiceItem($this->secret, $this->type);
+        $item = new ServiceItem($this->username, $this->secret, $this->type);
         $item->setRow((object)$response);
         return $item;
     }
