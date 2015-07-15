@@ -56,7 +56,7 @@ abstract class ServiceBase {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization', 'Basic: ' . sprintf('%s:%s', $this->username, $this->secret)));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization', 'Basic: ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret))));
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 10000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
