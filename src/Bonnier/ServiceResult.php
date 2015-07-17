@@ -1,6 +1,6 @@
 <?php
-namespace Bonnier\Service;
-class ServiceResult extends ServiceBase {
+namespace Bonnier;
+class ServiceResult extends RESTBase {
 
     protected $_data = array();
     public $rows;

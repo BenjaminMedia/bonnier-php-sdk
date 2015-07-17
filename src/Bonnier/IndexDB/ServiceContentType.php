@@ -1,11 +1,11 @@
 <?php
-namespace Bonnier;
+namespace Bonnier\IndexDB;
 
-use Bonnier\Service\ServiceContentResult;
-use Bonnier\Service\ServiceException;
-use Bonnier\Service\ServiceItem;
+use Bonnier\ServiceException;
+use Bonnier\ServiceItem;
+use Bonnier\ServiceResult;
 
-class ServiceContentType extends ServiceItem {
+class ServiceContentType extends IndexDBBase {
 
     const TYPE = 'contenttype';
 
@@ -13,12 +13,22 @@ class ServiceContentType extends ServiceItem {
         parent::__construct($username, $secret, self::TYPE);
     }
 
+    public function skip($skip) {
+        $this->_data['skip'] = $skip;
+        return $this;
+    }
+
+    public function limit($limit) {
+        $this->_data['limit'] = $limit;
+        return $this;
+    }
+
     /**
      * Get queryable service result
      * @return ServiceResult
      */
     public function get() {
-        return new ServiceResult($this->username, $this->secret, $this->type);
+        return $this->api();
     }
 
     /**

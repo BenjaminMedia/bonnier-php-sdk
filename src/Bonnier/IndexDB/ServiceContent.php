@@ -1,10 +1,9 @@
 <?php
-namespace Bonnier;
+namespace Bonnier\IndexDB;
 
-use Bonnier\Service\ServiceContentResult;
-use Bonnier\Service\ServiceItem;
+use Bonnier\IndexDB\Content\ContentResult;
 
-class ServiceContent extends ServiceItem {
+class ServiceContent extends IndexDBBase {
 
     const TYPE = 'content';
 
@@ -14,17 +13,17 @@ class ServiceContent extends ServiceItem {
 
     /**
      * Get queryable service result
-     * @return ServiceContentResult
+     * @return ContentResult
      */
     public function get() {
-        return new ServiceContentResult($this->username, $this->secret, $this->type);
+        return new ContentResult($this->username, $this->secret, $this->type);
     }
 
     /**
      * Get single item by id
      * @param $id
-     * @return ServiceItem
-     * @throws ServiceException
+     * @return ServiceIndexDB
+     * @throws ServiceContent
      */
     public function getById($id) {
         return $this->api($id);
@@ -32,19 +31,26 @@ class ServiceContent extends ServiceItem {
 
     /**
      * Save item
-     * @param \stdClass $row
-     * @return $this
+     * @return ServiceContent
      */
     public function save() {
         $this->row = $this->api(NULL, self::METHOD_POST, (array)$this->row);
         return $this;
     }
 
+    /**
+     * Get queryable service result
+     * @return ServiceContent
+     */
     public function update() {
         $this->row = $this->api($this->row->id, self::METHOD_PUT, (array)$this->row);
         return $this;
     }
 
+    /**
+     * @return ServiceContent
+     * @throws \Bonnier\ServiceException
+     */
     public function delete($id) {
         return $this->api($id, self::METHOD_DELETE);
     }

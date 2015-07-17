@@ -1,7 +1,7 @@
 <?php
-namespace Bonnier\Service;
+namespace Bonnier;
 
-class ServiceItem extends ServiceBase {
+class ServiceItem extends RESTBase {
 
     public $row;
 
@@ -12,6 +12,11 @@ class ServiceItem extends ServiceBase {
 
     public function setRow(\stdClass $row) {
         $this->row = $row;
+    }
+
+    public function update() {
+        $this->row = $this->api($this->id, self::METHOD_PUT, (array)$this->row);
+        return $this;
     }
 
     public function save() {

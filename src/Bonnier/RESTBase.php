@@ -1,10 +1,9 @@
 <?php
-namespace Bonnier\Service;
+namespace Bonnier;
 
-abstract class ServiceBase {
+use Bonnier\IndexDB\ServiceResult;
 
-    const SERVICE_URL = 'https://indexdb.whitealbum.dk/api/%1$s/';
-
+abstract class RESTBase {
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
     const METHOD_PUT = 'PUT';
@@ -15,11 +14,14 @@ abstract class ServiceBase {
     protected $username;
     protected $secret;
     protected $type;
+    protected $serviceUrl;
+    protected $postJson;
 
     public function __construct($username, $secret, $type) {
         if (!function_exists('curl_init')) {
             throw new \Exception('This service requires the CURL PHP extension.');
         }
+
         if (!function_exists('json_decode')) {
             throw new \Exception('This service requires the JSON PHP extension.');
         }
@@ -51,13 +53,18 @@ abstract class ServiceBase {
             $postData = $data;
         }
 
-        $apiUrl = sprintf(self::SERVICE_URL, $this->type) . $url;
+        $apiUrl = sprintf($this->serviceUrl, $this->type) . $url;
 
+        $headers = array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
+        if($this->postJson && count($postData) > 0) {
+            $headers[] = 'Content-type: application/json';
+            $headers[] = 'Content-length: ' . strlen(json_encode($postData));
+        }
 
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret))));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 10000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -65,14 +72,21 @@ abstract class ServiceBase {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
         if($method != self::METHOD_GET) {
-            curl_setopt($ch, CURLOPT_POST, TRUE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            if($this->postJson) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+            } else {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+            }
         }
 
         $response = json_decode(curl_exec($ch), TRUE);
 
         if(!is_array($response) || $response && isset($response['status'])) {
-            throw new ServiceException($response['error'], $response['status']);
+
+            $error = (isset($response['error'])) ? $response['error'] : 'API response error: ' . $apiUrl;
+            $status = (isset($response['status'])) ? $response['status'] : 0;
+            throw new ServiceException($error, $status);
         }
 
         $class = get_called_class();
@@ -84,8 +98,7 @@ abstract class ServiceBase {
         }
 
         if(isset($response['rows'])) {
-
-            $result = new $class($this->username, $this->secret, $this->type);
+            $result = new \Bonnier\ServiceResult($this->username, $this->secret, $this->type);
             $result->setResponse($response);
 
             $items = array();
@@ -99,9 +112,12 @@ abstract class ServiceBase {
             $result->rows = $items;
             return $result;
         }
-
-        $item = new ServiceItem($this->username, $this->secret, $this->type);
+        $item = new $class($this->username, $this->secret, $this->type);
         $item->setRow((object)$response);
         return $item;
+    }
+
+    public function postJson($bool) {
+        $this->postJson = $bool;
     }
 }

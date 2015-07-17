@@ -1,20 +1,58 @@
 <?php
 
-require_once '../src/Bonnier/Service/ServiceBase.php';
-require_once '../src/Bonnier/Service/ServiceItem.php';
-require_once '../src/Bonnier/Service/ServiceResult.php';
-require_once '../src/Bonnier/Service/ServiceContentResult.php';
-require_once '../src/Bonnier/ServiceContent.php';
-require_once '../src/Bonnier/ServiceAuth.php';
-require_once '../src/Bonnier/ServiceApplication.php';
-require_once '../src/Bonnier/Service/ServiceException.php';
+function __autoload($file) {
+    include '../src/' . str_replace('\\', DIRECTORY_SEPARATOR, $file) . '.php';
+}
 
+/*$data = array("name" => "Hagrid", "age" => "36");
+$data_string = json_encode($data);
 
+$ch = curl_init('http://local.trapp.dk/api/v1/entity');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data_string),
+        'Authorization: Basic ' . base64_encode('Translation:6277FFAA5D43DEBAF11B62AEB25FB9B5')
+));
+
+$result = curl_exec($ch);
+
+die(var_dump($result));*/
+
+$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+/*$service->lang = 'da_dk';
+$service->save();*/
+
+$service = $service->getById('55a8cb09214f48032700421f');
+$service->update_endpoint_uri = 'http://www.google.dk/images/?q=alf';
+die(var_dump($service->update()));
 
 // Save new item example
 
-$service = new \Bonnier\ServiceAuth('A25B21A1127D904E555B9D73A048D703');
-$role = $service->check('translate_create');
+/*$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$result = $service->getById('55a8cb09214f48032700421f');
+
+$result->deadline = 'en';
+
+$update = $result->update();
+
+die(var_dump($update));*/
+
+/*$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service->locale = 'easd';
+$response = $service->save();
+
+die(var_dump($response));*/
+
+/*$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$role = $service->getById('472411B3EEE17052A861D1C34DF9C646');
+
+/*$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$single = $service->get()->order('test')->api();*/
+
+/*die(var_dump($role));*/
 
 //$service = new \Bonnier\ServiceApplications('A25B21A1127D904E555B9D73A048D703');
 

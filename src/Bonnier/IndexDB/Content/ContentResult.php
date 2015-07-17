@@ -1,17 +1,27 @@
 <?php
-namespace Bonnier\Service;
-class ServiceContentResult extends ServiceResult {
+namespace Bonnier\IndexDB\Content;
+use Bonnier\IndexDB\IndexDBBase;
+
+class ContentResult extends IndexDBBase {
 
     public $total;
     public $skip;
     public $limit;
     public $searchTime;
+    protected $_data = array();
+    public $rows;
+
+    protected $response;
+
+    public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
+        $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;
+        return parent::api($url, $method, $data);
+    }
 
     public function setResponse($response) {
         $this->searchTime = $response['searchTime'];
         $this->skip = $response['skip'];
         $this->limit = $response['limit'];
-        parent::setResponse($response);
     }
 
     public function query($query) {
@@ -86,5 +96,17 @@ class ServiceContentResult extends ServiceResult {
 
     public function getLimit() {
         return $this->limit;
+    }
+
+    public function getResponse() {
+        return $this->response;
+    }
+
+    public function getRows() {
+        return $this->rows;
+    }
+
+    public function setRows($rows) {
+        $this->rows = $rows;
     }
 }
