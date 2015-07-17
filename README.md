@@ -1,7 +1,7 @@
 # bonnier-php-sdk
 PHP SDK for communicating with the Bonnier search db webservice.
 
-## Examples
+## Examples 
 ------------
 
 Even though these examples are pretty rough, they should give you a basic understanding on how to use the service class. All classes extends from the \Bonnier\Service\ServiceBase class - which contains the basic functionality for talking with the webservice.
