@@ -2,6 +2,7 @@
 PHP SDK for communicating with the Bonnier search db webservice.
 
 **TODO: implement documentation for TRAPP**
+
 **TODO: make better documentation**
 
 ## Examples 
