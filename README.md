@@ -1,6 +1,9 @@
 # bonnier-php-sdk
 PHP SDK for communicating with the Bonnier search db webservice.
 
+**TODO: implement documentation for TRAPP**
+**TODO: make better documentation**
+
 ## Examples 
 ------------
 
@@ -8,7 +11,7 @@ Even though these examples are pretty rough, they should give you a basic unders
 
 #### Initialize service
 ```php
-$service = new \Bonnier\ServiceContent($username, $secret);
+$service = new \Bonnier\IndexDB\ServiceContent($username, $secret);
 ```
 
 #### Get single
@@ -42,7 +45,7 @@ $response = $service->save($item); // Returns new object with updated response f
 You can also create a new item by calling the save method directly on the ServiceItem class. This requires you to  add the secret and type:
 
 ```php
-$item = new \Bonnier\Service\ServiceContent($username, $secret);
+$item = new \Bonnier\Service\IndexDB\ServiceContent($username, $secret);
 $item->title = 'Hello world'; // Magic method, similar to calling $item->item->title = 'Hello world';
 $item->save();
 ```
@@ -61,7 +64,9 @@ $results = $service->get() // Get the queryable ServiceResult object
 
 #### Advanced usage
 
-Use DSL to apply even greater filters, by using the "setDsl" method on the \Bonnier\Service\ServiceResult class. Please refer to the Elasticsearch documentation and examples on how to use DSL:
+Use DSL to apply even greater filters, by using the "setDsl" method on the \Bonnier\IndexDB\Service\Content\ContentResult class. 
+
+Please refer to the Elasticsearch documentation and examples on how to use DSL:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 ```php
