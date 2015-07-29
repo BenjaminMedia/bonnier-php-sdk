@@ -3,7 +3,7 @@ namespace Bonnier;
 
 class ServiceItem extends RESTBase {
 
-    public $row;
+    protected $row;
 
     public function __construct($username, $secret, $type) {
         parent::__construct($username, $secret, $type);

@@ -4,12 +4,12 @@ use Bonnier\IndexDB\IndexDBBase;
 
 class ContentResult extends IndexDBBase {
 
-    public $total;
-    public $skip;
-    public $limit;
-    public $searchTime;
+    protected $total;
+    protected $skip;
+    protected $limit;
+    protected $searchTime;
     protected $_data = array();
-    public $rows;
+    protected $rows;
 
     protected $response;
 
@@ -22,6 +22,7 @@ class ContentResult extends IndexDBBase {
         $this->searchTime = $response['searchTime'];
         $this->skip = $response['skip'];
         $this->limit = $response['limit'];
+        $this->total = $response['total'];
     }
 
     public function query($query) {
@@ -71,6 +72,11 @@ class ContentResult extends IndexDBBase {
 
     public function site($siteCode) {
         $this->_data['site_code'] = $siteCode;
+        return $this;
+    }
+
+    public function contentType($type) {
+        $this->_data['content_type'] = $type;
         return $this;
     }
 

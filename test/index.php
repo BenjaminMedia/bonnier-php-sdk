@@ -21,13 +21,13 @@ $result = curl_exec($ch);
 
 die(var_dump($result));*/
 
-$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 /*$service->lang = 'da_dk';
 $service->save();*/
 
-$service = $service->getById('55a8cb09214f48032700421f');
-$service->update_endpoint_uri = 'http://www.google.dk/images/?q=alf';
-die(var_dump($service->update()));
+//$service = $service->getById('55a8cb09214f48032700421f');
+//$service->update_endpoint_uri = 'http://www.google.dk/images/?q=alf';
+die(var_dump($service->get()->api()));
 
 // Save new item example
 

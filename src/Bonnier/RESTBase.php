@@ -83,7 +83,6 @@ abstract class RESTBase {
         $response = json_decode(curl_exec($ch), TRUE);
 
         if(!is_array($response) || $response && isset($response['status'])) {
-
             $error = (isset($response['error'])) ? $response['error'] : 'API response error: ' . $apiUrl;
             $status = (isset($response['status'])) ? $response['status'] : 0;
             throw new ServiceException($error, $status);
@@ -93,23 +92,23 @@ abstract class RESTBase {
 
         if(isset($response['id'])) {
             $item = new $class($this->username, $this->secret, $this->type);
-            $item->row = (object)$response;
+            $item->setRow((object)$response);
             return $item;
         }
 
         if(isset($response['rows'])) {
-            $result = new \Bonnier\ServiceResult($this->username, $this->secret, $this->type);
+            $result = new $class($this->username, $this->secret, $this->type);
             $result->setResponse($response);
 
             $items = array();
 
             foreach($response['rows'] as $row) {
                 $item = new ServiceItem($this->username, $this->secret, $this->type);
-                $item->row = (object)$row;
+                $item->setRow((object)$row);
                 $items[] = $item;
             }
 
-            $result->rows = $items;
+            $result->setRows($items);
             return $result;
         }
         $item = new $class($this->username, $this->secret, $this->type);

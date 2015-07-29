@@ -4,5 +4,5 @@ namespace Bonnier\IndexDB;
 use Bonnier\ServiceItem;
 
 abstract class IndexDBBase extends ServiceItem {
-	protected $serviceUrl = 'https://indexdb.whitealbum.dk/api/%1$s/';
+	protected $serviceUrl = 'https://staging-indexdb.whitealbum.dk/api/v1/%1$s/';
 }

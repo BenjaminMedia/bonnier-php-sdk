@@ -34,8 +34,7 @@ class ServiceContent extends IndexDBBase {
      * @return ServiceContent
      */
     public function save() {
-        $this->row = $this->api(NULL, self::METHOD_POST, (array)$this->row);
-        return $this;
+        return $this->api(NULL, self::METHOD_POST, (array)$this->row);
     }
 
     /**
@@ -43,8 +42,7 @@ class ServiceContent extends IndexDBBase {
      * @return ServiceContent
      */
     public function update() {
-        $this->row = $this->api($this->row->id, self::METHOD_PUT, (array)$this->row);
-        return $this;
+        return $this->api($this->row->id, self::METHOD_PUT, (array)$this->row);
     }
 
     /**

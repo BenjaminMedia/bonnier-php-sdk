@@ -1,6 +1,8 @@
 <?php
 namespace Bonnier\Trapp;
 
+use Bonnier\ServiceException;
+
 class ServiceTranslation extends TrappBase {
 	const TYPE = 'entity';
 
@@ -27,6 +29,9 @@ class ServiceTranslation extends TrappBase {
 	}
 
 	public function update() {
+		if(!$this->_id) {
+			throw new ServiceException('_id not provided');
+		}
 		return $this->api($this->_id, self::METHOD_PUT, (array)$this->row);
 	}
 }
