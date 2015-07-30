@@ -1,7 +1,8 @@
 <?php
 namespace Bonnier;
 
-use Bonnier\IndexDB\ServiceResult;
+// TODO: Make this class more transparent by creating methods that can be overwritten
+// onCreateItem - onCreateResult etc.
 
 abstract class RESTBase {
     const METHOD_GET = 'GET';
@@ -13,11 +14,11 @@ abstract class RESTBase {
 
     protected $username;
     protected $secret;
-    protected $type;
     protected $serviceUrl;
     protected $postJson;
+    protected $response;
 
-    public function __construct($username, $secret, $type) {
+    public function __construct($username, $secret) {
         if (!function_exists('curl_init')) {
             throw new \Exception('This service requires the CURL PHP extension.');
         }
@@ -28,7 +29,19 @@ abstract class RESTBase {
 
         $this->username = $username;
         $this->secret = $secret;
-        $this->type = $type;
+    }
+
+    // Events
+    public function onCreateItem() {
+        return new ServiceItem($this->username, $this->secret);
+    }
+
+    public function onCreateResult() {
+        return new ServiceResult($this->username, $this->secret);
+    }
+
+    public function getUrl() {
+        return $this->serviceUrl;
     }
 
     /**
@@ -53,7 +66,7 @@ abstract class RESTBase {
             $postData = $data;
         }
 
-        $apiUrl = sprintf($this->serviceUrl, $this->type) . $url;
+        $apiUrl = $this->getUrl() . $url;
 
         $headers = array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
         if($this->postJson && count($postData) > 0) {
@@ -90,20 +103,18 @@ abstract class RESTBase {
 
         $class = get_called_class();
 
-        if(isset($response['id'])) {
-            $item = new $class($this->username, $this->secret, $this->type);
-            $item->setRow((object)$response);
-            return $item;
-        }
-
         if(isset($response['rows'])) {
-            $result = new $class($this->username, $this->secret, $this->type);
-            $result->setResponse($response);
+            $result = $this->onCreateResult();
 
+            if(!($result instanceof ServiceResult)) {
+                throw new ServiceException('Unknown item type - must be an instance of Service Item');
+            }
+
+            $result->setResponse($response);
             $items = array();
 
             foreach($response['rows'] as $row) {
-                $item = new ServiceItem($this->username, $this->secret, $this->type);
+                $item = new ServiceItem($this->username, $this->secret);
                 $item->setRow((object)$row);
                 $items[] = $item;
             }
@@ -111,12 +122,28 @@ abstract class RESTBase {
             $result->setRows($items);
             return $result;
         }
-        $item = new $class($this->username, $this->secret, $this->type);
+
+        // We can't determinate weather this is a single item or a collection, so we just return a single item
+        $item = $this->onCreateItem();
+
+        if(!($item instanceof ServiceItem)) {
+            throw new ServiceException('Unknown item type - must be an instance of Service Item');
+        }
+
+        $item->setResponse($response);
         $item->setRow((object)$response);
         return $item;
     }
 
     public function postJson($bool) {
         $this->postJson = $bool;
+    }
+
+    public function getResponse() {
+        return $this->response;
+    }
+
+    public function setResponse($response) {
+        $this->response = $response;
     }
 }

@@ -3,7 +3,7 @@ namespace Bonnier;
 class ServiceResult extends RESTBase {
 
     protected $_data = array();
-    public $rows;
+    protected $rows;
 
     protected $response;
 

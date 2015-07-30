@@ -2,7 +2,7 @@
 namespace Bonnier\IndexDB\Content;
 use Bonnier\IndexDB\IndexDBBase;
 
-class ContentResult extends IndexDBBase {
+class ContentCollection extends IndexDBBase {
 
     protected $total;
     protected $skip;
@@ -10,8 +10,6 @@ class ContentResult extends IndexDBBase {
     protected $searchTime;
     protected $_data = array();
     protected $rows;
-
-    protected $response;
 
     public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
         $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;

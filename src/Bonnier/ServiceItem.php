@@ -5,8 +5,8 @@ class ServiceItem extends RESTBase {
 
     protected $row;
 
-    public function __construct($username, $secret, $type) {
-        parent::__construct($username, $secret, $type);
+    public function __construct($username, $secret) {
+        parent::__construct($username, $secret);
         $this->row = new \stdClass();
     }
 
@@ -30,6 +30,10 @@ class ServiceItem extends RESTBase {
 
     public function __get($name) {
         return (isset($this->row->$name)) ? $this->row->$name : NULL;
+    }
+
+    public function getRow() {
+        return $this->row;
     }
 
 }

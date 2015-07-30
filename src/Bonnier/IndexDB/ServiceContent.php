@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier\IndexDB;
 
-use Bonnier\IndexDB\Content\ContentResult;
+use Bonnier\IndexDB\Content\ContentCollection;
 
 class ServiceContent extends IndexDBBase {
 
@@ -11,12 +11,16 @@ class ServiceContent extends IndexDBBase {
         parent::__construct($username, $secret, self::TYPE);
     }
 
+    public function onCreateResult() {
+        return new ContentCollection($this->username, $this->secret, $this->type);
+    }
+
     /**
      * Get queryable service result
-     * @return ContentResult
+     * @return ContentCollection
      */
     public function get() {
-        return new ContentResult($this->username, $this->secret, $this->type);
+        return new ContentCollection($this->username, $this->secret, $this->type);
     }
 
     /**
@@ -27,22 +31,6 @@ class ServiceContent extends IndexDBBase {
      */
     public function getById($id) {
         return $this->api($id);
-    }
-
-    /**
-     * Save item
-     * @return ServiceContent
-     */
-    public function save() {
-        return $this->api(NULL, self::METHOD_POST, (array)$this->row);
-    }
-
-    /**
-     * Get queryable service result
-     * @return ServiceContent
-     */
-    public function update() {
-        return $this->api($this->row->id, self::METHOD_PUT, (array)$this->row);
     }
 
     /**

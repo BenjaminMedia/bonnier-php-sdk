@@ -2,7 +2,7 @@
 namespace Bonnier\IndexDB\Content;
 use Bonnier\Trapp\TrappBase;
 
-class TranslationResult extends TrappBase {
+class TranslationCollection extends TrappBase {
 
     public $total;
     public $skip;
@@ -10,8 +10,6 @@ class TranslationResult extends TrappBase {
     public $searchTime;
     protected $_data = array();
     public $rows;
-
-    protected $response;
 
     // TODO: Do advanced logic here
 
@@ -32,5 +30,13 @@ class TranslationResult extends TrappBase {
 
     public function getLimit() {
         return $this->limit;
+    }
+
+    public function setData($data) {
+        $this->_data = $data;
+    }
+
+    public function getData() {
+        return $this->_data;
     }
 }

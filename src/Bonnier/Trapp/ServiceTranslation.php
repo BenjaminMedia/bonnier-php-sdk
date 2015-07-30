@@ -1,13 +1,12 @@
 <?php
 namespace Bonnier\Trapp;
 
+use Bonnier\IndexDB\Content\TranslationCollection;
 use Bonnier\ServiceException;
 
 class ServiceTranslation extends TrappBase {
-	const TYPE = 'entity';
-
 	public function __construct($username, $secret) {
-		parent::__construct($username, $secret, self::TYPE);
+		parent::__construct($username, $secret);
 		$this->postJson = TRUE;
 	}
 
@@ -21,17 +20,23 @@ class ServiceTranslation extends TrappBase {
 		return $this->api($id);
 	}
 
-	/**
-	 * @return TranslationResult
-	 */
-	public function get() {
-		return $this;
+	public function onCreateResult() {
+		return new TranslationCollection($this->username, $this->secret);
 	}
 
-	public function update() {
-		if(!$this->_id) {
-			throw new ServiceException('_id not provided');
-		}
-		return $this->api($this->_id, self::METHOD_PUT, (array)$this->row);
+	/**
+	 * @return TranslationCollection
+	 */
+	public function get() {
+		return new TranslationCollection($this->username, $this->secret);
+	}
+
+	/**
+	 * @return ServiceTranslation
+	 * @param $id string
+	 * @throws \Bonnier\ServiceException
+	 */
+	public function delete($id) {
+		return $this->api($id, self::METHOD_DELETE);
 	}
 }
