@@ -23,14 +23,14 @@ class ServiceTranslation extends TrappBase {
 	}
 
 	protected function onCreateResult() {
-		return new TranslationCollection($this->username, $this->secret);
+		return new TranslationCollection($this->username, $this->secret, $this->type);
 	}
 
 	/**
 	 * @return TranslationCollection
 	 */
 	public function get() {
-		return new TranslationCollection($this->username, $this->secret);
+		return new TranslationCollection($this->username, $this->secret, $this->type);
 	}
 
 	/**
