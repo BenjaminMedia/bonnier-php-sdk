@@ -106,7 +106,7 @@ abstract class RESTBase {
 
             foreach($response['rows'] as $row) {
                 $caller = get_called_class();
-                $item = new $caller();
+                $item = new $caller($this->username, $this->secret);
 
                 $item->setRow((object)$row);
                 $items[] = $item;
@@ -118,7 +118,7 @@ abstract class RESTBase {
 
         // We can't determinate weather this is a single item or a collection, so we just return a single item
         $caller = get_called_class();
-        $item = new $caller();
+        $item = new $caller($this->username, $this->secret);
 
         $item->setResponse($response);
         $item->setRow((object)$response);
