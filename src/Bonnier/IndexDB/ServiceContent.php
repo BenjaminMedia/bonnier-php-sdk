@@ -11,7 +11,7 @@ class ServiceContent extends IndexDBBase {
         parent::__construct($username, $secret, self::TYPE);
     }
 
-    public function onCreateResult() {
+    protected function onCreateResult() {
         return new ContentCollection($this->username, $this->secret, $this->type);
     }
 

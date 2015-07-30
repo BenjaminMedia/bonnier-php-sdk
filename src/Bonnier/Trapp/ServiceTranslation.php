@@ -1,10 +1,10 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\IndexDB\Content\TranslationCollection;
-use Bonnier\ServiceException;
+use Bonnier\Trapp\Translation\TranslationCollection;
 
 class ServiceTranslation extends TrappBase {
+
 	public function __construct($username, $secret) {
 		parent::__construct($username, $secret);
 		$this->postJson = TRUE;
@@ -20,7 +20,7 @@ class ServiceTranslation extends TrappBase {
 		return $this->api($id);
 	}
 
-	public function onCreateResult() {
+	protected function onCreateResult() {
 		return new TranslationCollection($this->username, $this->secret);
 	}
 

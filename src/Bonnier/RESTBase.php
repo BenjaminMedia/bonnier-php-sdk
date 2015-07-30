@@ -32,15 +32,15 @@ abstract class RESTBase {
     }
 
     // Events
-    public function onCreateItem() {
+    protected function onCreateItem() {
         return new ServiceItem($this->username, $this->secret);
     }
 
-    public function onCreateResult() {
+    protected function onCreateResult() {
         return new ServiceResult($this->username, $this->secret);
     }
 
-    public function getUrl() {
+    protected function getServiceUrl() {
         return $this->serviceUrl;
     }
 
@@ -66,7 +66,7 @@ abstract class RESTBase {
             $postData = $data;
         }
 
-        $apiUrl = $this->getUrl() . $url;
+        $apiUrl = $this->getServiceUrl() . $url;
 
         $headers = array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
         if($this->postJson && count($postData) > 0) {
@@ -101,8 +101,6 @@ abstract class RESTBase {
             throw new ServiceException($error, $status);
         }
 
-        $class = get_called_class();
-
         if(isset($response['rows'])) {
             $result = $this->onCreateResult();
 
@@ -114,7 +112,12 @@ abstract class RESTBase {
             $items = array();
 
             foreach($response['rows'] as $row) {
-                $item = new ServiceItem($this->username, $this->secret);
+                $item = $this->onCreateItem();
+
+                if(!($item instanceof ServiceItem)) {
+                    throw new ServiceException('Unknown item type - must be an instance of Service Item');
+                }
+
                 $item->setRow((object)$row);
                 $items[] = $item;
             }

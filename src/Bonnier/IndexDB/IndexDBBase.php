@@ -13,7 +13,7 @@ abstract class IndexDBBase extends RESTBase {
 		$this->type = $type;
 	}
 
-	public function getUrl() {
+	protected function getServiceUrl() {
 		if($this->development) {
 			$this->serviceUrl = 'https://staging-indexdb.whitealbum.dk/api/v1/%1$s/';
 		} else {

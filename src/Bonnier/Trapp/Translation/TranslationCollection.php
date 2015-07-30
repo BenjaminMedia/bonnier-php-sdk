@@ -1,5 +1,6 @@
 <?php
-namespace Bonnier\IndexDB\Content;
+namespace Bonnier\Trapp\Translation;
+
 use Bonnier\Trapp\TrappBase;
 
 class TranslationCollection extends TrappBase {
