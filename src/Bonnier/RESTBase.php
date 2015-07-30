@@ -1,9 +1,6 @@
 <?php
 namespace Bonnier;
 
-// TODO: Make this class more transparent by creating methods that can be overwritten
-// onCreateItem - onCreateResult etc.
-
 abstract class RESTBase {
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
@@ -66,7 +63,7 @@ abstract class RESTBase {
             $postData = $data;
         }
 
-        $apiUrl = $this->getServiceUrl() . $url;
+        $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;
 
         $headers = array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
         if($this->postJson && count($postData) > 0) {
