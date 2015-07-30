@@ -3,13 +3,12 @@ namespace Bonnier\Trapp;
 
 use Bonnier\Trapp\Translation\TranslationCollection;
 
-class ServiceTranslation extends TrappBase {
+class ServiceLanguage extends TrappBase {
 
-	const TYPE = 'translation';
+	const TYPE = 'language';
 
 	public function __construct($username, $secret) {
 		parent::__construct($username, $secret, self::TYPE);
-		$this->postJson = TRUE;
 	}
 
 	/**
@@ -22,19 +21,15 @@ class ServiceTranslation extends TrappBase {
 		return $this->api($id);
 	}
 
-	protected function onCreateResult() {
-		return new TranslationCollection($this->username, $this->secret);
-	}
-
 	/**
-	 * @return TranslationCollection
+	 * @return \Bonnier\ServiceResult
 	 */
 	public function get() {
-		return new TranslationCollection($this->username, $this->secret);
+		return $this->api();
 	}
 
 	/**
-	 * @return ServiceTranslation
+	 * @return \Bonnier\ServiceItem
 	 * @param $id string
 	 * @throws \Bonnier\ServiceException
 	 */
