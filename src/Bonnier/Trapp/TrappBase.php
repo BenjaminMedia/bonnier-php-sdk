@@ -5,12 +5,6 @@ use Bonnier\RESTBase;
 abstract class TrappBase extends RESTBase {
 
 	protected $development;
-	protected $type;
-
-	public function __construct($username, $secret, $type) {
-		parent::__construct($username, $secret);
-		$this->type = $type;
-	}
 
 	/*protected function getServiceUrl() {
 		if($this->development) {
