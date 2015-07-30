@@ -41,4 +41,8 @@ class ServiceContent extends IndexDBBase {
         return $this->api($id, self::METHOD_DELETE);
     }
 
+    public function save(array $item) {
+
+    }
+
 }

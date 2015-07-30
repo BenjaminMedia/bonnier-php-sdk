@@ -41,4 +41,5 @@ class ServiceTranslation extends TrappBase {
 	public function delete($id) {
 		return $this->api($id, self::METHOD_DELETE);
 	}
+
 }

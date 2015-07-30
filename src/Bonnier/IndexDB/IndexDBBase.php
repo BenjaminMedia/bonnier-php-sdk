@@ -1,9 +1,9 @@
 <?php
 namespace Bonnier\IndexDB;
 
-use Bonnier\RESTBase;
+use Bonnier\ServiceItem;
 
-abstract class IndexDBBase extends RESTBase {
+abstract class IndexDBBase extends ServiceItem {
 
 	protected $development;
 	protected $type;

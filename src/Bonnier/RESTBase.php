@@ -29,10 +29,6 @@ abstract class RESTBase {
     }
 
     // Events
-    protected function onCreateItem() {
-        return new ServiceItem($this->username, $this->secret);
-    }
-
     protected function onCreateResult() {
         return new ServiceResult($this->username, $this->secret);
     }
@@ -109,11 +105,8 @@ abstract class RESTBase {
             $items = array();
 
             foreach($response['rows'] as $row) {
-                $item = $this->onCreateItem();
-
-                if(!($item instanceof ServiceItem)) {
-                    throw new ServiceException('Unknown item type - must be an instance of Service Item');
-                }
+                $caller = get_called_class();
+                $item = new $caller();
 
                 $item->setRow((object)$row);
                 $items[] = $item;
@@ -124,11 +117,8 @@ abstract class RESTBase {
         }
 
         // We can't determinate weather this is a single item or a collection, so we just return a single item
-        $item = $this->onCreateItem();
-
-        if(!($item instanceof ServiceItem)) {
-            throw new ServiceException('Unknown item type - must be an instance of Service Item');
-        }
+        $caller = get_called_class();
+        $item = new $caller();
 
         $item->setResponse($response);
         $item->setRow((object)$response);

@@ -1,8 +1,8 @@
 <?php
 namespace Bonnier\Trapp;
-use Bonnier\RESTBase;
+use Bonnier\ServiceItem;
 
-abstract class TrappBase extends RESTBase {
+abstract class TrappBase extends ServiceItem {
 
 	protected $development;
 	protected $type;
