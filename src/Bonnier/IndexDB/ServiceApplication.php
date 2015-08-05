@@ -15,7 +15,7 @@ class ServiceApplication extends IndexDBBase {
      * @return ServiceResult
      * @throws \Bonnier\ServiceException
      */
-    public function get() {
+    public function getCollection() {
         return $this->api();
     }
 

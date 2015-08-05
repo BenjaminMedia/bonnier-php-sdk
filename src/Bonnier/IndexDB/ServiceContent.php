@@ -19,7 +19,7 @@ class ServiceContent extends IndexDBBase {
      * Get queryable service result
      * @return ContentCollection
      */
-    public function get() {
+    public function getCollection() {
         return new ContentCollection($this->username, $this->secret, $this->type);
     }
 

@@ -27,7 +27,7 @@ class ServiceContentType extends IndexDBBase {
      * Get queryable service result
      * @return ServiceResult
      */
-    public function get() {
+    public function getCollection() {
         return $this->api();
     }
 

@@ -24,7 +24,7 @@ class ServiceState extends TrappBase {
 	/**
 	 * @return \Bonnier\ServiceResult
 	 */
-	public function get() {
+	public function getCollection() {
 		return $this->api();
 	}
 

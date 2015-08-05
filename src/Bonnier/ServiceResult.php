@@ -12,6 +12,10 @@ class ServiceResult extends RESTBase {
         return parent::api($url, $method, $data);
     }
 
+    public function execute() {
+        return $this->api();
+    }
+
     public function setResponse($response) {
         $this->response = $response;
     }

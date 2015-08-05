@@ -29,7 +29,7 @@ class ServiceTranslation extends TrappBase {
 	/**
 	 * @return TranslationCollection
 	 */
-	public function get() {
+	public function getCollection() {
 		return new TranslationCollection($this->username, $this->secret, $this->type);
 	}
 
