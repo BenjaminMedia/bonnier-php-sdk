@@ -19,6 +19,10 @@ class TranslationCollection extends TrappBase {
         return parent::api($url, $method, $data);
     }
 
+    public function execute() {
+        return $this->api();
+    }
+
     public function setResponse($response) {
         $this->searchTime = $response['searchTime'];
         $this->skip = $response['skip'];
