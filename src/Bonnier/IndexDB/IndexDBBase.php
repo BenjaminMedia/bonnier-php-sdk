@@ -13,6 +13,11 @@ abstract class IndexDBBase extends ServiceItem {
 		$this->type = $type;
 	}
 
+	protected function onCreateItem() {
+		$self = get_called_class();
+		return new $self($this->username, $this->secret, $this->type);
+	}
+
 	protected function getServiceUrl() {
 		if($this->development) {
 			$this->serviceUrl = 'https://staging-indexdb.whitealbum.dk/api/v1/%1$s/';

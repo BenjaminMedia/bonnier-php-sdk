@@ -33,6 +33,10 @@ abstract class RESTBase {
         return new ServiceResult($this->username, $this->secret);
     }
 
+    protected function onCreateItem() {
+        return new ServiceItem($this->username, $this->secret);
+    }
+
     protected function getServiceUrl() {
         return $this->serviceUrl;
     }
@@ -105,9 +109,7 @@ abstract class RESTBase {
             $items = array();
 
             foreach($response['rows'] as $row) {
-                $caller = get_called_class();
-                $item = new $caller($this->username, $this->secret);
-
+                $item = $this->onCreateItem();
                 $item->setRow((object)$row);
                 $items[] = $item;
             }
@@ -117,8 +119,7 @@ abstract class RESTBase {
         }
 
         // We can't determinate weather this is a single item or a collection, so we just return a single item
-        $caller = get_called_class();
-        $item = new $caller($this->username, $this->secret);
+        $item = $this->onCreateItem();
 
         $item->setResponse($response);
         $item->setRow((object)$response);

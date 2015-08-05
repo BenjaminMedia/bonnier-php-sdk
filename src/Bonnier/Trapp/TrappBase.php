@@ -11,6 +11,12 @@ abstract class TrappBase extends ServiceItem {
 		parent::__construct($username, $secret);
 		$this->type = $type;
 	}
+
+	protected function onCreateItem() {
+		$self = get_called_class();
+		return new $self($this->username, $this->secret, $this->type);
+	}
+
 	/*protected function getServiceUrl() {
 		if($this->development) {
 			$this->serviceUrl = 'https://local.trapp/api/v1/';
