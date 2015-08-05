@@ -90,19 +90,22 @@ abstract class RESTBase {
             }
         }
 
-        $response = json_decode(curl_exec($ch), TRUE);
+        $originalResponse = curl_exec($ch);
+        $response = json_decode($originalResponse, TRUE);
 
         if(!is_array($response) || $response && isset($response['status'])) {
             $error = (isset($response['error'])) ? $response['error'] : 'API response error: ' . $apiUrl;
             $status = (isset($response['status'])) ? $response['status'] : 0;
-            throw new ServiceException($error, $status);
+
+
+            throw new ServiceException($error, $status, $response, $originalResponse);
         }
 
         if(isset($response['rows'])) {
             $result = $this->onCreateResult();
 
             if(!($result instanceof ServiceResult)) {
-                throw new ServiceException('Unknown item type - must be an instance of Service Item');
+                throw new ServiceException('Unknown item type - must be an instance of Service Item', 0, $originalResponse);
             }
 
             $result->setResponse($response);

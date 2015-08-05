@@ -15,12 +15,12 @@ class ServiceItem extends RESTBase {
     }
 
     public function update() {
-        $this->row = $this->api($this->id, self::METHOD_PUT, (array)$this->row);
+        $this->row = $this->api($this->id, self::METHOD_PUT, (array)$this->row)->getRow();
         return $this;
     }
 
     public function save() {
-        $this->row = $this->api(NULL, self::METHOD_POST, (array)$this->row);
+        $this->row = $this->api(NULL, self::METHOD_POST, (array)$this->row)->getRow();
         return $this;
     }
 
