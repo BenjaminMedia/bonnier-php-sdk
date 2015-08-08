@@ -34,11 +34,14 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 
 		// Assert
 
-		$this->assertEquals($this->service->locale, $this->test_locale);
-		$this->assertEquals($this->service->translate_into, $this->test_translateInto);
+		$this->assertEquals($this->service->language['locale'], $this->test_locale);
+		//$this->assertEquals($this->service->translate_into, $this->test_translateInto);
 		$this->assertEquals($this->service->deadline, $this->test_deadline);
-		$this->assertEquals($this->service->fields, json_encode($this->test_field));
-		$this->assertEquals($this->service->test_comment, $this->comment);
+
+		$this->assertEquals($this->service->revisions[0]['fields'][0]['label'], $this->test_field[0]['label']);
+		$this->assertEquals($this->service->revisions[0]['fields'][0]['value'], $this->test_field[0]['value']);
+		$this->assertEquals($this->service->revisions[0]['fields'][0]['display_format'], $this->test_field[0]['display_format']);
+		$this->assertEquals($this->service->revisions[0]['comment'], $this->test_comment);
 	}
 
 	public function testUpdate()
