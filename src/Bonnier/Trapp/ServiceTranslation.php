@@ -2,6 +2,7 @@
 namespace Bonnier\Trapp;
 
 use Bonnier\Trapp\Translation\TranslationCollection;
+use Bonnier\Trapp\Translation\TranslationItem;
 
 class ServiceTranslation extends TrappBase {
 
@@ -24,6 +25,10 @@ class ServiceTranslation extends TrappBase {
 
 	protected function onCreateResult() {
 		return new TranslationCollection($this->username, $this->secret, $this->type);
+	}
+
+	protected function onCreateItem() {
+		return new TranslationItem($this->username, $this->secret, $this->type);
 	}
 
 	/**
