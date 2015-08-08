@@ -29,6 +29,42 @@ class TranslationCollection extends TrappBase {
         $this->limit = $response['limit'];
     }
 
+    /* Filters start */
+
+    public function sort($field) {
+        $this->_data['sort'] = $field;
+    }
+
+    public function order($order) {
+        $this->_data['order'] = $order;
+    }
+
+    public function locale($locale) {
+        $this->_data['locale'] = $locale;
+    }
+
+    public function app($appId) {
+        $this->_data['app_id'] = $appId;
+    }
+
+    public function state($state) {
+        $this->_data['state'] = $state;
+    }
+
+    public function q($query) {
+        $this->_data['q'] = $query;
+    }
+
+    public function skip($skip) {
+        $this->_data['skip'] = $skip;
+    }
+
+    public function limit($limit) {
+        $this->_data['limit'] = $limit;
+    }
+
+    /* Filters end */
+
     public function getSkip() {
         return $this->skip;
     }
