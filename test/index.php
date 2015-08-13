@@ -21,8 +21,10 @@ $result = curl_exec($ch);
 
 die(var_dump($result));*/
 
-$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
-$service->setDevelopment(TRUE);
+$service = new \Bonnier\IndexDB\ServiceContent('Bilindexapp', '97E0D1842264E713B4003FFF97037381');
+$cars = $service->getCollection()->setDevelopment(TRUE)->contentType('car')->execute();
+
+die(var_dump($test));
 /*$service->lang = 'da_dk';
 $service->save();*/
 
