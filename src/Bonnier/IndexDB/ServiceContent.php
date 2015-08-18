@@ -12,7 +12,7 @@ class ServiceContent extends IndexDBBase {
     }
 
     protected function onCreateResult() {
-        $collection = ContentCollection($this->username, $this->secret, $this->type);
+        $collection = new ContentCollection($this->username, $this->secret, $this->type);
         $collection->setDevelopment($this->development);
         return $collection;
     }

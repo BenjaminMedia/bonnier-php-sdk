@@ -1,9 +1,9 @@
 <?php
 namespace Bonnier\Trapp\Translation;
 
-use Bonnier\Trapp\TrappBase;
+use Bonnier\Trapp\ServiceTranslation;
 
-class TranslationCollection extends TrappBase {
+class TranslationCollection extends ServiceTranslation {
 
     public $total;
     public $skip;

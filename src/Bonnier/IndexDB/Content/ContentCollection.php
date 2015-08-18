@@ -1,8 +1,8 @@
 <?php
 namespace Bonnier\IndexDB\Content;
-use Bonnier\IndexDB\IndexDBBase;
+use Bonnier\IndexDB\ServiceContent;
 
-class ContentCollection extends IndexDBBase {
+class ContentCollection extends ServiceContent {
 
     protected $total;
     protected $skip;
