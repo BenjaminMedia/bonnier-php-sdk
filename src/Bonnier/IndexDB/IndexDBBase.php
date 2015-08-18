@@ -33,6 +33,7 @@ abstract class IndexDBBase extends ServiceItem {
 
 	public function setDevelopment($bool) {
 		$this->development = $bool;
+		return $this;
 	}
 
 }

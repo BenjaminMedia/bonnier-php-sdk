@@ -37,6 +37,7 @@ abstract class TrappBase extends ServiceItem {
 
 	public function setDevelopment($bool) {
 		$this->development = $bool;
+		return $this;
 	}
 
 }
