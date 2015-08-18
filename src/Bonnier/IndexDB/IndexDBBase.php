@@ -1,6 +1,7 @@
 <?php
 namespace Bonnier\IndexDB;
 
+use Bonnier\IndexDB\Content\ContentCollection;
 use Bonnier\ServiceItem;
 
 abstract class IndexDBBase extends ServiceItem {
@@ -30,7 +31,6 @@ abstract class IndexDBBase extends ServiceItem {
 
 	public function setDevelopment($bool) {
 		$this->development = $bool;
-		return $this;
 	}
 
 }
