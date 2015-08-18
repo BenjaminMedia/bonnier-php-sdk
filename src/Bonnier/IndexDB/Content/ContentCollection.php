@@ -106,10 +106,6 @@ class ContentCollection extends ServiceContent {
         return $this->limit;
     }
 
-    public function getResponse() {
-        return $this->response;
-    }
-
     public function getRows() {
         return $this->rows;
     }

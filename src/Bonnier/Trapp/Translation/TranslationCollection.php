@@ -78,4 +78,12 @@ class TranslationCollection extends ServiceTranslation {
     public function getData() {
         return $this->_data;
     }
+
+    public function getRows() {
+        return $this->rows;
+    }
+
+    public function setRows($rows) {
+        $this->rows = $rows;
+    }
 }
