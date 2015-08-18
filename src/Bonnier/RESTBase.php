@@ -97,7 +97,7 @@ abstract class RESTBase {
             $error = (isset($response['error'])) ? $response['error'] : 'API response error: ' . $apiUrl;
             $status = (isset($response['status'])) ? $response['status'] : 0;
 
-            throw new ServiceException($error, $status, $response, $originalResponse);
+            throw new ServiceException($error, $status, $originalResponse);
         }
 
         if(isset($response['rows'])) {

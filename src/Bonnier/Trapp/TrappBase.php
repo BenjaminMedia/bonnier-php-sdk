@@ -14,7 +14,9 @@ abstract class TrappBase extends ServiceItem {
 
 	protected function onCreateItem() {
 		$self = get_called_class();
-		return new $self($this->username, $this->secret, $this->type);
+		$item = new $self($this->username, $this->secret, $this->type);
+		$item->setDevelopment($this->development);
+		return $item;
 	}
 
 	/*protected function getServiceUrl() {
@@ -30,7 +32,7 @@ abstract class TrappBase extends ServiceItem {
 	// TODO: Add production/staging enviroment when ready (see above)
 
 	protected function getServiceUrl() {
-		return 'http://local.trapp.dk/api/v1/' . $this->type;
+		return 'http://staging-trapp.whitealbum.dk/api/v1/' . $this->type;
 	}
 
 	public function setDevelopment($bool) {
