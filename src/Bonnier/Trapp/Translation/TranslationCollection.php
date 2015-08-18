@@ -8,7 +8,6 @@ class TranslationCollection extends ServiceTranslation {
     public $total;
     public $skip;
     public $limit;
-    public $searchTime;
     protected $_data = array();
     public $rows;
 
@@ -24,7 +23,6 @@ class TranslationCollection extends ServiceTranslation {
     }
 
     public function setResponse($response) {
-        $this->searchTime = $response['searchTime'];
         $this->skip = $response['skip'];
         $this->limit = $response['limit'];
     }
