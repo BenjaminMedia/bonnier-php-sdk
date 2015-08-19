@@ -25,6 +25,7 @@ class TranslationCollection extends ServiceTranslation {
     public function setResponse($response) {
         $this->skip = $response['skip'];
         $this->limit = $response['limit'];
+        $this->total = $response['total'];
     }
 
     /* Filters start */
@@ -86,4 +87,19 @@ class TranslationCollection extends ServiceTranslation {
     public function setRows($rows) {
         $this->rows = $rows;
     }
+
+    /**
+     * @return int
+     */
+    public function getTotal() {
+        return $this->total;
+    }
+
+    /**
+     * @param int $total
+     */
+    public function setTotal( $total ) {
+        $this->total = $total;
+    }
+
 }
