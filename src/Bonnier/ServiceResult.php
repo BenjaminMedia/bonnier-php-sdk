@@ -5,8 +5,6 @@ class ServiceResult extends RESTBase {
     protected $_data = array();
     protected $rows;
 
-    protected $response;
-
     public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
         $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;
         return parent::api($url, $method, $data);
@@ -14,14 +12,6 @@ class ServiceResult extends RESTBase {
 
     public function execute() {
         return $this->api();
-    }
-
-    public function setResponse($response) {
-        $this->response = $response;
-    }
-
-    public function getResponse() {
-        return $this->response;
     }
 
     public function getRows() {

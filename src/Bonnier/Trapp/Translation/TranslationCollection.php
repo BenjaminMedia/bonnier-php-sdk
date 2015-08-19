@@ -5,9 +5,10 @@ use Bonnier\Trapp\ServiceTranslation;
 
 class TranslationCollection extends ServiceTranslation {
 
-    public $total;
-    public $skip;
-    public $limit;
+    protected $total;
+    protected $totalOriginal;
+    protected $skip;
+    protected $limit;
     protected $_data = array();
     public $rows;
 
@@ -26,6 +27,7 @@ class TranslationCollection extends ServiceTranslation {
         $this->skip = $response['skip'];
         $this->limit = $response['limit'];
         $this->total = $response['total'];
+        $this->totalOriginal = $response['total_original'];
     }
 
     /* Filters start */
@@ -100,6 +102,20 @@ class TranslationCollection extends ServiceTranslation {
      */
     public function setTotal( $total ) {
         $this->total = $total;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalOriginal() {
+        return $this->totalOriginal;
+    }
+
+    /**
+     * @param int $totalOriginal
+     */
+    public function setTotalOriginal( $totalOriginal ) {
+        $this->totalOriginal = $totalOriginal;
     }
 
 }
