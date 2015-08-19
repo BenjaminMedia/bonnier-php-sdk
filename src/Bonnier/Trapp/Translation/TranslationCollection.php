@@ -6,7 +6,6 @@ use Bonnier\Trapp\ServiceTranslation;
 class TranslationCollection extends ServiceTranslation {
 
     protected $total;
-    protected $totalOriginal;
     protected $skip;
     protected $limit;
     protected $_data = array();
@@ -27,7 +26,6 @@ class TranslationCollection extends ServiceTranslation {
         $this->skip = $response['skip'];
         $this->limit = $response['limit'];
         $this->total = $response['total'];
-        $this->totalOriginal = $response['total_original'];
     }
 
     /* Filters start */
@@ -62,6 +60,10 @@ class TranslationCollection extends ServiceTranslation {
 
     public function limit($limit) {
         $this->_data['limit'] = $limit;
+    }
+
+    public function filterOriginal($bool) {
+        $this->_data['filter_original'] = $bool;
     }
 
     /* Filters end */
@@ -102,20 +104,6 @@ class TranslationCollection extends ServiceTranslation {
      */
     public function setTotal( $total ) {
         $this->total = $total;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotalOriginal() {
-        return $this->totalOriginal;
-    }
-
-    /**
-     * @param int $totalOriginal
-     */
-    public function setTotalOriginal( $totalOriginal ) {
-        $this->totalOriginal = $totalOriginal;
     }
 
 }
