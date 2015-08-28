@@ -16,9 +16,12 @@ abstract class RESTBase {
     protected $response;
     protected $originalResponse;
 
+    protected $_data = array();
+
     public function __construct($username, $secret) {
         $this->username = $username;
         $this->secret = $secret;
+        $this->_data = array();
     }
 
     // Events
@@ -34,6 +37,46 @@ abstract class RESTBase {
         return $this->serviceUrl;
     }
 
+    public function postJson($bool) {
+        $this->postJson = $bool;
+    }
+
+    public function getResponse() {
+        return $this->response;
+    }
+
+    public function setResponse($response) {
+        $this->response = $response;
+    }
+
+    /**
+     * @return HttpResponse
+     */
+    public function getOriginalResponse() {
+        return $this->originalResponse;
+    }
+
+    /**
+     * @param HttpResponse $originalResponse
+     */
+    public function setOriginalResponse($originalResponse) {
+        $this->originalResponse = $originalResponse;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData() {
+        return $this->_data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData($data) {
+        $this->_data = $data;
+    }
+
     /**
      * @param string|null $url
      * @param string $method
@@ -47,6 +90,8 @@ abstract class RESTBase {
         }
 
         $data['_method'] = $method;
+
+        $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;
 
         $postData = NULL;
 
@@ -112,32 +157,5 @@ abstract class RESTBase {
         $item->setRow((object)$response);
         return $item;
     }
-
-    public function postJson($bool) {
-        $this->postJson = $bool;
-    }
-
-    public function getResponse() {
-        return $this->response;
-    }
-
-    public function setResponse($response) {
-        $this->response = $response;
-    }
-
-    /**
-     * @return HttpResponse
-     */
-    public function getOriginalResponse() {
-        return $this->originalResponse;
-    }
-
-    /**
-     * @param HttpResponse $originalResponse
-     */
-    public function setOriginalResponse( $originalResponse ) {
-        $this->originalResponse = $originalResponse;
-    }
-
 
 }
