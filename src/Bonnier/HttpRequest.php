@@ -80,7 +80,7 @@ class HttpRequest {
 	/**
 	 * @param string $url
 	 */
-	public function setUrl( $url ) {
+	public function setUrl($url) {
 		$this->url = $url;
 	}
 
@@ -109,7 +109,7 @@ class HttpRequest {
 
 		// Add request data
 		if(strtolower($this->method) == 'post' && is_array($this->data)) {
-			curl_setopt($handle, CURLOPT_POSTFIELDS, $this->data);
+			curl_setopt($handle, CURLOPT_POSTFIELDS, http_build_query($this->data));
 		}
 
 		// Add custom curl options
@@ -120,10 +120,9 @@ class HttpRequest {
 		}
 
 		// Add request method
-		//curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $this->method);
+		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $this->method);
 
 		return new HttpResponse($handle);
-
 	}
 
 }
