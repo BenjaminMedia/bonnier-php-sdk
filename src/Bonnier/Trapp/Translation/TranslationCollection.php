@@ -1,6 +1,7 @@
 <?php
 namespace Bonnier\Trapp\Translation;
 
+use Bonnier\HttpResponse;
 use Bonnier\Trapp\ServiceTranslation;
 
 class TranslationCollection extends ServiceTranslation {
@@ -8,7 +9,6 @@ class TranslationCollection extends ServiceTranslation {
     protected $total;
     protected $skip;
     protected $limit;
-    protected $_data = array();
     public $rows;
 
     // TODO: Do advanced logic here
@@ -22,48 +22,57 @@ class TranslationCollection extends ServiceTranslation {
         return $this->api();
     }
 
-    public function setResponse($response) {
-        $this->skip = $response['skip'];
-        $this->limit = $response['limit'];
-        $this->total = $response['total'];
+    public function setResponse(HttpResponse $response, $formattedResponse) {
+        $this->skip = $formattedResponse['skip'];
+        $this->limit = $formattedResponse['limit'];
+        $this->total = $formattedResponse['total'];
     }
 
     /* Filters start */
 
     public function sort($field) {
-        $this->_data['sort'] = $field;
+        $this->request->addPostData('sort', $field);
+        return $this;
     }
 
     public function order($order) {
-        $this->_data['order'] = $order;
+        $this->request->addPostData('order', $order);
+        return $this;
     }
 
     public function locale($locale) {
-        $this->_data['locale'] = $locale;
+        $this->request->addPostData('locale', $locale);
+        return $this;
     }
 
     public function app($appId) {
-        $this->_data['app_id'] = $appId;
+        $this->request->addPostData('app_id', $appId);
+        return $this;
     }
 
     public function state($state) {
-        $this->_data['state'] = $state;
+        $this->request->addPostData('state', $state);
+        return $this;
     }
 
     public function q($query) {
-        $this->_data['q'] = $query;
+        $this->request->addPostData('q', $query);
+        return $this;
     }
 
     public function skip($skip) {
-        $this->_data['skip'] = $skip;
+        $this->request->addPostData('skip', $skip);
+        return $this;
     }
 
     public function limit($limit) {
-        $this->_data['limit'] = $limit;
+        $this->request->addPostData('limit', $limit);
+        return $this;
     }
 
     public function filterOriginal($bool) {
-        $this->_data['filter_original'] = $bool;
+        $this->request->addPostData('filter_original', $bool);
+        return $this;
     }
 
     /* Filters end */
@@ -76,12 +85,12 @@ class TranslationCollection extends ServiceTranslation {
         return $this->limit;
     }
 
+    /**
+     * @param $data
+     * @depricated Warning this method is depricated, use $this->getRequest->addPostData() instead.
+     */
     public function setData($data) {
-        $this->_data = $data;
-    }
-
-    public function getData() {
-        return $this->_data;
+        $this->request->setPostData($data);
     }
 
     public function getRows() {
@@ -97,13 +106,6 @@ class TranslationCollection extends ServiceTranslation {
      */
     public function getTotal() {
         return $this->total;
-    }
-
-    /**
-     * @param int $total
-     */
-    public function setTotal( $total ) {
-        $this->total = $total;
     }
 
 }

@@ -1,8 +1,9 @@
 <?php
 namespace Bonnier\Trapp;
-use Bonnier\ServiceItem;
 
-abstract class TrappBase extends ServiceItem {
+use Bonnier\IndexDB\IndexServiceItem;
+
+abstract class TrappBase extends IndexServiceItem {
 
 	protected $development;
 	protected $type;
@@ -32,7 +33,7 @@ abstract class TrappBase extends ServiceItem {
 	// TODO: Add production/staging enviroment when ready (see above)
 
 	protected function getServiceUrl() {
-		return 'http://staging-trapp.whitealbum.dk/api/v1/' . $this->type;
+		return 'http://local.trapp.dk/api/v1/' . $this->type;
 	}
 
 	public function setDevelopment($bool) {

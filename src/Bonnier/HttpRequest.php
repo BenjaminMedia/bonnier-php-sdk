@@ -1,6 +1,8 @@
 <?php
 namespace Bonnier;
 
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
+
 class HttpRequest {
 
 	protected $url;
@@ -10,14 +12,13 @@ class HttpRequest {
 	protected $data;
 	protected $timeout;
 
-	public function __construct($url) {
+	public function __construct($url = NULL) {
 
 		if (!function_exists('curl_init')) {
 			throw new \Exception('This service requires the CURL PHP extension.');
 		}
 
 		$this->url = $url;
-
 		$this->options = array();
 		$this->headers = array();
 		$this->data = array();
@@ -25,6 +26,10 @@ class HttpRequest {
 
 	public function addHeader($header) {
 		$this->headers[] = $header;
+	}
+
+	public function setHeaders(array $headers) {
+		$this->headers = $headers;
 	}
 
 	public function addOption($option, $value) {
@@ -41,6 +46,10 @@ class HttpRequest {
 
 	public function setPostData(array $data) {
 		$this->data = $data;
+	}
+
+	public function getPostData() {
+		return $this->data;
 	}
 
 	public function post($return = FALSE) {
@@ -61,7 +70,25 @@ class HttpRequest {
 		$this->method = $method;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getUrl() {
+		return $this->url;
+	}
+
+	/**
+	 * @param string $url
+	 */
+	public function setUrl( $url ) {
+		$this->url = $url;
+	}
+
 	public function execute($return) {
+
+		if(is_null($this->url)) {
+			throw new InvalidArgumentException('Missing required property: url');
+		}
 
 		$handle = curl_init($this->url);
 
@@ -81,7 +108,7 @@ class HttpRequest {
 		}
 
 		// Add request data
-		if(count($this->data)) {
+		if(strtolower($this->method) == 'post' && is_array($this->data)) {
 			curl_setopt($handle, CURLOPT_POSTFIELDS, $this->data);
 		}
 
@@ -93,7 +120,7 @@ class HttpRequest {
 		}
 
 		// Add request method
-		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $this->method);
+		//curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $this->method);
 
 		return new HttpResponse($handle);
 

@@ -1,84 +1,79 @@
 <?php
 namespace Bonnier\IndexDB\Content;
+use Bonnier\HttpResponse;
+use Bonnier\IndexDB\IndexServiceResult;
 use Bonnier\IndexDB\ServiceContent;
 
-class ContentCollection extends ServiceContent {
+class ContentCollection extends IndexServiceResult {
 
     protected $total;
     protected $skip;
     protected $limit;
     protected $searchTime;
-    protected $_data = array();
-    protected $rows;
-
-    public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
-        $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;
-        return parent::api($url, $method, $data);
-    }
 
     public function execute() {
         return $this->api();
     }
 
-    public function setResponse($response) {
-        $this->searchTime = $response['searchTime'];
-        $this->skip = $response['skip'];
-        $this->limit = $response['limit'];
-        $this->total = $response['total'];
+    public function setResponse(HttpResponse $response, $formattedResponse) {
+        $this->searchTime = $formattedResponse['searchTime'];
+        $this->skip = $formattedResponse['skip'];
+        $this->limit = $formattedResponse['limit'];
+        $this->total = $formattedResponse['total'];
     }
 
     public function query($query) {
-        $this->_data['q'] = $query;
+        $this->request->addPostData('q', $query);
         return $this;
     }
 
     public function sort($sort) {
-        $this->_data['sort'] = $sort;
+        $this->request->addPostData('sort', $sort);
         return $this;
     }
 
     public function order($order) {
-        $this->_data['order'] = $order;
+        $this->request->addPostData('order', $order);
         return $this;
     }
 
     public function filter($name, $value) {
-        $this->_data[$name] = $value;
+        $this->request->addPostData($name, $value);
         return $this;
     }
 
     public function dsl(array $dsl) {
-        $this->_data['dsl'] = json_encode($dsl);
+        $this->request->addPostData('dsl', json_encode($dsl));
         return $this;
     }
 
     public function skip($skip) {
-        $this->_data['skip'] = $skip;
+        $this->request->addPostData('skip', $skip);
         return $this;
     }
 
     public function limit($limit) {
-        $this->_data['limit'] = $limit;
+        $this->request->addPostData('limit', $limit);
         return $this;
     }
 
     public function meta($key, $value) {
-        $this->_data['meta_' . strtolower($key)] = $value;
+        $this->request->addPostData('meta_' . strtolower($key), $value);
         return $this;
     }
 
     public function app($appCode) {
-        $this->_data['app_code'] = $appCode;
+        $this->request->addPostData('app_code', $appCode);
         return $this;
     }
 
     public function site($siteCode) {
-        $this->_data['site_code'] = $siteCode;
+        $this->request->addPostData('site_code', $siteCode);
         return $this;
     }
 
     public function contentType($type) {
-        $this->_data['content_type'] = $type;
+        $this->request->addPostData('content_type', $type);
         return $this;
     }
 

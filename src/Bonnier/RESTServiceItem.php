@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier;
 
-class ServiceItem extends RESTBase {
+class RESTServiceItem {
 
     protected $row;
 

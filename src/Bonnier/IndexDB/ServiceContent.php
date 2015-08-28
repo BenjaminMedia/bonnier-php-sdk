@@ -3,7 +3,7 @@ namespace Bonnier\IndexDB;
 
 use Bonnier\IndexDB\Content\ContentCollection;
 
-class ServiceContent extends IndexDBBase {
+class ServiceContent extends IndexSearchBase {
 
     const TYPE = 'content';
 

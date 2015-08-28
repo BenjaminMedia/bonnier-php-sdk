@@ -3,7 +3,7 @@ namespace Bonnier\IndexDB;
 
 use Bonnier\ServiceResult;
 
-class ServiceAuth extends IndexDBBase {
+class ServiceAuth extends IndexSearchBase {
 
     const TYPE = 'auth';
 

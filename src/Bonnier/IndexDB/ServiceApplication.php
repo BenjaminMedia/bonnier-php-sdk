@@ -3,7 +3,7 @@ namespace Bonnier\IndexDB;
 
 use Bonnier\ServiceResult;
 
-class ServiceApplication extends IndexDBBase {
+class ServiceApplication extends IndexSearchBase {
 
     const TYPE = 'application';
 

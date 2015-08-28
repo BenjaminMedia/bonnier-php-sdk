@@ -5,7 +5,7 @@ use Bonnier\ServiceException;
 use Bonnier\ServiceItem;
 use Bonnier\ServiceResult;
 
-class ServiceContentType extends IndexDBBase {
+class ServiceContentType extends IndexSearchBase {
 
     const TYPE = 'contenttype';
 
