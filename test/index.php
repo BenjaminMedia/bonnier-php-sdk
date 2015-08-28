@@ -4,6 +4,16 @@ function __autoload($file) {
     include '../src/' . str_replace('\\', DIRECTORY_SEPARATOR, $file) . '.php';
 }
 
+$bonnierAdmin = new \Bonnier\Admin\BonnierAdmin('b6d6e6d0b08c7d12d10d15a5884321cdee7d0215f884821d8cbc6f41440ed89c', 'a84cd814e21fe95114513ae13e639e3017bd2a57c494e304177fc7ab279cdba6');
+
+$user = $bonnierAdmin->getUser();
+
+if(!$user) {
+    echo $bonnierAdmin->getLoginUrl('http://www.google.com');
+}
+
+die();
+
 /*$data = array("name" => "Hagrid", "age" => "36");
 $data_string = json_encode($data);
 

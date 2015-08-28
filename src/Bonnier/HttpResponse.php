@@ -23,4 +23,8 @@ class HttpResponse {
 		return curl_getinfo($this->handle, CURLINFO_EFFECTIVE_URL);
 	}
 
+	public function getStatusCode() {
+		return curl_getinfo($this->handle, CURLINFO_HTTP_CODE);
+	}
+
 }
