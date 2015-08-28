@@ -1,8 +1,8 @@
 <?php
 namespace Bonnier\IndexDB\Content;
-use Bonnier\IndexDB\IndexDBBase;
+use Bonnier\IndexDB\ServiceContent;
 
-class ContentCollection extends IndexDBBase {
+class ContentCollection extends ServiceContent {
 
     protected $total;
     protected $skip;
@@ -104,10 +104,6 @@ class ContentCollection extends IndexDBBase {
 
     public function getLimit() {
         return $this->limit;
-    }
-
-    public function getResponse() {
-        return $this->response;
     }
 
     public function getRows() {

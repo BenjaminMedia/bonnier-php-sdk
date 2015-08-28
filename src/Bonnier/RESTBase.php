@@ -97,16 +97,11 @@ abstract class RESTBase {
             $error = (isset($response['error'])) ? $response['error'] : 'API response error: ' . $apiUrl;
             $status = (isset($response['status'])) ? $response['status'] : 0;
 
-
-            throw new ServiceException($error, $status, $response, $originalResponse);
+            throw new ServiceException($error, $status, $originalResponse);
         }
 
         if(isset($response['rows'])) {
             $result = $this->onCreateResult();
-
-            if(!($result instanceof ServiceResult)) {
-                throw new ServiceException('Unknown item type - must be an instance of Service Item', 0, $originalResponse);
-            }
 
             $result->setResponse($response);
             $items = array();

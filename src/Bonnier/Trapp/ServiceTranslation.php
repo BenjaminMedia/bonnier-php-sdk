@@ -24,18 +24,24 @@ class ServiceTranslation extends TrappBase {
 	}
 
 	protected function onCreateResult() {
-		return new TranslationCollection($this->username, $this->secret, $this->type);
+		$collection = new TranslationCollection($this->username, $this->secret, $this->type);
+		$collection->setDevelopment(TRUE);
+		return $collection;
 	}
 
 	protected function onCreateItem() {
-		return new TranslationItem($this->username, $this->secret, $this->type);
+		$item = new TranslationItem($this->username, $this->secret, $this->type);
+		$item->setDevelopment($this->development);
+		return $item;
 	}
 
 	/**
 	 * @return TranslationCollection
 	 */
 	public function getCollection() {
-		return new TranslationCollection($this->username, $this->secret, $this->type);
+		$collection = new TranslationCollection($this->username, $this->secret, $this->type);
+		$collection->setDevelopment($this->development);
+		return $collection;
 	}
 
 	/**

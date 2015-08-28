@@ -1,6 +1,7 @@
 <?php
 namespace Bonnier\IndexDB;
 
+use Bonnier\IndexDB\Content\ContentCollection;
 use Bonnier\ServiceItem;
 
 abstract class IndexDBBase extends ServiceItem {
@@ -15,7 +16,9 @@ abstract class IndexDBBase extends ServiceItem {
 
 	protected function onCreateItem() {
 		$self = get_called_class();
-		return new $self($this->username, $this->secret, $this->type);
+		$item = new $self($this->username, $this->secret, $this->type);
+		$item->setDevelopment($this->development);
+		return $item;
 	}
 
 	protected function getServiceUrl() {

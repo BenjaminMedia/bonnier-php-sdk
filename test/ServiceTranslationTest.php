@@ -5,6 +5,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 	protected $service;
 
 	protected $test_locale = 'en_gb';
+	protected $test_title = 'My test title';
 	protected $test_translateInto = array('da_dk');
 	protected $test_deadline = '2005-08-15T15:52:01+00:00';
 	protected $test_field = array( array( 'label' => 'Text to translate', 'value' => 'Once upon a time...', 'display_format' => 'text') );
@@ -18,6 +19,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 	{
 
 		$this->service->locale = $this->test_locale;
+		$this->service->title = $this->test_title;
 		$this->service->translate_into = $this->test_translateInto;
 		$this->service->deadline = $this->test_deadline;
 		$this->service->fields = $this->test_field;
@@ -26,6 +28,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 		try {
 			$this->service->save();
 		}catch(\Bonnier\ServiceException $e) {
+			die(var_dump($e->getResponse()));
 			echo sprintf('Error: %s', $e->getResponse());
 		}
 

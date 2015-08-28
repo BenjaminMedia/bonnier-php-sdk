@@ -1,14 +1,13 @@
 <?php
 namespace Bonnier\Trapp\Translation;
 
-use Bonnier\Trapp\TrappBase;
+use Bonnier\Trapp\ServiceTranslation;
 
-class TranslationCollection extends TrappBase {
+class TranslationCollection extends ServiceTranslation {
 
-    public $total;
-    public $skip;
-    public $limit;
-    public $searchTime;
+    protected $total;
+    protected $skip;
+    protected $limit;
     protected $_data = array();
     public $rows;
 
@@ -24,9 +23,9 @@ class TranslationCollection extends TrappBase {
     }
 
     public function setResponse($response) {
-        $this->searchTime = $response['searchTime'];
         $this->skip = $response['skip'];
         $this->limit = $response['limit'];
+        $this->total = $response['total'];
     }
 
     /* Filters start */
@@ -63,6 +62,10 @@ class TranslationCollection extends TrappBase {
         $this->_data['limit'] = $limit;
     }
 
+    public function filterOriginal($bool) {
+        $this->_data['filter_original'] = $bool;
+    }
+
     /* Filters end */
 
     public function getSkip() {
@@ -80,4 +83,27 @@ class TranslationCollection extends TrappBase {
     public function getData() {
         return $this->_data;
     }
+
+    public function getRows() {
+        return $this->rows;
+    }
+
+    public function setRows($rows) {
+        $this->rows = $rows;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotal() {
+        return $this->total;
+    }
+
+    /**
+     * @param int $total
+     */
+    public function setTotal( $total ) {
+        $this->total = $total;
+    }
+
 }
