@@ -90,7 +90,7 @@ class HttpRequest {
 			throw new InvalidArgumentException('Missing required property: url');
 		}
 
-		$handle = curl_init($this->url);
+		$handle = curl_init();
 
 		curl_setopt($handle, CURLOPT_URL, $this->url);
 

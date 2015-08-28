@@ -33,7 +33,7 @@ abstract class TrappBase extends IndexServiceItem {
 	// TODO: Add production/staging enviroment when ready (see above)
 
 	protected function getServiceUrl() {
-		return 'http://local.trapp.dk/api/v1/' . $this->type;
+		return 'http://staging-trapp.whitealbum.dk/api/v1/' . $this->type;
 	}
 
 	public function setDevelopment($bool) {
