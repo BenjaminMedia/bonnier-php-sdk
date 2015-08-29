@@ -19,6 +19,11 @@ class HttpRequest {
 		}
 
 		$this->url = $url;
+		$this->reset();
+	}
+
+	public function reset() {
+		$this->url = NULL;
 		$this->options = array();
 		$this->headers = array();
 		$this->data = array();
@@ -32,12 +37,20 @@ class HttpRequest {
 		$this->headers = $headers;
 	}
 
+	public function getHeaders() {
+		return $this->headers;
+	}
+
 	public function addOption($option, $value) {
 		$this->options[$option] = $value;
 	}
 
 	public function setOptions(array $options) {
 		$this->options = $options;
+	}
+
+	public function getOptions() {
+		return $this->options;
 	}
 
 	public function addPostData($key, $value) {
@@ -103,7 +116,7 @@ class HttpRequest {
 		}
 
 		// Add headers
-		if(count($this->headers)) {
+		if(is_array($this->headers) && count($this->headers)) {
 			curl_setopt($handle, CURLOPT_HTTPHEADER, $this->headers);
 		}
 

@@ -6,10 +6,17 @@ function __autoload($file) {
 
 $bonnierAdmin = new \Bonnier\Admin\BonnierAdmin('b6d6e6d0b08c7d12d10d15a5884321cdee7d0215f884821d8cbc6f41440ed89c', 'a84cd814e21fe95114513ae13e639e3017bd2a57c494e304177fc7ab279cdba6');
 
+if(isset($_COOKIE['token'])) {
+    $bonnierAdmin->setAccessToken($_COOKIE['token']);
+} else {
+    $token = $bonnierAdmin->getAccessToken();
+    setcookie('token', $token, time() * 60, '/');
+}
+
 $user = $bonnierAdmin->getUser();
 
 if(!$user) {
-    echo $bonnierAdmin->getLoginUrl('http://www.google.com');
+    echo sprintf('<a href="%1$s">%1$s</a>', $bonnierAdmin->getLoginUrl('https://local.bonnier-sdk.dk'));
 }
 
 die();

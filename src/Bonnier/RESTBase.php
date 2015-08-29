@@ -70,6 +70,8 @@ abstract class RESTBase extends RESTServiceItem {
 
         $response = $this->request->execute(TRUE);
 
+        $this->request->reset();
+
         // Trigger event
         return $this->onResponseCreate($response);
     }
