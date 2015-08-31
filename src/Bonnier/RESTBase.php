@@ -10,7 +10,6 @@ abstract class RESTBase {
     public static $METHODS = array(self::METHOD_GET, self::METHOD_POST, self::METHOD_PUT, self::METHOD_DELETE);
 
     protected $serviceUrl;
-    protected $postJson;
 
     /**
      * @var HttpRequest
@@ -25,10 +24,6 @@ abstract class RESTBase {
 
     protected function getServiceUrl() {
         return $this->serviceUrl;
-    }
-
-    public function postJson($bool) {
-        $this->postJson = $bool;
     }
 
     /**
@@ -51,16 +46,12 @@ abstract class RESTBase {
         }
 
         $data = (is_array($data)) ? array_merge($this->request->getPostData(), $data) : $this->request->getPostData();
-
         $data['_method'] = $method;
-
-        $postData = NULL;
 
         if($method == self::METHOD_GET && is_array($data)) {
             $url = $url . '?'.http_build_query($data);
         } else {
-            $postData = $data;
-            $this->request->addHeader('Content-length: ' . strlen($postData));
+            $this->request->addHeader('Content-length: ' . strlen($data));
         }
 
         $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;
@@ -68,7 +59,7 @@ abstract class RESTBase {
         $this->request->setUrl($apiUrl);
 
         if($method != self::METHOD_GET) {
-            $this->request->setPostData($postData);
+            $this->request->setPostData($data);
         }
 
         $this->request->setMethod($method);
