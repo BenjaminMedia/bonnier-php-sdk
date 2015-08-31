@@ -53,7 +53,7 @@ class RestBase {
         if($method == self::METHOD_GET && is_array($data)) {
             $url = $url . '?'.http_build_query($data);
         } else {
-            $this->request->addHeader('Content-length: ' . strlen($data));
+            $this->request->addHeader('Content-length: ' . strlen(http_build_query($data)));
         }
 
         $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;

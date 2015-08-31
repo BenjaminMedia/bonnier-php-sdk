@@ -5,22 +5,38 @@ use Bonnier\RestCollection;
 use Bonnier\RestItem;
 use Bonnier\ServiceResult;
 
-class ServiceApplication extends RestItem {
+class ServiceApplication extends RestItem implements IServiceEventListener {
 
     const TYPE = 'application';
 
+    /**
+     * This is required in order to get autocompletion to work for this element.
+     * @var ServiceBase
+     */
+    protected $service;
+
     public function __construct($username, $secret) {
-        parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+        parent::__construct($this->service);
+
+        $this->service->setServiceEventListener($this);
+    }
+
+    public function onCreateCollection() {
+        return new RestCollection($this->service);
+    }
+
+    public function onCreateItem() {
+        return new self($this->service->getUsername(), $this->service->getSecret());
     }
 
     /**
      * Get queryable collection
      *
-     * @return \Bonnier\RestCollection
      * @throws \Bonnier\ServiceException
+     * @return \Bonnier\RestCollection
      */
     public function getCollection() {
-        return new RestCollection($this->service);
+        return $this->onCreateCollection();
     }
 
     /**
@@ -38,5 +54,4 @@ class ServiceApplication extends RestItem {
         $this->service->setDevelopment($bool);
         return $this;
     }
-
 }

@@ -1,23 +1,30 @@
 <?php
 namespace Bonnier\IndexSearch;
 
+use Bonnier\RestCollection;
 use Bonnier\RestItem;
 
-class ServiceContentType extends RestItem {
+class ServiceContentType extends RestItem implements IServiceEventListener {
 
     const TYPE = 'contenttype';
 
+    /**
+     * This is required in order to get autocompletion to work for this element.
+     * @var ServiceBase
+     */
+    protected $service;
+
     public function __construct($username, $secret) {
-        parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+        $this->service = new ServiceBase($username, $secret, self::TYPE);
     }
 
     public function skip($skip) {
-        $this->request->addPostData('skip', $skip);
+        $this->service->getRequest()->addPostData('skip', $skip);
         return $this;
     }
 
     public function limit($limit) {
-        $this->request->addPostData('limit', $limit);
+        $this->service->getRequest()->addPostData('limit', $limit);
         return $this;
     }
 
@@ -28,6 +35,14 @@ class ServiceContentType extends RestItem {
      */
     public function getCollection() {
         return $this->onCreateCollection();
+    }
+
+    public function onCreateCollection() {
+        return new RestCollection($this->service);
+    }
+
+    public function onCreateItem() {
+        return new self($this->service->getUsername(), $this->service->getSecret());
     }
 
     /**

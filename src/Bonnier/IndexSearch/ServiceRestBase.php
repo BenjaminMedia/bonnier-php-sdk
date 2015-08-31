@@ -2,11 +2,12 @@
 namespace Bonnier\IndexSearch;
 
 use Bonnier\HttpResponse;
+use Bonnier\RestBase;
 use Bonnier\RestCollection;
 use Bonnier\RestItem;
 use Bonnier\ServiceException;
 
-abstract class ServiceRestBase extends \Bonnier\RestBase {
+abstract class ServiceRestBase extends RestBase {
 
 	protected $username;
 	protected $secret;
@@ -28,9 +29,7 @@ abstract class ServiceRestBase extends \Bonnier\RestBase {
 			return $this->serviceEventListener->onCreateCollection();
 		}
 
-		$result = new RestCollection($this->username, $this->secret, $this->type);
-		$result->setDevelopment($this->development);
-		return $result;
+		return new RestCollection($this);
 	}
 
 	protected function onCreateItem() {
@@ -38,9 +37,7 @@ abstract class ServiceRestBase extends \Bonnier\RestBase {
 			return $this->serviceEventListener->onCreateItem();
 		}
 
-		$item = new RestItem($this->username, $this->secret, $this->type);
-		$item->setDevelopment($this->development);
-		return $item;
+		return new RestItem($this);
 	}
 
 	/**
@@ -114,6 +111,20 @@ abstract class ServiceRestBase extends \Bonnier\RestBase {
 	 */
 	public function setServiceEventListener(IServiceEventListener $serviceEventListener) {
 		$this->serviceEventListener = $serviceEventListener;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSecret() {
+		return $this->secret;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUsername() {
+		return $this->username;
 	}
 
 }
