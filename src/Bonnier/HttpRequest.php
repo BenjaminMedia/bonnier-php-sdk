@@ -19,6 +19,11 @@ class HttpRequest {
 		}
 
 		$this->url = $url;
+		$this->reset();
+	}
+
+	public function reset() {
+		$this->url = NULL;
 		$this->options = array();
 		$this->headers = array();
 		$this->data = array();

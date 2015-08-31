@@ -1,12 +1,14 @@
 <?php
 namespace Bonnier\IndexSearch;
 
-class ServiceContentType extends ServiceBase {
+use Bonnier\RestItem;
+
+class ServiceContentType extends RestItem {
 
     const TYPE = 'contenttype';
 
     public function __construct($username, $secret) {
-        parent::__construct($username, $secret, self::TYPE);
+        parent::__construct(new ServiceBase($username, $secret, self::TYPE));
     }
 
     public function skip($skip) {
@@ -22,7 +24,7 @@ class ServiceContentType extends ServiceBase {
     /**
      * Get queryable service result.
      *
-     * @return \Bonnier\IndexSearch\REST\RESTCollection
+     * @return \Bonnier\RESTCollection
      */
     public function getCollection() {
         return $this->onCreateCollection();
@@ -33,10 +35,15 @@ class ServiceContentType extends ServiceBase {
      *
      * @param $id
      * @throws \Bonnier\ServiceException
-     * @return \Bonnier\IndexSearch\REST\RESTItem
+     * @return \Bonnier\RESTItem
      */
     public function getById($id) {
         return $this->api($id);
+    }
+
+    public function setDevelopment($bool) {
+        $this->service->setDevelopment($bool);
+        return $this;
     }
 
 }

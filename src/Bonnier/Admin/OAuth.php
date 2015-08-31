@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier\Admin;
 
-use Bonnier\RESTBase;
+use Bonnier\RestBase;
 
 // TODO: Rename this class
 

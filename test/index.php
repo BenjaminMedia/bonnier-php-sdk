@@ -21,11 +21,15 @@ $result = curl_exec($ch);
 
 die(var_dump($result));*/
 
-$service = new \Bonnier\IndexSearch\ServiceApplication('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $service->setDevelopment(TRUE);
-$apps = $service->getById(1);
 
-die(var_dump($apps->getRow()));
+$apps = $service->getById('C40323C9B70D3C26D282BAB4EDCC3B76');
+
+die(var_dump($apps));
+
+
+die(var_dump($apps));
 
 
 /*$service->lang = 'da_dk';

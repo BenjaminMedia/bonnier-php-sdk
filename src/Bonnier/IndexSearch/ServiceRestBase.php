@@ -1,13 +1,20 @@
 <?php
-namespace Bonnier\IndexSearch\REST;
+namespace Bonnier\IndexSearch;
 
 use Bonnier\HttpResponse;
+use Bonnier\RestCollection;
+use Bonnier\RestItem;
 use Bonnier\ServiceException;
 
-abstract class RESTBase extends \Bonnier\RESTBase {
+abstract class ServiceRestBase extends \Bonnier\RestBase {
 
 	protected $username;
 	protected $secret;
+
+	/**
+	 * @var IServiceEventListener
+	 */
+	protected $serviceEventListener;
 
 	public function __construct($username, $secret) {
 		$this->username = $username;
@@ -15,8 +22,26 @@ abstract class RESTBase extends \Bonnier\RESTBase {
 		parent::__construct();
 	}
 
-	abstract protected function onCreateCollection();
-	abstract protected function onCreateItem();
+	// Events that can be overwritten, if needed
+	protected function onCreateCollection() {
+		if($this->serviceEventListener) {
+			return $this->serviceEventListener->onCreateCollection();
+		}
+
+		$result = new RestCollection($this->username, $this->secret, $this->type);
+		$result->setDevelopment($this->development);
+		return $result;
+	}
+
+	protected function onCreateItem() {
+		if($this->serviceEventListener) {
+			return $this->serviceEventListener->onCreateItem();
+		}
+
+		$item = new RestItem($this->username, $this->secret, $this->type);
+		$item->setDevelopment($this->development);
+		return $item;
+	}
 
 	/**
 	 * Parses the API-response and returns either a collection object or single item depending on the results.
@@ -25,7 +50,7 @@ abstract class RESTBase extends \Bonnier\RESTBase {
 	 * @return mixed
 	 * @throws ServiceException
 	 */
-	protected function onResponseCreate(HttpResponse $originalResponse) {
+	protected function onResponseReceived(HttpResponse $originalResponse) {
 		$response = json_decode($originalResponse->getResponse(), TRUE);
 
 		// Parse the results
@@ -53,7 +78,7 @@ abstract class RESTBase extends \Bonnier\RESTBase {
 			return $result;
 		}
 
-		// We can't determinate weather this is a single item or a collection, so we just return a single item
+		// It wasn't a collection of items, so we just return a single item
 		$item = $this->onCreateItem();
 		$item->setRow((object)$response);
 		return $item;
@@ -74,7 +99,21 @@ abstract class RESTBase extends \Bonnier\RESTBase {
 		$this->request->addHeader('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
 
 		// Execute the API-call
-		return parent::api($url, $method, $data);
+		return $this->onResponseReceived( parent::api($url, $method, $data) );
+	}
+
+	/**
+	 * @return IServiceEventListener
+	 */
+	public function getServiceEventListener() {
+		return $this->serviceEventListener;
+	}
+
+	/**
+	 * @param IServiceEventListener $serviceEventListener
+	 */
+	public function setServiceEventListener(IServiceEventListener $serviceEventListener) {
+		$this->serviceEventListener = $serviceEventListener;
 	}
 
 }

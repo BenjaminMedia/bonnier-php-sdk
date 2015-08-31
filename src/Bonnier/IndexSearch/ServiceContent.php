@@ -2,13 +2,15 @@
 namespace Bonnier\IndexSearch;
 
 use Bonnier\IndexSearch\Content\ContentCollection;
+use Bonnier\RestItem;
 
-class ServiceContent extends ServiceBase {
+class ServiceContent extends RestItem implements IServiceEventListener {
 
     const TYPE = 'content';
 
     public function __construct($username, $secret) {
-        parent::__construct($username, $secret, self::TYPE);
+        $this->service = new ServiceBase($username, $secret, self::TYPE);
+        $this->service->setServiceEventListener($this);
     }
 
     /**
@@ -16,10 +18,12 @@ class ServiceContent extends ServiceBase {
      *
      * @return ContentCollection
      */
-    protected function onCreateCollection() {
-        $collection = new ContentCollection($this->username, $this->secret, $this->type);
-        $collection->setDevelopment($this->development);
-        return $collection;
+    public function onCreateCollection() {
+        return new ContentCollection($this->service);
+    }
+
+    public function onCreateItem() {
+        return new RestItem($this->service);
     }
 
     /**
@@ -27,7 +31,7 @@ class ServiceContent extends ServiceBase {
      * @return ContentCollection
      */
     public function getCollection() {
-        return $this->onCreateResult();
+        return new ContentCollection($this->service);
     }
 
     /**
@@ -35,7 +39,7 @@ class ServiceContent extends ServiceBase {
      *
      * @param string $id
      * @throws \Bonnier\ServiceException
-     * @return \Bonnier\IndexSearch\REST\RESTItem
+     * @return \Bonnier\RestItem
      */
     public function getById($id) {
         return $this->api($id);
@@ -46,10 +50,15 @@ class ServiceContent extends ServiceBase {
      *
      * @param string $id
      * @throws \Bonnier\ServiceException
-     * @return \Bonnier\IndexSearch\REST\RESTItem
+     * @return \Bonnier\RestItem
      */
     public function delete($id) {
         return $this->api($id, self::METHOD_DELETE);
+    }
+
+    public function setDevelopment($bool) {
+        $this->service->setDevelopment($bool);
+        return $this;
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier;
 
-abstract class RESTBase {
+class RestBase {
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
     const METHOD_PUT = 'PUT';
@@ -20,8 +20,6 @@ abstract class RESTBase {
         $this->request = new HttpRequest();
     }
 
-    abstract protected function onResponseCreate(HttpResponse $response);
-
     protected function getServiceUrl() {
         return $this->serviceUrl;
     }
@@ -36,7 +34,7 @@ abstract class RESTBase {
     /**
      * Execute api call.
      *
-     * Return type will be whats defined in onResponseCreate().
+     * Return type will be whats defined in the event $this->onResponseReceived().
      *
      * @param string|null $url
      * @param string $method
@@ -70,8 +68,10 @@ abstract class RESTBase {
 
         $response = $this->request->execute(TRUE);
 
-        // Trigger event
-        return $this->onResponseCreate($response);
+        // Reset request (headers, post-data etc)
+        $this->request->reset();
+
+        return $response;
     }
 
 }

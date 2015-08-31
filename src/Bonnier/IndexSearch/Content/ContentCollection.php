@@ -1,9 +1,9 @@
 <?php
 namespace Bonnier\IndexSearch\Content;
 use Bonnier\HttpResponse;
-use Bonnier\IndexSearch\REST\RESTCollection;
+use Bonnier\RestCollection;
 
-class ContentCollection extends RESTCollection {
+class ContentCollection extends RestCollection {
 
     protected $total;
     protected $skip;
@@ -86,5 +86,10 @@ class ContentCollection extends RESTCollection {
 
     public function getLimit() {
         return $this->limit;
+    }
+
+    public function setDevelopment($bool) {
+        $this->service->setDevelopment($bool);
+        return $this;
     }
 }

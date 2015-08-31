@@ -1,9 +1,12 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\IndexSearch\REST\RESTBase;
+use Bonnier\IndexSearch;
+use Bonnier\IndexSearch\RestBase;
+use Bonnier\IndexSearch\RestItem;
+use Bonnier\IndexSearch\RestCollection;
 
-abstract class ServiceBase extends RESTBase {
+abstract class ServiceBase extends RestBase {
 
 	protected $development;
 	protected $type;
@@ -18,7 +21,7 @@ abstract class ServiceBase extends RESTBase {
 
 		// TODO: WIP NOT IMPLEMENTED YET
 
-		$result = new RESTCollection($this->username, $this->secret, $this->type);
+		$result = new RestCollection($this->username, $this->secret, $this->type);
 		$result->setDevelopment($this->development);
 		return $result;
 	}
@@ -27,7 +30,7 @@ abstract class ServiceBase extends RESTBase {
 
 		// TODO: WIP NOT IMPLEMENTED YET
 
-		$item = new RESTItem($this->username, $this->secret, $this->type);
+		$item = new RestItem($this->username, $this->secret, $this->type);
 		$item->setDevelopment($this->development);
 		return $item;
 	}

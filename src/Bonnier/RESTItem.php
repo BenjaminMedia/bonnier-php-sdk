@@ -1,15 +1,12 @@
 <?php
-namespace Bonnier\IndexSearch\REST;
+namespace Bonnier;
 
-use Bonnier\IndexSearch\ServiceBase;
-
-class RESTItem extends ServiceBase {
+class RestItem extends RestResultAdapter {
 
     protected $row;
 
-    public function __construct($username, $secret, $type = '') {
-        parent::__construct($username, $secret, $type);
-        $this->row = new \stdClass();
+    public function __construct(RestBase $service) {
+        $this->service = $service;
     }
 
     public function setRow(\stdClass $row) {

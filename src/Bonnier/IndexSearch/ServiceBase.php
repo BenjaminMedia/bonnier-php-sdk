@@ -1,11 +1,7 @@
 <?php
 namespace Bonnier\IndexSearch;
 
-use Bonnier\IndexSearch\REST\RESTBase;
-use Bonnier\IndexSearch\REST\RESTCollection;
-use Bonnier\IndexSearch\REST\RESTItem;
-
-abstract class ServiceBase extends RESTBase {
+class ServiceBase extends ServiceRestBase {
 
 	protected $development;
 	protected $type;
@@ -13,19 +9,6 @@ abstract class ServiceBase extends RESTBase {
 	public function __construct($username, $secret, $type = '') {
 		parent::__construct($username, $secret);
 		$this->type = $type;
-	}
-
-	// Events
-	protected function onCreateCollection() {
-		$result = new RESTCollection($this->username, $this->secret, $this->type);
-		$result->setDevelopment($this->development);
-		return $result;
-	}
-
-	protected function onCreateItem() {
-		$item = new RESTItem($this->username, $this->secret, $this->type);
-		$item->setDevelopment($this->development);
-		return $item;
 	}
 
 	protected function getServiceUrl() {
