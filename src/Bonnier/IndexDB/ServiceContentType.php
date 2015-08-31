@@ -25,16 +25,16 @@ class ServiceContentType extends IndexSearchBase {
 
     /**
      * Get queryable service result
-     * @return ServiceResult
+     * @return IndexServiceResult
      */
     public function getCollection() {
-        return $this->api();
+        return $this->onCreateResult();
     }
 
     /**
      * Get single item by id
      * @param $id
-     * @return ServiceItem
+     * @return IndexServiceItem
      * @throws ServiceException
      */
     public function getById($id) {

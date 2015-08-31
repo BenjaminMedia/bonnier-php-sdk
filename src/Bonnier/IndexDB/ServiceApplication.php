@@ -12,17 +12,17 @@ class ServiceApplication extends IndexSearchBase {
     }
 
     /**
-     * @return ServiceResult
+     * @return IndexServiceResult
      * @throws \Bonnier\ServiceException
      */
     public function getCollection() {
-        return $this->api();
+        return $this->onCreateResult();
     }
 
     /**
      * @param $id
      *
-     * @return ServiceApplication
+     * @return IndexServiceItem
      * @throws \Bonnier\ServiceException
      */
     public function getById($id) {

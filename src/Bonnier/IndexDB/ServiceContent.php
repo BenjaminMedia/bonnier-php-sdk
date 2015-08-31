@@ -11,6 +11,11 @@ class ServiceContent extends IndexSearchBase {
         parent::__construct($username, $secret, self::TYPE);
     }
 
+    /**
+     * Returns result-collection specific for this service.
+     *
+     * @return ContentCollection
+     */
     protected function onCreateResult() {
         $collection = new ContentCollection($this->username, $this->secret, $this->type);
         $collection->setDevelopment($this->development);
@@ -22,24 +27,22 @@ class ServiceContent extends IndexSearchBase {
      * @return ContentCollection
      */
     public function getCollection() {
-        $collection = new ContentCollection($this->username, $this->secret, $this->type);
-        $collection->setDevelopment($this->development);
-        return $collection;
+        return $this->onCreateResult();
     }
 
     /**
      * Get single item by id
      * @param $id
-     * @return ServiceIndexDB
-     * @throws ServiceContent
+     * @throws \Bonnier\ServiceException
+     * @return IndexServiceItem
      */
     public function getById($id) {
         return $this->api($id);
     }
 
     /**
-     * @return ServiceContent
      * @throws \Bonnier\ServiceException
+     * @return IndexServiceItem
      */
     public function delete($id) {
         return $this->api($id, self::METHOD_DELETE);

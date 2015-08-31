@@ -14,7 +14,7 @@ class ServiceAuth extends IndexSearchBase {
     /**
      * @param $role
      *
-     * @return ServiceResult
+     * @return IndexServiceItem
      * @throws \Bonnier\ServiceException
      */
     public function check($role) {

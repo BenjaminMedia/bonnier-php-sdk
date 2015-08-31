@@ -11,6 +11,9 @@ class IndexServiceResult extends IndexSearchBase {
         // Parse stuff here and add it to properties if nessesary.
     }
 
+    /**
+     * @return IndexServiceResult
+     */
     public function execute() {
         return $this->api();
     }

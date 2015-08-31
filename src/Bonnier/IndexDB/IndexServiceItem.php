@@ -5,8 +5,8 @@ class IndexServiceItem extends IndexSearchBase {
 
     protected $row;
 
-    public function __construct($username, $secret) {
-        parent::__construct($username, $secret);
+    public function __construct($username, $secret, $type = '') {
+        parent::__construct($username, $secret, $type);
         $this->row = new \stdClass();
     }
 

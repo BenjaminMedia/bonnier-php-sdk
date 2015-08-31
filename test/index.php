@@ -21,8 +21,13 @@ $result = curl_exec($ch);
 
 die(var_dump($result));*/
 
-$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service = new \Bonnier\IndexDB\ServiceApplication('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $service->setDevelopment(TRUE);
+$apps = $service->getById(1);
+
+die(var_dump($apps->getRow()));
+
+
 /*$service->lang = 'da_dk';
 $service->save();*/
 

@@ -21,12 +21,13 @@ class IndexSearchBase extends RESTBase {
 
 	// Events
 	protected function onCreateResult() {
-		return new IndexServiceResult($this->username, $this->secret, $this->type);
+		$result = new IndexServiceResult($this->username, $this->secret, $this->type);
+		$result->setDevelopment($this->development);
+		return $result;
 	}
 
 	protected function onCreateItem() {
-		$self = get_called_class();
-		$item = new $self($this->username, $this->secret, $this->type);
+		$item = new IndexServiceItem($this->username, $this->secret, $this->type);
 		$item->setDevelopment($this->development);
 		return $item;
 	}
@@ -85,7 +86,7 @@ class IndexSearchBase extends RESTBase {
 	 * @param string $method
 	 * @param array|NULL $data
 	 * @throws ServiceException
-	 * @return ServiceResult
+	 * @return IndexServiceItem
 	 */
 	public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
 
