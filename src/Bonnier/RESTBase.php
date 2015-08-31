@@ -34,11 +34,15 @@ abstract class RESTBase {
     }
 
     /**
+     * Execute api call.
+     *
+     * Return type will be whats defined in onResponseCreate().
+     *
      * @param string|null $url
      * @param string $method
      * @param array|NULL $data
      * @throws ServiceException
-     * @return HttpResponse
+     * @return mixed
      */
     public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
         if(!in_array($method, self::$METHODS)) {

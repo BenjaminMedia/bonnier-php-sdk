@@ -3,7 +3,7 @@ namespace Bonnier\Trapp;
 
 use Bonnier\Trapp\Translation\TranslationCollection;
 
-class ServiceState extends TrappBase {
+class ServiceState extends ServiceBase {
 
 	const TYPE = 'state';
 

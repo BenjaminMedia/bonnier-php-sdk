@@ -4,7 +4,7 @@ namespace Bonnier\Trapp;
 use Bonnier\Trapp\Translation\TranslationCollection;
 use Bonnier\Trapp\Translation\TranslationItem;
 
-class ServiceTranslation extends TrappBase {
+class ServiceTranslation extends ServiceBase {
 
 	const TYPE = 'translation';
 
@@ -36,6 +36,8 @@ class ServiceTranslation extends TrappBase {
 	}
 
 	/**
+	 * Get queryable translation collection.
+	 *
 	 * @return TranslationCollection
 	 */
 	public function getCollection() {
@@ -45,8 +47,10 @@ class ServiceTranslation extends TrappBase {
 	}
 
 	/**
+	 * Delete translation by id.
+	 *
 	 * @return ServiceTranslation
-	 * @param $id string
+	 * @param string $id
 	 * @throws \Bonnier\ServiceException
 	 */
 	public function delete($id) {

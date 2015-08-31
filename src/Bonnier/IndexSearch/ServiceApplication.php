@@ -1,9 +1,9 @@
 <?php
-namespace Bonnier\IndexDB;
+namespace Bonnier\IndexSearch;
 
 use Bonnier\ServiceResult;
 
-class ServiceApplication extends IndexSearchBase {
+class ServiceApplication extends ServiceBase {
 
     const TYPE = 'application';
 
@@ -12,16 +12,19 @@ class ServiceApplication extends IndexSearchBase {
     }
 
     /**
-     * @return IndexServiceResult
+     * Get queryable collection
+     *
+     * @return \Bonnier\IndexSearch\REST\RESTCollection
      * @throws \Bonnier\ServiceException
      */
     public function getCollection() {
-        return $this->onCreateResult();
+        return $this->onCreateCollection();
     }
 
     /**
-     * @param $id
+     * Get item by id
      *
+     * @param int $id
      * @return IndexServiceItem
      * @throws \Bonnier\ServiceException
      */

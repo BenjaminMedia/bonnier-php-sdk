@@ -1,9 +1,10 @@
 <?php
 namespace Bonnier\Trapp;
 
+use Bonnier\IndexSearch\ServiceBase;
 use Bonnier\Trapp\Translation\TranslationCollection;
 
-class ServiceLanguage extends TrappBase {
+class ServiceLanguage extends ServiceBase {
 
 	const TYPE = 'language';
 

@@ -21,7 +21,7 @@ $result = curl_exec($ch);
 
 die(var_dump($result));*/
 
-$service = new \Bonnier\IndexDB\ServiceApplication('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service = new \Bonnier\IndexSearch\ServiceApplication('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $service->setDevelopment(TRUE);
 $apps = $service->getById(1);
 
@@ -52,10 +52,10 @@ $response = $service->save();
 
 die(var_dump($response));*/
 
-/*$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+/*$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $role = $service->getById('472411B3EEE17052A861D1C34DF9C646');
 
-/*$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+/*$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $single = $service->get()->order('test')->api();*/
 
 /*die(var_dump($role));*/

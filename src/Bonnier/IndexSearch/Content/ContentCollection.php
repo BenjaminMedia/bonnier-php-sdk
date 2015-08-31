@@ -1,19 +1,14 @@
 <?php
-namespace Bonnier\IndexDB\Content;
+namespace Bonnier\IndexSearch\Content;
 use Bonnier\HttpResponse;
-use Bonnier\IndexDB\IndexServiceResult;
-use Bonnier\IndexDB\ServiceContent;
+use Bonnier\IndexSearch\REST\RESTCollection;
 
-class ContentCollection extends IndexServiceResult {
+class ContentCollection extends RESTCollection {
 
     protected $total;
     protected $skip;
     protected $limit;
     protected $searchTime;
-
-    public function execute() {
-        return $this->api();
-    }
 
     public function setResponse(HttpResponse $response, $formattedResponse) {
         $this->searchTime = $formattedResponse['searchTime'];
@@ -81,16 +76,8 @@ class ContentCollection extends IndexServiceResult {
         return $this->total;
     }
 
-    public function setTotal($total) {
-        $this->total = $total;
-    }
-
     public function getSearchTime() {
         return $this->searchTime;
-    }
-
-    public function setSearchTime($searchTime) {
-        $this->searchTime = $searchTime;
     }
 
     public function getSkip() {
@@ -99,13 +86,5 @@ class ContentCollection extends IndexServiceResult {
 
     public function getLimit() {
         return $this->limit;
-    }
-
-    public function getRows() {
-        return $this->rows;
-    }
-
-    public function setRows($rows) {
-        $this->rows = $rows;
     }
 }

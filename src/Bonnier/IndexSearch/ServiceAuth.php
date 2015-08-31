@@ -1,9 +1,9 @@
 <?php
-namespace Bonnier\IndexDB;
+namespace Bonnier\IndexSearch;
 
 use Bonnier\ServiceResult;
 
-class ServiceAuth extends IndexSearchBase {
+class ServiceAuth extends ServiceBase {
 
     const TYPE = 'auth';
 
@@ -12,8 +12,9 @@ class ServiceAuth extends IndexSearchBase {
     }
 
     /**
-     * @param $role
+     * Check if you have access to given role
      *
+     * @param string $role
      * @return IndexServiceItem
      * @throws \Bonnier\ServiceException
      */

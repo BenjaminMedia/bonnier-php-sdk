@@ -1,11 +1,7 @@
 <?php
-namespace Bonnier\IndexDB;
+namespace Bonnier\IndexSearch;
 
-use Bonnier\ServiceException;
-use Bonnier\ServiceItem;
-use Bonnier\ServiceResult;
-
-class ServiceContentType extends IndexSearchBase {
+class ServiceContentType extends ServiceBase {
 
     const TYPE = 'contenttype';
 
@@ -14,28 +10,30 @@ class ServiceContentType extends IndexSearchBase {
     }
 
     public function skip($skip) {
-        $this->_data['skip'] = $skip;
+        $this->request->addPostData('skip', $skip);
         return $this;
     }
 
     public function limit($limit) {
-        $this->_data['limit'] = $limit;
+        $this->request->addPostData('limit', $limit);
         return $this;
     }
 
     /**
-     * Get queryable service result
-     * @return IndexServiceResult
+     * Get queryable service result.
+     *
+     * @return \Bonnier\IndexSearch\REST\RESTCollection
      */
     public function getCollection() {
-        return $this->onCreateResult();
+        return $this->onCreateCollection();
     }
 
     /**
-     * Get single item by id
+     * Get single item by id.
+     *
      * @param $id
-     * @return IndexServiceItem
-     * @throws ServiceException
+     * @throws \Bonnier\ServiceException
+     * @return \Bonnier\IndexSearch\REST\RESTItem
      */
     public function getById($id) {
         return $this->api($id);

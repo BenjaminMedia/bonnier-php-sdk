@@ -1,9 +1,9 @@
 <?php
-namespace Bonnier\IndexDB;
+namespace Bonnier\IndexSearch;
 
-use Bonnier\IndexDB\Content\ContentCollection;
+use Bonnier\IndexSearch\Content\ContentCollection;
 
-class ServiceContent extends IndexSearchBase {
+class ServiceContent extends ServiceBase {
 
     const TYPE = 'content';
 
@@ -16,7 +16,7 @@ class ServiceContent extends IndexSearchBase {
      *
      * @return ContentCollection
      */
-    protected function onCreateResult() {
+    protected function onCreateCollection() {
         $collection = new ContentCollection($this->username, $this->secret, $this->type);
         $collection->setDevelopment($this->development);
         return $collection;
@@ -32,17 +32,21 @@ class ServiceContent extends IndexSearchBase {
 
     /**
      * Get single item by id
-     * @param $id
+     *
+     * @param string $id
      * @throws \Bonnier\ServiceException
-     * @return IndexServiceItem
+     * @return \Bonnier\IndexSearch\REST\RESTItem
      */
     public function getById($id) {
         return $this->api($id);
     }
 
     /**
+     * Delete item by id
+     *
+     * @param string $id
      * @throws \Bonnier\ServiceException
-     * @return IndexServiceItem
+     * @return \Bonnier\IndexSearch\REST\RESTItem
      */
     public function delete($id) {
         return $this->api($id, self::METHOD_DELETE);

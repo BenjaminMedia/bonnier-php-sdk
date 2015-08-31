@@ -1,37 +1,30 @@
 <?php
-namespace Bonnier\IndexDB;
+namespace Bonnier\IndexSearch\REST;
+
 use Bonnier\HttpResponse;
-use Bonnier\RESTBase;
 use Bonnier\ServiceException;
 
-class IndexSearchBase extends RESTBase {
+abstract class RESTBase extends \Bonnier\RESTBase {
 
 	protected $username;
 	protected $secret;
 
-	protected $development;
-	protected $type;
-
-	public function __construct($username, $secret, $type = '') {
-		parent::__construct();
+	public function __construct($username, $secret) {
 		$this->username = $username;
 		$this->secret = $secret;
-		$this->type = $type;
+		parent::__construct();
 	}
 
-	// Events
-	protected function onCreateResult() {
-		$result = new IndexServiceResult($this->username, $this->secret, $this->type);
-		$result->setDevelopment($this->development);
-		return $result;
-	}
+	abstract protected function onCreateCollection();
+	abstract protected function onCreateItem();
 
-	protected function onCreateItem() {
-		$item = new IndexServiceItem($this->username, $this->secret, $this->type);
-		$item->setDevelopment($this->development);
-		return $item;
-	}
-
+	/**
+	 * Parses the API-response and returns either a collection object or single item depending on the results.
+	 *
+	 * @param HttpResponse $originalResponse
+	 * @return mixed
+	 * @throws ServiceException
+	 */
 	protected function onResponseCreate(HttpResponse $originalResponse) {
 		$response = json_decode($originalResponse->getResponse(), TRUE);
 
@@ -45,7 +38,7 @@ class IndexSearchBase extends RESTBase {
 
 		// Check if the result is a collection of items
 		if(isset($response['rows'])) {
-			$result = $this->onCreateResult();
+			$result = $this->onCreateCollection();
 
 			$result->setResponse($originalResponse, $response);
 			$items = array();
@@ -66,28 +59,6 @@ class IndexSearchBase extends RESTBase {
 		return $item;
 	}
 
-	protected function getServiceUrl() {
-		if($this->development) {
-			$this->serviceUrl = 'https://staging-indexdb.whitealbum.dk/api/v1/%1$s/';
-		} else {
-			$this->serviceUrl = 'https://indexdb.whitealbum.dk/api/v1/%1$s/';
-		}
-
-		return sprintf($this->serviceUrl, $this->type);
-	}
-
-	public function setDevelopment($bool) {
-		$this->development = $bool;
-		return $this;
-	}
-
-	/**
-	 * @param string|null $url
-	 * @param string $method
-	 * @param array|NULL $data
-	 * @throws ServiceException
-	 * @return IndexServiceItem
-	 */
 	public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
 
 		$this->request->setOptions(array(

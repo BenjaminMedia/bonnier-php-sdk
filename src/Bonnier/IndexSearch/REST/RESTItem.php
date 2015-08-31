@@ -1,7 +1,9 @@
 <?php
-namespace Bonnier\IndexDB;
+namespace Bonnier\IndexSearch\REST;
 
-class IndexServiceItem extends IndexSearchBase {
+use Bonnier\IndexSearch\ServiceBase;
+
+class RESTItem extends ServiceBase {
 
     protected $row;
 

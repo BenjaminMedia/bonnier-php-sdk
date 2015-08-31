@@ -1,9 +1,10 @@
 <?php
-namespace Bonnier\IndexDB;
+namespace Bonnier\IndexSearch\REST;
 
 use Bonnier\HttpResponse;
+use Bonnier\IndexSearch\ServiceBase;
 
-class IndexServiceResult extends IndexSearchBase {
+class RESTCollection extends ServiceBase {
 
     protected $rows;
 
@@ -12,7 +13,11 @@ class IndexServiceResult extends IndexSearchBase {
     }
 
     /**
-     * @return IndexServiceResult
+     * Execute api call.
+     *
+     * Alias for $this->api();
+     *
+     * @return self
      */
     public function execute() {
         return $this->api();
