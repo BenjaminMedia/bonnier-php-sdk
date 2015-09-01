@@ -2,25 +2,13 @@
 namespace Bonnier\Trapp\Translation;
 
 use Bonnier\HttpResponse;
-use Bonnier\Trapp\ServiceTranslation;
+use Bonnier\RestCollection;
 
-class TranslationCollection extends ServiceTranslation {
+class TranslationCollection extends RestCollection {
 
     protected $total;
     protected $skip;
     protected $limit;
-    public $rows;
-
-    // TODO: Do advanced logic here
-
-    public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
-        $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;
-        return parent::api($url, $method, $data);
-    }
-
-    public function execute() {
-        return $this->api();
-    }
 
     public function setResponse(HttpResponse $response, $formattedResponse) {
         $this->skip = $formattedResponse['skip'];
@@ -31,47 +19,47 @@ class TranslationCollection extends ServiceTranslation {
     /* Filters start */
 
     public function sort($field) {
-        $this->request->addPostData('sort', $field);
+        $this->service->getRequest()->addPostData('sort', $field);
         return $this;
     }
 
     public function order($order) {
-        $this->request->addPostData('order', $order);
+        $this->service->getRequest()->addPostData('order', $order);
         return $this;
     }
 
     public function locale($locale) {
-        $this->request->addPostData('locale', $locale);
+        $this->service->getRequest()->addPostData('locale', $locale);
         return $this;
     }
 
     public function app($appId) {
-        $this->request->addPostData('app_id', $appId);
+        $this->service->getRequest()->addPostData('app_id', $appId);
         return $this;
     }
 
     public function state($state) {
-        $this->request->addPostData('state', $state);
+        $this->service->getRequest()->addPostData('state', $state);
         return $this;
     }
 
     public function q($query) {
-        $this->request->addPostData('q', $query);
+        $this->service->getRequest()->addPostData('q', $query);
         return $this;
     }
 
     public function skip($skip) {
-        $this->request->addPostData('skip', $skip);
+        $this->service->getRequest()->addPostData('skip', $skip);
         return $this;
     }
 
     public function limit($limit) {
-        $this->request->addPostData('limit', $limit);
+        $this->service->getRequest()->addPostData('limit', $limit);
         return $this;
     }
 
     public function filterOriginal($bool) {
-        $this->request->addPostData('filter_original', $bool);
+        $this->service->getRequest()->addPostData('filter_original', $bool);
         return $this;
     }
 
@@ -91,14 +79,6 @@ class TranslationCollection extends ServiceTranslation {
      */
     public function setData($data) {
         $this->request->setPostData($data);
-    }
-
-    public function getRows() {
-        return $this->rows;
-    }
-
-    public function setRows($rows) {
-        $this->rows = $rows;
     }
 
     /**

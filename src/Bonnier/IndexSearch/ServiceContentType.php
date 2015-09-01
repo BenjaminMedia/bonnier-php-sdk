@@ -4,7 +4,7 @@ namespace Bonnier\IndexSearch;
 use Bonnier\RestCollection;
 use Bonnier\RestItem;
 
-class ServiceContentType extends RestItem implements IServiceEventListener {
+class ServiceContentType extends RestItem {
 
     const TYPE = 'contenttype';
 
@@ -37,10 +37,6 @@ class ServiceContentType extends RestItem implements IServiceEventListener {
         return $this->onCreateCollection();
     }
 
-    public function onCreateCollection() {
-        return new RestCollection($this->service);
-    }
-
     public function onCreateItem() {
         return new self($this->service->getUsername(), $this->service->getSecret());
     }
@@ -50,7 +46,7 @@ class ServiceContentType extends RestItem implements IServiceEventListener {
      *
      * @param $id
      * @throws \Bonnier\ServiceException
-     * @return \Bonnier\RESTItem
+     * @return self
      */
     public function getById($id) {
         return $this->api($id);

@@ -5,7 +5,7 @@ use Bonnier\RestCollection;
 use Bonnier\RestItem;
 use Bonnier\ServiceResult;
 
-class ServiceApplication extends RestItem implements IServiceEventListener {
+class ServiceApplication extends RestItem {
 
     const TYPE = 'application';
 
@@ -17,16 +17,6 @@ class ServiceApplication extends RestItem implements IServiceEventListener {
 
     public function __construct($username, $secret) {
         parent::__construct($this->service);
-
-        $this->service->setServiceEventListener($this);
-    }
-
-    public function onCreateCollection() {
-        return new RestCollection($this->service);
-    }
-
-    public function onCreateItem() {
-        return new self($this->service->getUsername(), $this->service->getSecret());
     }
 
     /**
@@ -43,8 +33,8 @@ class ServiceApplication extends RestItem implements IServiceEventListener {
      * Get item by id
      *
      * @param int $id
-     * @return \Bonnier\RestItem
      * @throws \Bonnier\ServiceException
+     * @return self
      */
     public function getById($id) {
         return $this->api($id);

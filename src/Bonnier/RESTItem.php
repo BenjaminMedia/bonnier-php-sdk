@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier;
 
-class RestItem implements IRestResult {
+class RestItem implements IRestResult, IRestEventListener {
 
     protected $row;
     protected $service;
@@ -9,6 +9,22 @@ class RestItem implements IRestResult {
     public function __construct(RestBase $service) {
         $this->row = new \stdClass();
         $this->service = $service;
+    }
+
+    /**
+     * Returns result-collection specific for this service.
+     *
+     * @return \Bonnier\RestCollection
+     */
+    public function onCreateCollection() {
+        return new RestCollection($this->service);
+    }
+
+    /**
+     * @return self
+     */
+    public function onCreateItem() {
+        return new self($this->service->getUsername(), $this->service->getSecret());
     }
 
     public function setRow(\stdClass $row) {

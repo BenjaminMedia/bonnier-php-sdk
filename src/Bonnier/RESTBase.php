@@ -12,6 +12,11 @@ class RestBase {
     protected $serviceUrl;
 
     /**
+     * @var IRestEventListener
+     */
+    protected $serviceEventListener;
+
+    /**
      * @var HttpRequest
      */
     protected $request;
@@ -29,6 +34,23 @@ class RestBase {
      */
     public function getRequest() {
         return $this->request;
+    }
+
+    // Events that can be overwritten, if needed
+    protected function onCreateCollection() {
+        if($this->serviceEventListener) {
+            return $this->serviceEventListener->onCreateCollection();
+        }
+
+        return new RestCollection($this);
+    }
+
+    protected function onCreateItem() {
+        if($this->serviceEventListener) {
+            return $this->serviceEventListener->onCreateItem();
+        }
+
+        return new RestItem($this);
     }
 
     /**
@@ -72,6 +94,20 @@ class RestBase {
         $this->request->reset();
 
         return $response;
+    }
+
+    /**
+     * @return IRestEventListener
+     */
+    public function getServiceEventListener() {
+        return $this->serviceEventListener;
+    }
+
+    /**
+     * @param IRestEventListener $serviceEventListener
+     */
+    public function setServiceEventListener(IRestEventListener $serviceEventListener) {
+        $this->serviceEventListener = $serviceEventListener;
     }
 
 }

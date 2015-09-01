@@ -1,9 +1,9 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\Trapp\Translation\TranslationCollection;
+use Bonnier\RestItem;
 
-class ServiceState extends ServiceBase {
+class ServiceState extends RestItem {
 
 	const TYPE = 'state';
 
@@ -13,27 +13,17 @@ class ServiceState extends ServiceBase {
 
 	/**
 	 * @param $id
-	 *
-	 * @return ServiceTranslation
 	 * @throws \Bonnier\ServiceException
+	 * @return self
 	 */
 	public function getById($id) {
 		return $this->api($id);
 	}
 
 	/**
-	 * @return \Bonnier\ServiceResult
+	 * @return \Bonnier\RestCollection
 	 */
 	public function getCollection() {
 		return $this->api();
-	}
-
-	/**
-	 * @return \Bonnier\ServiceItem
-	 * @param $id string
-	 * @throws \Bonnier\ServiceException
-	 */
-	public function delete($id) {
-		return $this->api($id, self::METHOD_DELETE);
 	}
 }

@@ -1,12 +1,9 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\IndexSearch;
-use Bonnier\IndexSearch\RestBase;
-use Bonnier\IndexSearch\RestItem;
-use Bonnier\IndexSearch\RestCollection;
+use Bonnier\IndexSearch\ServiceRestBase;
 
-abstract class ServiceBase extends RestBase {
+abstract class ServiceBase extends ServiceRestBase {
 
 	protected $development;
 	protected $type;
@@ -14,25 +11,6 @@ abstract class ServiceBase extends RestBase {
 	public function __construct($username, $secret, $type) {
 		parent::__construct($username, $secret);
 		$this->type = $type;
-	}
-
-	// Events
-	protected function onCreateCollection() {
-
-		// TODO: WIP NOT IMPLEMENTED YET
-
-		$result = new RestCollection($this->username, $this->secret, $this->type);
-		$result->setDevelopment($this->development);
-		return $result;
-	}
-
-	protected function onCreateItem() {
-
-		// TODO: WIP NOT IMPLEMENTED YET
-
-		$item = new RestItem($this->username, $this->secret, $this->type);
-		$item->setDevelopment($this->development);
-		return $item;
 	}
 
 	/*protected function getServiceUrl() {

@@ -12,32 +12,10 @@ abstract class ServiceRestBase extends RestBase {
 	protected $username;
 	protected $secret;
 
-	/**
-	 * @var IServiceEventListener
-	 */
-	protected $serviceEventListener;
-
 	public function __construct($username, $secret) {
 		$this->username = $username;
 		$this->secret = $secret;
 		parent::__construct();
-	}
-
-	// Events that can be overwritten, if needed
-	protected function onCreateCollection() {
-		if($this->serviceEventListener) {
-			return $this->serviceEventListener->onCreateCollection();
-		}
-
-		return new RestCollection($this);
-	}
-
-	protected function onCreateItem() {
-		if($this->serviceEventListener) {
-			return $this->serviceEventListener->onCreateItem();
-		}
-
-		return new RestItem($this);
 	}
 
 	/**
@@ -97,20 +75,6 @@ abstract class ServiceRestBase extends RestBase {
 
 		// Execute the API-call
 		return $this->onResponseReceived( parent::api($url, $method, $data) );
-	}
-
-	/**
-	 * @return IServiceEventListener
-	 */
-	public function getServiceEventListener() {
-		return $this->serviceEventListener;
-	}
-
-	/**
-	 * @param IServiceEventListener $serviceEventListener
-	 */
-	public function setServiceEventListener(IServiceEventListener $serviceEventListener) {
-		$this->serviceEventListener = $serviceEventListener;
 	}
 
 	/**

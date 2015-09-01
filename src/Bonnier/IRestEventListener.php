@@ -1,8 +1,8 @@
 <?php
 
-namespace Bonnier\IndexSearch;
+namespace Bonnier;
 
-interface IServiceEventListener {
+interface IRestEventListener {
 
 	public function onCreateCollection();
 

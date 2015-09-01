@@ -2,10 +2,9 @@
 namespace Bonnier\IndexSearch;
 
 use Bonnier\IndexSearch\Content\ContentCollection;
-use Bonnier\IRestResult;
 use Bonnier\RestItem;
 
-class ServiceContent extends RestItem implements IServiceEventListener {
+class ServiceContent extends RestItem {
 
     const TYPE = 'content';
 
@@ -17,7 +16,6 @@ class ServiceContent extends RestItem implements IServiceEventListener {
 
     public function __construct($username, $secret) {
         parent::__construct(new ServiceBase($username, $secret, self::TYPE));
-        $this->service->setServiceEventListener($this);
     }
 
     /**
@@ -29,16 +27,12 @@ class ServiceContent extends RestItem implements IServiceEventListener {
         return new ContentCollection($this->service);
     }
 
-    public function onCreateItem() {
-        return new self($this->service->getUsername(), $this->service->getSecret());
-    }
-
     /**
      * Get queryable service result
      * @return ContentCollection
      */
     public function getCollection() {
-        return new ContentCollection($this->service);
+        return $this->onCreateCollection();
     }
 
     public function setDevelopment($bool) {

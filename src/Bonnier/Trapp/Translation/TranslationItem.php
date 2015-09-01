@@ -2,9 +2,9 @@
 
 namespace Bonnier\Trapp\Translation;
 
-use Bonnier\Trapp\ServiceTranslation;
+use Bonnier\RestItem;
 
-class TranslationItem extends ServiceTranslation {
+class TranslationItem extends RestItem {
 
 
 }

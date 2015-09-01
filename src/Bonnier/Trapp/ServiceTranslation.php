@@ -1,10 +1,11 @@
 <?php
 namespace Bonnier\Trapp;
 
+use Bonnier\RestItem;
 use Bonnier\Trapp\Translation\TranslationCollection;
 use Bonnier\Trapp\Translation\TranslationItem;
 
-class ServiceTranslation extends ServiceBase {
+class ServiceTranslation extends RestItem {
 
 	const TYPE = 'translation';
 
@@ -15,24 +16,19 @@ class ServiceTranslation extends ServiceBase {
 
 	/**
 	 * @param $id
-	 *
-	 * @return ServiceTranslation
 	 * @throws \Bonnier\ServiceException
+	 * @return self
 	 */
 	public function getById($id) {
 		return $this->api($id);
 	}
 
-	protected function onCreateResult() {
-		$collection = new TranslationCollection($this->username, $this->secret, $this->type);
-		$collection->setDevelopment(TRUE);
-		return $collection;
+	public function onCreateCollection() {
+		return new TranslationCollection($this->service);
 	}
 
-	protected function onCreateItem() {
-		$item = new TranslationItem($this->username, $this->secret, $this->type);
-		$item->setDevelopment($this->development);
-		return $item;
+	public function onCreateItem() {
+		return new self($this->service->getUsername(), $this->service->getSecret());
 	}
 
 	/**
@@ -41,20 +37,7 @@ class ServiceTranslation extends ServiceBase {
 	 * @return TranslationCollection
 	 */
 	public function getCollection() {
-		$collection = new TranslationCollection($this->username, $this->secret, $this->type);
-		$collection->setDevelopment($this->development);
-		return $collection;
-	}
-
-	/**
-	 * Delete translation by id.
-	 *
-	 * @return ServiceTranslation
-	 * @param string $id
-	 * @throws \Bonnier\ServiceException
-	 */
-	public function delete($id) {
-		return $this->api($id, self::METHOD_DELETE);
+		return $this->onCreateCollection();
 	}
 
 }
