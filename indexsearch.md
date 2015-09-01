@@ -24,7 +24,7 @@ $single = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
 
 $single->title = 'Hello world';
 $single->description = 'My new description';
-$single->update(); // Returns new object with updated response from service
+$single->update(); // Updates the existing object with the new values form the webservice
 ```
 
 #### Save single
@@ -33,7 +33,7 @@ You can also create a new item by calling the save method directly on the ```Ser
 
 ```php
 $item = new \Bonnier\Service\IndexDB\ServiceContent($username, $secret);
-$item->title = 'Hello world'; // Magic method, similar to calling $item->item->title = 'Hello world';
+$item->title = 'Hello world'; // Magic method, similar to calling $item->row->title = 'Hello world';
 $item->save();
 ```
 
@@ -71,7 +71,7 @@ $results = $service->getCollection() // Get the queryable ServiceCollection obje
 ->filter('content', 'secondFilter') // Add as many filters as you like
 ->sort('title') // Sort by title
 ->order('asc') // Order results by ASC
-->execute(); // Call the service and get the results
+->execute(); // Call the service and get the results, similar to calling api()
 ```
 
 #### Advanced usage
@@ -97,13 +97,13 @@ $service->setDevelopment(TRUE);
 ```
 
 If you want to implement a parameter that is not implemented, this can be done by adding it to the request-object.
-NOTE: Please use this with caution as this is something that should be implemented into the classes itself.
+NOTE: Please use this with caution as this is something that should be implemented into the SDK itself if the functionality is missing.
 
 ```php
-$service = new \Bonnier\IndexDB\ServiceContent($username, $secret);
-$service->getRequest()->addPostData($key, $value);
-$service->getRequest()->addHeader($value);
-$service->getRequest()->setTimeout(1000) // Timeout in ms
+$content = new \Bonnier\IndexDB\ServiceContent($username, $secret);
+$content->getService()->getRequest()->addPostData($key, $value);
+$content->getService()->getRequest()->addHeader($value);
+$content->getService()->getRequest()->setTimeout(1000) // Set timeout in ms
 ```
 
 #### Debugging the output
@@ -132,4 +132,3 @@ $single = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
 
 $httpResponse = $single->getResponse(); // Returns HttpResponse object (simular as the one above)
 ```
-
