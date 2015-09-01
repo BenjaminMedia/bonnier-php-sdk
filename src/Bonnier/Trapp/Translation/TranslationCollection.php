@@ -2,9 +2,10 @@
 namespace Bonnier\Trapp\Translation;
 
 use Bonnier\HttpResponse;
+use Bonnier\IndexSearch\IServiceCollection;
 use Bonnier\RestCollection;
 
-class TranslationCollection extends RestCollection {
+class TranslationCollection extends RestCollection implements IServiceCollection {
 
     protected $total;
     protected $skip;

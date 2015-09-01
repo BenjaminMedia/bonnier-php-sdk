@@ -11,6 +11,7 @@ class HttpRequest {
 	protected $options;
 	protected $data;
 	protected $timeout;
+	protected $postJson;
 
 	public function __construct($url = NULL) {
 
@@ -27,6 +28,7 @@ class HttpRequest {
 		$this->options = array();
 		$this->headers = array();
 		$this->data = array();
+		$this->postJson = FALSE;
 	}
 
 	public function addHeader($header) {
@@ -83,6 +85,20 @@ class HttpRequest {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function getPostJson() {
+		return $this->postJson;
+	}
+
+	/**
+	 * @param bool $postJson
+	 */
+	public function setPostJson($postJson) {
+		$this->postJson = $postJson;
+	}
+
+	/**
 	 * @param string $url
 	 */
 	public function setUrl($url) {
@@ -107,14 +123,18 @@ class HttpRequest {
 			curl_setopt($handle, CURLOPT_TIMEOUT_MS, $this->timeout);
 		}
 
+		// Add request data
+		if(strtolower($this->method) != 'get' && is_array($this->data)) {
+			$data = ($this->postJson) ? json_encode($this->data) : http_build_query($this->data);
+			$this->addHeader('Content-length: ' . strlen($data));
+
+			curl_setopt($handle, CURLOPT_POST, TRUE);
+			curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+		}
+
 		// Add headers
 		if(count($this->headers)) {
 			curl_setopt($handle, CURLOPT_HTTPHEADER, $this->headers);
-		}
-
-		// Add request data
-		if(strtolower($this->method) == 'post' && is_array($this->data)) {
-			curl_setopt($handle, CURLOPT_POSTFIELDS, http_build_query($this->data));
 		}
 
 		// Add custom curl options

@@ -2,6 +2,7 @@
 namespace Bonnier\IndexSearch;
 
 use Bonnier\RestItem;
+use Bonnier\ServiceException;
 use Bonnier\ServiceResult;
 
 class ServiceAuth extends RestItem {
@@ -26,6 +27,9 @@ class ServiceAuth extends RestItem {
      * @return self
      */
     public function check($role) {
+        if(is_null($role)) {
+            throw new ServiceException('Invalid argument for parameter $id');
+        }
         return $this->api($role);
     }
 

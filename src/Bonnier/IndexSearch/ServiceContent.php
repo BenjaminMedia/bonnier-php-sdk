@@ -3,6 +3,7 @@ namespace Bonnier\IndexSearch;
 
 use Bonnier\IndexSearch\Content\ContentCollection;
 use Bonnier\RestItem;
+use Bonnier\ServiceException;
 
 class ServiceContent extends RestItem {
 
@@ -33,6 +34,20 @@ class ServiceContent extends RestItem {
      */
     public function getCollection() {
         return $this->onCreateCollection();
+    }
+
+    /**
+     * Get single item by id.
+     *
+     * @param $id
+     * @throws \Bonnier\ServiceException
+     * @return self
+     */
+    public function getById($id) {
+        if(is_null($id)) {
+            throw new ServiceException('Invalid argument for parameter $id');
+        }
+        return $this->api($id);
     }
 
     public function setDevelopment($bool) {

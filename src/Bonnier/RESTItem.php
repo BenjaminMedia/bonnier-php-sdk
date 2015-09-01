@@ -98,7 +98,7 @@ class RestItem implements IRestResult, IRestEventListener {
      * @throws ServiceException
      * @return self
      */
-    public function api($url = null, $method = RestBase::METHOD_GET, array $data = null) {
+    public function api($url = null, $method = RestBase::METHOD_GET, array $data = array()) {
         return $this->service->api($url, $method, $data);
     }
 

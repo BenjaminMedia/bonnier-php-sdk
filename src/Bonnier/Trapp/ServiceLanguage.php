@@ -1,14 +1,21 @@
 <?php
 namespace Bonnier\Trapp;
 
+use Bonnier\IndexSearch\ServiceBase;
 use Bonnier\RestItem;
 
 class ServiceLanguage extends RestItem {
 
 	const TYPE = 'language';
 
+	/**
+	 * This is required in order to get autocompletion to work for this element.
+	 * @var ServiceBase
+	 */
+	protected $service;
+
 	public function __construct($username, $secret) {
-		parent::__construct($username, $secret, self::TYPE);
+		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
 	}
 
 	/**
@@ -26,5 +33,10 @@ class ServiceLanguage extends RestItem {
 	 */
 	public function getCollection() {
 		return $this->api();
+	}
+
+	public function setDevelopment($bool) {
+		$this->service->setDevelopment($bool);
+		return $this;
 	}
 }

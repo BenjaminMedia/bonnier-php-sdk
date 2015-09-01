@@ -35,7 +35,7 @@ class RestCollection implements IRestResult {
      * @throws ServiceException
      * @return self
      */
-    public function api($url = null, $method = RestBase::METHOD_GET, array $data = null) {
+    public function api($url = null, $method = RestBase::METHOD_GET, array $data = array()) {
         return $this->getService()->api($url, $method, $data);
     }
 

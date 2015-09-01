@@ -3,6 +3,7 @@ namespace Bonnier\IndexSearch;
 
 use Bonnier\RestCollection;
 use Bonnier\RestItem;
+use Bonnier\ServiceException;
 use Bonnier\ServiceResult;
 
 class ServiceApplication extends RestItem {
@@ -37,6 +38,9 @@ class ServiceApplication extends RestItem {
      * @return self
      */
     public function getById($id) {
+        if(is_null($id)) {
+            throw new ServiceException('Invalid argument for parameter $id');
+        }
         return $this->api($id);
     }
 

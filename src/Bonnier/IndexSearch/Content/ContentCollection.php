@@ -3,7 +3,7 @@ namespace Bonnier\IndexSearch\Content;
 use Bonnier\HttpResponse;
 use Bonnier\RestCollection;
 
-class ContentCollection extends RestCollection {
+class ContentCollection extends RestCollection implements IServiceCollection {
 
     protected $total;
     protected $skip;

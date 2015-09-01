@@ -3,7 +3,7 @@ namespace Bonnier\Trapp;
 
 use Bonnier\IndexSearch\ServiceRestBase;
 
-abstract class ServiceBase extends ServiceRestBase {
+class ServiceBase extends ServiceRestBase {
 
 	protected $development;
 	protected $type;
@@ -12,16 +12,6 @@ abstract class ServiceBase extends ServiceRestBase {
 		parent::__construct($username, $secret);
 		$this->type = $type;
 	}
-
-	/*protected function getServiceUrl() {
-		if($this->development) {
-			$this->serviceUrl = 'https://local.trapp/api/v1/';
-		} else {
-			$this->serviceUrl = 'https://trapp.whitealbum.dk/api/v1/';
-		}
-
-		return sprintf($this->serviceUrl, $this->type);
-	}*/
 
 	// TODO: Add production/staging enviroment when ready (see above)
 

@@ -64,18 +64,16 @@ class RestBase {
      * @throws ServiceException
      * @return mixed
      */
-    public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
+    public function api($url = NULL, $method = self::METHOD_GET, array $data = array()) {
         if(!in_array($method, self::$METHODS)) {
             throw new ServiceException('Invalid request method');
         }
 
-        $data = (is_array($data)) ? array_merge($this->request->getPostData(), $data) : $this->request->getPostData();
+        $data = array_merge($this->request->getPostData(), $data);
         $data['_method'] = $method;
 
         if($method == self::METHOD_GET && is_array($data)) {
             $url = $url . '?'.http_build_query($data);
-        } else {
-            $this->request->addHeader('Content-length: ' . strlen(http_build_query($data)));
         }
 
         $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;

@@ -40,7 +40,11 @@ abstract class ServiceRestBase extends RestBase {
 		if(isset($response['rows'])) {
 			$result = $this->onCreateCollection();
 
-			$result->setResponse($originalResponse, $response);
+			// If the item is an instance of IServiceCollection we can set the response
+			if($result instanceof IServiceCollection) {
+				$result->setResponse($originalResponse, $response);
+			}
+
 			$items = array();
 
 			foreach($response['rows'] as $row) {
@@ -59,7 +63,7 @@ abstract class ServiceRestBase extends RestBase {
 		return $item;
 	}
 
-	public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
+	public function api($url = NULL, $method = self::METHOD_GET, array $data = array()) {
 
 		$this->request->setOptions(array(
 			CURLOPT_SSL_VERIFYHOST => FALSE,
@@ -68,7 +72,7 @@ abstract class ServiceRestBase extends RestBase {
 
 		$this->request->setTimeout(10000);
 
-		$data = (is_array($data)) ? array_merge($this->request->getPostData(), $data) : $this->request->getPostData();
+		$data = array_merge($this->request->getPostData(), $data);
 
 		// Add authentication required by index-search
 		$this->request->addHeader('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
