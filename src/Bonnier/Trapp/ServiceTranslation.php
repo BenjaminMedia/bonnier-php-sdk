@@ -4,7 +4,6 @@ namespace Bonnier\Trapp;
 use Bonnier\RestItem;
 use Bonnier\ServiceException;
 use Bonnier\Trapp\Translation\TranslationCollection;
-use Bonnier\Trapp\Translation\TranslationItem;
 
 class ServiceTranslation extends RestItem {
 

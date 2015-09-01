@@ -25,7 +25,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 	public function testInsert() {
 
 		$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
-		$service>setDevelopment(TRUE);
+		$service->setDevelopment(TRUE);
 		$service->locale = $this->testLocale;
 		$service->title = $this->testTitle;
 		$service->translate_into = $this->testTranslateInto;
@@ -57,7 +57,6 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 
 		$single = $service->getById('55e50678c01443b9708b460d');
 
-		$single->locale = $this->testUpdateLocale;
 		$single->title = $this->testUpdateTitle;
 		$single->translate_into = $this->testUpdateTranslateInto;
 		$single->deadline = $this->testUpdateDeadline;
