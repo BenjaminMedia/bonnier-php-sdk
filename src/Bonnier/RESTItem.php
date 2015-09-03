@@ -31,12 +31,12 @@ class RestItem implements IRestResult, IRestEventListener {
         $this->row = $row;
     }
 
-    public function __set($name, $value = NULL) {
+    public function __set($name, $value = null) {
         $this->row->$name = $value;
     }
 
     public function __get($name) {
-        return (isset($this->row->$name)) ? $this->row->$name : NULL;
+        return (isset($this->row->$name)) ? $this->row->$name : null;
     }
 
     public function getRow() {
@@ -84,7 +84,7 @@ class RestItem implements IRestResult, IRestEventListener {
      * @return static
      */
     public function save() {
-        $this->row = $this->api(NULL, RestBase::METHOD_POST, (array)$this->row)->getRow();
+        $this->row = $this->api(null, RestBase::METHOD_POST, (array)$this->row)->getRow();
         return $this;
     }
 

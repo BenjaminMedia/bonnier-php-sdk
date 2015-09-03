@@ -1,4 +1,13 @@
 <?php
+/***
+ * This abstract class contains the logic for REST-Services that follows
+ * the structure of the IndexSearch service.
+ *
+ * Use when the following criterias are met:
+ * - Your services uses authentication from IndexSearch
+ * - Your services returns rows for collections
+ * - Your services throws error (message) and status (
+ */
 namespace Bonnier\IndexSearch;
 
 use Bonnier\HttpResponse;
@@ -26,7 +35,7 @@ abstract class ServiceRestBase extends RestBase {
 	 * @throws ServiceException
 	 */
 	protected function onResponseReceived(HttpResponse $originalResponse) {
-		$response = json_decode($originalResponse->getResponse(), TRUE);
+		$response = json_decode($originalResponse->getResponse(), true);
 
 		// Parse the results
 		if(!is_array($response) || $response && isset($response['status'])) {
@@ -63,11 +72,11 @@ abstract class ServiceRestBase extends RestBase {
 		return $item;
 	}
 
-	public function api($url = NULL, $method = self::METHOD_GET, array $data = array()) {
+	public function api($url = null, $method = self::METHOD_GET, array $data = array()) {
 
 		$this->request->setOptions(array(
-			CURLOPT_SSL_VERIFYHOST => FALSE,
-			CURLOPT_SSL_VERIFYPEER => FALSE
+			CURLOPT_SSL_VERIFYHOST => false,
+			CURLOPT_SSL_VERIFYPEER => false
 		));
 
 		$this->request->setTimeout(10000);

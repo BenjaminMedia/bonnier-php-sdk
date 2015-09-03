@@ -45,7 +45,7 @@ die();*/
 $service->save();*/
 
 $service = new \Bonnier\IndexSearch\ServiceContent('netTest', 'A11555640D4747A5B27B46333260F2F3');
-$service->setDevelopment(TRUE);
+$service->setDevelopment(true);
 $service = $service->getById('472411B3EEE17052A861D1C34DF9C646');
 die(var_dump($service));
 

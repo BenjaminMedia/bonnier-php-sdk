@@ -11,7 +11,7 @@ class HttpRequest {
 	protected $timeout;
 	protected $postJson;
 
-	public function __construct($url = NULL) {
+	public function __construct($url = null) {
 
 		if (!function_exists('curl_init')) {
 			throw new \Exception('This service requires the CURL PHP extension.');
@@ -22,11 +22,11 @@ class HttpRequest {
 	}
 
 	public function reset() {
-		$this->url = NULL;
+		$this->url = null;
 		$this->options = array();
 		$this->headers = array();
 		$this->data = array();
-		$this->postJson = FALSE;
+		$this->postJson = false;
 	}
 
 	public function addHeader($header) {
@@ -57,12 +57,12 @@ class HttpRequest {
 		return $this->data;
 	}
 
-	public function post($return = FALSE) {
-		$this->options[CURLOPT_POST] = TRUE;
+	public function post($return = false) {
+		$this->options[CURLOPT_POST] = true;
 		$this->execute($return);
 	}
 
-	public function get($return = FALSE) {
+	public function get($return = false) {
 		// Alias for execute
 		$this->execute($return);
 	}
@@ -103,6 +103,16 @@ class HttpRequest {
 		$this->url = $url;
 	}
 
+	/**
+	 * Set basic authentication
+	 *
+	 * @param $username
+	 * @param $password
+	 */
+	public function setBasicAuth($username, $password) {
+		$this->setHeaders('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $username, $password)));
+	}
+
 	public function execute($return) {
 
 		if(is_null($this->url)) {
@@ -114,7 +124,7 @@ class HttpRequest {
 		curl_setopt($handle, CURLOPT_URL, $this->url);
 
 		if($return) {
-			curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 		}
 
 		if($this->timeout) {
@@ -126,7 +136,7 @@ class HttpRequest {
 			$data = ($this->postJson) ? json_encode($this->data) : http_build_query($this->data);
 			$this->addHeader('Content-length: ' . strlen($data));
 
-			curl_setopt($handle, CURLOPT_POST, TRUE);
+			curl_setopt($handle, CURLOPT_POST, true);
 			curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
 		}
 

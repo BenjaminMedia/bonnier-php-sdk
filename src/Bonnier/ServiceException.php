@@ -4,7 +4,7 @@ class ServiceException extends \Exception {
 
 	protected $httpResponse;
 
-	public function __construct($message, $code = 0, HttpResponse $httpResponse = NULL) {
+	public function __construct($message, $code = 0, HttpResponse $httpResponse = null) {
 		parent::__construct($message , $code);
 
 		$this->httpResponse = $httpResponse;

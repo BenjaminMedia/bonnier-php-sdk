@@ -14,7 +14,7 @@ class RestCollection implements IRestResult {
     }
 
     public function getRow($index) {
-        return (isset($this->rows[$index])) ? $this->rows[$index] : NULL;
+        return (isset($this->rows[$index])) ? $this->rows[$index] : null;
     }
 
     public function getRows() {

@@ -25,7 +25,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 	public function testInsert() {
 
 		$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
-		$service->setDevelopment(TRUE);
+		$service->setDevelopment(true);
 		$service->locale = $this->testLocale;
 		$service->title = $this->testTitle;
 		$service->translate_into = $this->testTranslateInto;
@@ -53,7 +53,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 	public function testUpdate() {
 
 		$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
-		$service->setDevelopment(TRUE);
+		$service->setDevelopment(true);
 
 		$single = $service->getById('55e50678c01443b9708b460d');
 
@@ -66,7 +66,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 		try {
 			$single->update();
 		}catch(\Bonnier\ServiceException $e) {
-			echo sprintf('Error: %s', print_r($e->getHttpResponse()->getResponse(), TRUE));
+			echo sprintf('Error: %s', print_r($e->getHttpResponse()->getResponse(), true));
 		}
 
 		$last = end($single->getRow()->revisions);
@@ -83,10 +83,10 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 	public function testDelete() {
 
 		$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
-		$service->setDevelopment(TRUE);
+		$service->setDevelopment(true);
 
 		// Assert
-		$this->assertNotEquals(TRUE, FALSE);
+		$this->assertNotEquals(true, false);
 	}
 
 }

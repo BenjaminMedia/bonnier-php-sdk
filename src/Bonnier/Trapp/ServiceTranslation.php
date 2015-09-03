@@ -17,7 +17,7 @@ class ServiceTranslation extends RestItem {
 
 	public function __construct($username, $secret) {
 		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
-		$this->service->getRequest()->setPostJson(TRUE);
+		$this->service->getRequest()->setPostJson(true);
 	}
 
 	/**

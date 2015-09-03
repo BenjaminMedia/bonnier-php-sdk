@@ -60,11 +60,11 @@ class RestBase {
      *
      * @param string|null $url
      * @param string $method
-     * @param array|NULL $data
+     * @param array|null $data
      * @throws ServiceException
      * @return mixed
      */
-    public function api($url = NULL, $method = self::METHOD_GET, array $data = array()) {
+    public function api($url = null, $method = self::METHOD_GET, array $data = array()) {
         if(!in_array($method, self::$METHODS)) {
             throw new ServiceException('Invalid request method');
         }
@@ -86,7 +86,7 @@ class RestBase {
 
         $this->request->setMethod($method);
 
-        $response = $this->request->execute(TRUE);
+        $response = $this->request->execute(true);
 
         // Reset request (headers, post-data etc)
         $this->request->reset();

@@ -23,7 +23,7 @@ class OAuth {
 			'client_secret' => $secret
 		);
 
-		return $this->api(NULL, self::METHOD_POST, $data);
+		return $this->api(null, self::METHOD_POST, $data);
 
 	}
 

@@ -16,7 +16,13 @@ class ServiceBase extends ServiceRestBase {
 	// TODO: Add production/staging enviroment when ready (see above)
 
 	protected function getServiceUrl() {
-		return 'http://staging-trapp.whitealbum.dk/api/v1/' . $this->type;
+		if($this->development) {
+			$this->serviceUrl = 'http://staging-trapp.whitealbum.dk/api/v1/%1$s/';
+		} else {
+			$this->serviceUrl = 'http://trapp.whitealbum.dk/api/v1/%1$s/';
+		}
+
+		return sprintf($this->serviceUrl, $this->type);
 	}
 
 	public function setDevelopment($bool) {
