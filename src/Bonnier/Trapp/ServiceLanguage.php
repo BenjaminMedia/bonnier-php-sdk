@@ -1,7 +1,6 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\IndexSearch\ServiceBase;
 use Bonnier\RestItem;
 
 class ServiceLanguage extends RestItem {
