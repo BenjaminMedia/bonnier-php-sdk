@@ -1,8 +1,6 @@
 <?php
 namespace Bonnier;
 
-use Doctrine\Instantiator\Exception\InvalidArgumentException;
-
 class HttpRequest {
 
 	protected $url;
@@ -108,7 +106,7 @@ class HttpRequest {
 	public function execute($return) {
 
 		if(is_null($this->url)) {
-			throw new InvalidArgumentException('Missing required property: url');
+			throw new \InvalidArgumentException('Missing required property: url');
 		}
 
 		$handle = curl_init();
