@@ -79,7 +79,7 @@ class TranslationCollection extends RestCollection implements IServiceCollection
      * @depricated Warning this method is depricated, use $this->getRequest->addPostData() instead.
      */
     public function setData($data) {
-        $this->request->setPostData($data);
+        $this->service->getRequest()->setPostData($data);
     }
 
     /**
