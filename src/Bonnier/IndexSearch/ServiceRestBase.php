@@ -84,7 +84,7 @@ abstract class ServiceRestBase extends RestBase {
 		$data = array_merge($this->request->getPostData(), $data);
 
 		// Add authentication required by index-search
-		$this->request->addHeader('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
+		$this->request->setBasicAuth($this->username, $this->secret);
 
 		// Execute the API-call
 		return $this->onResponseReceived( parent::api($url, $method, $data) );
