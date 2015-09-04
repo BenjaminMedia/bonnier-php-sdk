@@ -110,7 +110,7 @@ class HttpRequest {
 	 * @param $password
 	 */
 	public function setBasicAuth($username, $password) {
-		$this->setHeaders('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $username, $password)));
+		$this->addHeader('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $username, $password)));
 	}
 
 	public function execute($return) {
