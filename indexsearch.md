@@ -101,9 +101,9 @@ NOTE: Please use this with caution as this is something that should be implement
 
 ```php
 $content = new \Bonnier\IndexDB\ServiceContent($username, $secret);
-$content->getService()->getRequest()->addPostData($key, $value);
-$content->getService()->getRequest()->addHeader($value);
-$content->getService()->getRequest()->setTimeout(1000) // Set timeout in ms
+$content->getService()->getHttpRequest()->addPostData($key, $value);
+$content->getService()->getHttpRequest()->addHeader($value);
+$content->getService()->getHttpRequest()->setTimeout(1000) // Set timeout in ms
 ```
 
 #### Debugging the output

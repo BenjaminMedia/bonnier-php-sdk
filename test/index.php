@@ -44,9 +44,18 @@ die();*/
 /*$service->lang = 'da_dk';
 $service->save();*/
 
+$service = new \Bonnier\IndexSearch\ServiceApplication('netTest', 'A11555640D4747A5B27B46333260F2F3');
+$service->setDevelopment(TRUE);
+$apps= $service->getCollection()->execute();
+
+die(var_dump($apps->getRows()));
+
 $service = new \Bonnier\IndexSearch\ServiceContent('netTest', 'A11555640D4747A5B27B46333260F2F3');
 $service->setDevelopment(true);
-$service = $service->getById('472411B3EEE17052A861D1C34DF9C646');
+
+$service = $service->getCollection()->execute();
+
+
 die(var_dump($service));
 
 // Save new item example

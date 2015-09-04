@@ -12,17 +12,12 @@ class RestBase {
     protected $serviceUrl;
 
     /**
-     * @var IRestEventListener
-     */
-    protected $serviceEventListener;
-
-    /**
      * @var HttpRequest
      */
-    protected $request;
+    protected $httpRequest;
 
     public function __construct() {
-        $this->request = new HttpRequest();
+        $this->httpRequest = new HttpRequest();
     }
 
     protected function getServiceUrl() {
@@ -32,25 +27,8 @@ class RestBase {
     /**
      * @return HttpRequest
      */
-    public function getRequest() {
-        return $this->request;
-    }
-
-    // Events that can be overwritten, if needed
-    protected function onCreateCollection() {
-        if($this->serviceEventListener) {
-            return $this->serviceEventListener->onCreateCollection();
-        }
-
-        return new RestCollection($this);
-    }
-
-    protected function onCreateItem() {
-        if($this->serviceEventListener) {
-            return $this->serviceEventListener->onCreateItem();
-        }
-
-        return new RestItem($this);
+    public function getHttpRequest() {
+        return $this->httpRequest;
     }
 
     /**
@@ -69,7 +47,7 @@ class RestBase {
             throw new ServiceException('Invalid request method');
         }
 
-        $data = array_merge($this->request->getPostData(), $data);
+        $data = array_merge($this->httpRequest->getPostData(), $data);
         $data['_method'] = $method;
 
         if($method == self::METHOD_GET && is_array($data)) {
@@ -78,34 +56,20 @@ class RestBase {
 
         $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;
 
-        $this->request->setUrl($apiUrl);
+        $this->httpRequest->setUrl($apiUrl);
 
         if($method != self::METHOD_GET) {
-            $this->request->setPostData($data);
+            $this->httpRequest->setPostData($data);
         }
 
-        $this->request->setMethod($method);
+        $this->httpRequest->setMethod($method);
 
-        $response = $this->request->execute(true);
+        $response = $this->httpRequest->execute(true);
 
         // Reset request (headers, post-data etc)
-        $this->request->reset();
+        $this->httpRequest->reset();
 
         return $response;
-    }
-
-    /**
-     * @return IRestEventListener
-     */
-    public function getServiceEventListener() {
-        return $this->serviceEventListener;
-    }
-
-    /**
-     * @param IRestEventListener $serviceEventListener
-     */
-    public function setServiceEventListener(IRestEventListener $serviceEventListener) {
-        $this->serviceEventListener = $serviceEventListener;
     }
 
 }

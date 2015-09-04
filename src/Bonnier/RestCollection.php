@@ -11,6 +11,7 @@ class RestCollection implements IRestResult {
 
     public function __construct(RestBase $service) {
         $this->service = $service;
+        $this->rows = array();
     }
 
     public function getRow($index) {
@@ -21,7 +22,7 @@ class RestCollection implements IRestResult {
         return $this->rows;
     }
 
-    public function setRows($rows) {
+    public function setRows(array $rows) {
         $this->rows = $rows;
     }
 

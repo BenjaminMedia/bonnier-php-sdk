@@ -16,16 +16,17 @@ class ServiceContentType extends RestItem {
     protected $service;
 
     public function __construct($username, $secret) {
-        $this->service = new ServiceBase($username, $secret, self::TYPE);
+        parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+        $this->service->setServiceEventListener($this);
     }
 
     public function skip($skip) {
-        $this->service->getRequest()->addPostData('skip', $skip);
+        $this->service->getHttpRequest()->addPostData('skip', $skip);
         return $this;
     }
 
     public function limit($limit) {
-        $this->service->getRequest()->addPostData('limit', $limit);
+        $this->service->getHttpRequest()->addPostData('limit', $limit);
         return $this;
     }
 
@@ -38,6 +39,9 @@ class ServiceContentType extends RestItem {
         return $this->onCreateCollection();
     }
 
+    /**
+     * @return self
+     */
     public function onCreateItem() {
         return new self($this->service->getUsername(), $this->service->getSecret());
     }

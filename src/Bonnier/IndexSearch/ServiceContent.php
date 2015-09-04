@@ -2,6 +2,7 @@
 namespace Bonnier\IndexSearch;
 
 use Bonnier\IndexSearch\Content\ContentCollection;
+use Bonnier\IRestEventListener;
 use Bonnier\RestItem;
 use Bonnier\ServiceException;
 
@@ -17,6 +18,7 @@ class ServiceContent extends RestItem {
 
     public function __construct($username, $secret) {
         parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+        $this->service->setServiceEventListener($this);
     }
 
     /**
@@ -26,6 +28,13 @@ class ServiceContent extends RestItem {
      */
     public function onCreateCollection() {
         return new ContentCollection($this->service);
+    }
+
+    /**
+     * @return self
+     */
+    public function onCreateItem() {
+        return new self($this->service->getUsername(), $this->service->getSecret());
     }
 
     /**

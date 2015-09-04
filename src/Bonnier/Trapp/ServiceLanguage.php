@@ -15,6 +15,14 @@ class ServiceLanguage extends RestItem {
 
 	public function __construct($username, $secret) {
 		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+		$this->service->setServiceEventListener($this);
+	}
+
+	/**
+	 * @return self
+	 */
+	public function onCreateItem() {
+		return new self($this->service->getUsername(), $this->service->getSecret());
 	}
 
 	/**

@@ -24,7 +24,7 @@ class RestItem implements IRestResult, IRestEventListener {
      * @return self
      */
     public function onCreateItem() {
-        return new self($this->service->getUsername(), $this->service->getSecret());
+        return new self($this->service);
     }
 
     public function setRow(\stdClass $row) {

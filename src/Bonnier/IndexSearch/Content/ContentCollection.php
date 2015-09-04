@@ -1,6 +1,7 @@
 <?php
 namespace Bonnier\IndexSearch\Content;
 use Bonnier\HttpResponse;
+use Bonnier\IndexSearch\IServiceCollection;
 use Bonnier\RestCollection;
 
 class ContentCollection extends RestCollection implements IServiceCollection {
@@ -18,57 +19,57 @@ class ContentCollection extends RestCollection implements IServiceCollection {
     }
 
     public function query($query) {
-        $this->service->getRequest()->addPostData('q', $query);
+        $this->service->getHttpRequest()->addPostData('q', $query);
         return $this;
     }
 
     public function sort($sort) {
-        $this->service->getRequest()->addPostData('sort', $sort);
+        $this->service->getHttpRequest()->addPostData('sort', $sort);
         return $this;
     }
 
     public function order($order) {
-        $this->service->getRequest()->addPostData('order', $order);
+        $this->service->getHttpRequest()->addPostData('order', $order);
         return $this;
     }
 
     public function filter($name, $value) {
-        $this->service->getRequest()->addPostData($name, $value);
+        $this->service->getHttpRequest()->addPostData($name, $value);
         return $this;
     }
 
     public function dsl(array $dsl) {
-        $this->service->getRequest()->addPostData('dsl', json_encode($dsl));
+        $this->service->getHttpRequest()->addPostData('dsl', json_encode($dsl));
         return $this;
     }
 
     public function skip($skip) {
-        $this->service->getRequest()->addPostData('skip', $skip);
+        $this->service->getHttpRequest()->addPostData('skip', $skip);
         return $this;
     }
 
     public function limit($limit) {
-        $this->service->getRequest()->addPostData('limit', $limit);
+        $this->service->getHttpRequest()->addPostData('limit', $limit);
         return $this;
     }
 
     public function meta($key, $value) {
-        $this->service->getRequest()->addPostData('meta_' . strtolower($key), $value);
+        $this->service->getHttpRequest()->addPostData('meta_' . strtolower($key), $value);
         return $this;
     }
 
     public function app($appCode) {
-        $this->service->getRequest()->addPostData('app_code', $appCode);
+        $this->service->getHttpRequest()->addPostData('app_code', $appCode);
         return $this;
     }
 
     public function site($siteCode) {
-        $this->service->getRequest()->addPostData('site_code', $siteCode);
+        $this->service->getHttpRequest()->addPostData('site_code', $siteCode);
         return $this;
     }
 
     public function contentType($type) {
-        $this->service->getRequest()->addPostData('content_type', $type);
+        $this->service->getHttpRequest()->addPostData('content_type', $type);
         return $this;
     }
 
