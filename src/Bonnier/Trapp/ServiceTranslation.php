@@ -1,56 +1,59 @@
 <?php
 namespace Bonnier\Trapp;
 
+use Bonnier\RestItem;
+use Bonnier\ServiceException;
 use Bonnier\Trapp\Translation\TranslationCollection;
-use Bonnier\Trapp\Translation\TranslationItem;
 
-class ServiceTranslation extends TrappBase {
+class ServiceTranslation extends RestItem {
 
 	const TYPE = 'translation';
 
+	/**
+	 * This is required in order to get autocompletion to work for this element.
+	 * @var ServiceBase
+	 */
+	protected $service;
+
 	public function __construct($username, $secret) {
-		parent::__construct($username, $secret, self::TYPE);
-		$this->postJson = TRUE;
+		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+		$this->service->setServiceEventListener($this);
+		$this->service->getHttpRequest()->setPostJson(true);
 	}
 
 	/**
 	 * @param $id
-	 *
-	 * @return ServiceTranslation
 	 * @throws \Bonnier\ServiceException
+	 * @return self
 	 */
 	public function getById($id) {
+		if(is_null($id)) {
+			throw new ServiceException('Invalid argument for parameter $id');
+		}
+
 		return $this->api($id);
 	}
 
-	protected function onCreateResult() {
-		$collection = new TranslationCollection($this->username, $this->secret, $this->type);
-		$collection->setDevelopment(TRUE);
-		return $collection;
+	public function onCreateCollection() {
+		return new TranslationCollection($this->service);
 	}
 
-	protected function onCreateItem() {
-		$item = new TranslationItem($this->username, $this->secret, $this->type);
-		$item->setDevelopment($this->development);
-		return $item;
+	public function onCreateItem() {
+		return new self($this->service->getUsername(), $this->service->getSecret());
 	}
 
 	/**
+	 * Get queryable translation collection.
+	 *
 	 * @return TranslationCollection
 	 */
 	public function getCollection() {
-		$collection = new TranslationCollection($this->username, $this->secret, $this->type);
-		$collection->setDevelopment($this->development);
-		return $collection;
+		return $this->onCreateCollection();
 	}
 
-	/**
-	 * @return ServiceTranslation
-	 * @param $id string
-	 * @throws \Bonnier\ServiceException
-	 */
-	public function delete($id) {
-		return $this->api($id, self::METHOD_DELETE);
+	public function setDevelopment($bool) {
+		$this->service->setDevelopment($bool);
+		return $this;
 	}
 
 }

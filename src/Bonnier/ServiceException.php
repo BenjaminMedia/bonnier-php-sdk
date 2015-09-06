@@ -2,20 +2,16 @@
 namespace Bonnier;
 class ServiceException extends \Exception {
 
-	protected $response;
+	protected $httpResponse;
 
-	public function __construct($message, $code = 0, $originalResponse = NULL) {
+	public function __construct($message, $code = 0, HttpResponse $httpResponse = null) {
 		parent::__construct($message , $code);
 
-		$this->response = $originalResponse;
+		$this->httpResponse = $httpResponse;
 	}
 
-	public function setResponse($response) {
-		$this->response = $response;
-	}
-
-	public function getResponse() {
-		return $this->response;
+	public function getHttpResponse() {
+		return $this->httpResponse;
 	}
 
 }

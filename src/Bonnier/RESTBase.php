@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier;
 
-abstract class RESTBase {
+class RestBase {
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
     const METHOD_PUT = 'PUT';
@@ -9,32 +9,15 @@ abstract class RESTBase {
 
     public static $METHODS = array(self::METHOD_GET, self::METHOD_POST, self::METHOD_PUT, self::METHOD_DELETE);
 
-    protected $username;
-    protected $secret;
     protected $serviceUrl;
-    protected $postJson;
-    protected $response;
 
-    public function __construct($username, $secret) {
-        if (!function_exists('curl_init')) {
-            throw new \Exception('This service requires the CURL PHP extension.');
-        }
+    /**
+     * @var HttpRequest
+     */
+    protected $httpRequest;
 
-        if (!function_exists('json_decode')) {
-            throw new \Exception('This service requires the JSON PHP extension.');
-        }
-
-        $this->username = $username;
-        $this->secret = $secret;
-    }
-
-    // Events
-    protected function onCreateResult() {
-        return new ServiceResult($this->username, $this->secret);
-    }
-
-    protected function onCreateItem() {
-        return new ServiceItem($this->username, $this->secret);
+    public function __construct() {
+        $this->httpRequest = new HttpRequest();
     }
 
     protected function getServiceUrl() {
@@ -42,97 +25,51 @@ abstract class RESTBase {
     }
 
     /**
+     * @return HttpRequest
+     */
+    public function getHttpRequest() {
+        return $this->httpRequest;
+    }
+
+    /**
+     * Execute api call.
+     *
+     * Return type will be whats defined in the event $this->onResponseReceived().
+     *
      * @param string|null $url
      * @param string $method
-     * @param array|NULL $data
+     * @param array|null $data
      * @throws ServiceException
-     * @return ServiceResult
+     * @return mixed
      */
-    public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
+    public function api($url = null, $method = self::METHOD_GET, array $data = array()) {
         if(!in_array($method, self::$METHODS)) {
             throw new ServiceException('Invalid request method');
         }
 
+        $data = array_merge($this->httpRequest->getPostData(), $data);
         $data['_method'] = $method;
-
-        $postData = NULL;
 
         if($method == self::METHOD_GET && is_array($data)) {
             $url = $url . '?'.http_build_query($data);
-        } else {
-            $postData = $data;
         }
 
         $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;
 
-        $headers = array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
-        if($this->postJson && count($postData) > 0) {
-            $headers[] = 'Content-type: application/json';
-            $headers[] = 'Content-length: ' . strlen(json_encode($postData));
-        }
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 10000);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $this->httpRequest->setUrl($apiUrl);
 
         if($method != self::METHOD_GET) {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            if($this->postJson) {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
-            } else {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-            }
+            $this->httpRequest->setPostData($data);
         }
 
-        $originalResponse = curl_exec($ch);
-        $response = json_decode($originalResponse, TRUE);
+        $this->httpRequest->setMethod($method);
 
-        if(!is_array($response) || $response && isset($response['status'])) {
-            $error = (isset($response['error'])) ? $response['error'] : 'API response error: ' . $apiUrl;
-            $status = (isset($response['status'])) ? $response['status'] : 0;
+        $response = $this->httpRequest->execute(true);
 
-            throw new ServiceException($error, $status, $originalResponse);
-        }
+        // Reset request (headers, post-data etc)
+        $this->httpRequest->reset();
 
-        if(isset($response['rows'])) {
-            $result = $this->onCreateResult();
-
-            $result->setResponse($response);
-            $items = array();
-
-            foreach($response['rows'] as $row) {
-                $item = $this->onCreateItem();
-                $item->setRow((object)$row);
-                $items[] = $item;
-            }
-
-            $result->setRows($items);
-            return $result;
-        }
-
-        // We can't determinate weather this is a single item or a collection, so we just return a single item
-        $item = $this->onCreateItem();
-
-        $item->setResponse($response);
-        $item->setRow((object)$response);
-        return $item;
+        return $response;
     }
 
-    public function postJson($bool) {
-        $this->postJson = $bool;
-    }
-
-    public function getResponse() {
-        return $this->response;
-    }
-
-    public function setResponse($response) {
-        $this->response = $response;
-    }
 }

@@ -1,10 +1,9 @@
 <?php
-
 namespace Bonnier\Trapp\Translation;
 
-use Bonnier\Trapp\TrappBase;
+use Bonnier\RestItem;
 
-class TranslationItem extends TrappBase {
+class TranslationItem extends RestItem {
 
 	protected $revisions;
 
