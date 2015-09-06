@@ -154,15 +154,6 @@ class CustomCollection extends \Bonnier\IndexSearch\Content\ContentCollection {
 }
 
 class ServiceCustom extends \Bonnier\IndexSearch\ServiceContent {
-
-    public function __construct($username, $secret) {
-        parent::__construct(new ServiceBase($username, $secret, self::TYPE));
-        
-        // Initialize the service event listener. This will allow us to customize the return class when 
-        // the service returns either a collection or single item
-        $this->service->setServiceEventListener($this);
-    }
-
     /**
      * This event is fired when a collection is returned from the service
      *
