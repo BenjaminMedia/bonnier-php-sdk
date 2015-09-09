@@ -1,4 +1,4 @@
-# bonnier-php-sdk indexsearch examples
+# bonnier-php-sdk IndexSearch examples
 PHP SDK for communicating with the Bonnier search db webservice.
 
 ## Examples 
