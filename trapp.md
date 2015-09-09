@@ -17,20 +17,20 @@ All related ```TRAPP``` classes extends from the ```\Bonnier\RestItem``` class -
 
 #### Get single
 
-This examples retrieves a single translation with the id ```FDE455B92EEBC96F72F2447D6AD17C40```
+This examples retrieves a single translation with the id ```55a8cb09214f48032700421f```
 
 ```php
 $translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-$translation = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
+$translation = $service->getById('55a8cb09214f48032700421f');
 ```
 
 #### Update single`
 
-This examples updates a translation with the id ```FDE455B92EEBC96F72F2447D6AD17C40``` with the new values defined in the properties.
+This examples updates a translation with the id ```55a8cb09214f48032700421f``` with the new values defined in the properties.
 
 ```php
 $translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-$translation = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
+$translation = $service->getById('55a8cb09214f48032700421f');
 
 // Create new field
 $field = new \Bonnier\Trapp\Translation\TranslationField('Title', 'Dette er en titel');
