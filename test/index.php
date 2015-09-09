@@ -47,18 +47,24 @@ $service->save();*/
 $service->setDevelopment(TRUE);
 $apps= $service->getCollection()->execute(); */
 
-$translation = new \Bonnier\Trapp\ServiceTranslation('netTest', 'A11555640D4747A5B27B46333260F2F3');
-$translation->setDevelopment(TRUE);
+$service = new \Bonnier\Trapp\ServiceTranslation('netTest', 'A11555640D4747A5B27B46333260F2F3');
+$service->setDevelopment(TRUE);
 
 
 // SAVE EXAMPLE
 
+$translation = $service->getById('55f03981c0144318058b45f1');
+
+die(var_dump($translation->getRevision(0)->getField(0)));
+
 /*$translation = $service->getById('55f00a026022b08ac50041ad');
 
-die(var_dump($translation->getRevision(0)->getField(0)));*/
+die(var_dump($translation));*/
 
 
 // Add deadline (current time plus 10 days)
+$translation = new \Bonnier\Trapp\ServiceTranslation('netTest', 'A11555640D4747A5B27B46333260F2F3');
+$translation->setDevelopment(true);
 $deadline = new DateTime();
 $deadline->add(new DateInterval('P10D'));
 
@@ -78,7 +84,7 @@ $translation->addLanguage('en_gb');
 
 $translation->save();
 
-die(var_dump($translation->getRow()));
+die(var_dump($translation));
 
 
 // Save new item example

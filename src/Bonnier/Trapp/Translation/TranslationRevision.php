@@ -72,10 +72,10 @@ class TranslationRevision {
 	/**
 	 * Create new revision from array
 	 *
-	 * @param array $array
+	 * @param \stdClass $array
 	 * @return TranslationRevision
 	 */
-	public static function fromArray(array $array) {
+	public static function fromArray($array) {
 		$revision = new self();
 		$revision->setData($array);
 		return $revision;
@@ -89,9 +89,9 @@ class TranslationRevision {
 	}
 
 	/**
-	 * @param array $data
+	 * @param \stdClass $data
 	 */
-	public function setData(array $data) {
-		$this->data = (object)$data;
+	public function setData($data) {
+		$this->data = $data;
 	}
 }

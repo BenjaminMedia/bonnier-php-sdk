@@ -5,7 +5,6 @@ use Bonnier\RestBase;
 use Bonnier\RestItem;
 use Bonnier\ServiceException;
 use Bonnier\Trapp\Translation\TranslationCollection;
-use Bonnier\Trapp\Translation\TranslationField;
 use Bonnier\Trapp\Translation\TranslationRevision;
 
 class ServiceTranslation extends RestItem {
@@ -25,16 +24,6 @@ class ServiceTranslation extends RestItem {
 		$this->row->revisions = array();
 		$this->row->fields = array();
 		$this->row->translate_into = array();
-	}
-
-	public function setRow(\stdClass $row) {
-		parent::setRow($row);
-
-		// Creates the structure when the service sets the response
-
-		foreach($this->row->revisions as $key => $revision) {
-			$this->row->revisions[$key] = TranslationRevision::fromArray($revision);
-		}
 	}
 
 
@@ -69,7 +58,7 @@ class ServiceTranslation extends RestItem {
 	 * @return self
 	 */
 	public function update() {
-		$this->row = $this->api(null, RestBase::METHOD_POST, $this->getPostData());
+		$this->row = $this->api(null, RestBase::METHOD_POST, $this->getPostData())->getRow();
 		return $this;
 	}
 
@@ -80,7 +69,7 @@ class ServiceTranslation extends RestItem {
 	 * @return self
 	 */
 	public function save() {
-		$this->row = $this->api(null, RestBase::METHOD_POST, $this->getPostData());
+		$this->row = $this->api(null, RestBase::METHOD_POST, $this->getPostData())->getRow();
 		return $this;
 	}
 
@@ -122,7 +111,7 @@ class ServiceTranslation extends RestItem {
 	 * @return TranslationRevision
 	 */
 	public function getRevision($index) {
-		return (isset($this->row->revisions[$index])) ? TranslationRevision::fromArray((array)$this->row->revisions[$index]) : null;
+		return (isset($this->row->revisions[$index])) ? TranslationRevision::fromArray((object)$this->row->revisions[$index]) : null;
 	}
 
 	/**
