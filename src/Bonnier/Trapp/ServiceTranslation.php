@@ -122,13 +122,13 @@ class ServiceTranslation extends RestItem {
 	 * @return TranslationRevision
 	 */
 	public function getRevision($index) {
-		return (isset($this->row->revisions[$index])) ? TranslationRevision::fromArray((array)$this->row->revisions[$index]) : NULL;
+		return (isset($this->row->revisions[$index])) ? TranslationRevision::fromArray((array)$this->row->revisions[$index]) : null;
 	}
 
 	/**
 	 * Get the original revision
 	 *
-	 * @return TranslationRevision|NULL
+	 * @return TranslationRevision|null
 	 */
 	public function getOriginalRevision() {
 		return $this->getRevision(0);
