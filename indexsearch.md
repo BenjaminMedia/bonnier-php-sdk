@@ -4,7 +4,8 @@ PHP SDK for communicating with the Bonnier search db webservice.
 ## Examples 
 ------------
 Even though these examples are pretty rough, they should give you a basic understanding on how to use the ìndex-search service. 
-All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` class - which contains the basic functionality for communicating with webservices using the index-search authentication.
+
+All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` class - which contains a ```RestBase``` related ```Service``` property, that contains the basic functionality for communicating with webservices using the index-search authentication.
 
 #### Initialize service
 ```php
