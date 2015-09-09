@@ -1,23 +1,34 @@
-# bonnier-php-sdk
+# bonnier-php-sdk IndexSearch examples
 PHP SDK for communicating with the Bonnier search db webservice.
 
 ## Examples 
 ------------
-Even though these examples are pretty rough, they should give you a basic understanding on how to use the ìndex-search service. 
-All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` class - which contains the basic functionality for communicating with webservices using the index-search authentication.
+These examples are pretty rough, but should give you a basic understanding on how to use the ìndex-search service. 
 
-#### Initialize service
-```php
-$service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
-```
+All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` class - which contains a ```RestBase``` related ```service``` property, that contains the basic functionality for communicating with webservices using the index-search authentication.
+
+#### Service classes
+
+| Service class      | Description   |
+| ------------- | ------------- |
+| ```ServiceContent``` | Service for retrieving content from index-search |
+| ```ServiceContentType``` | Service for retrieving content types from index-search |
+| ```ServiceAuth``` | Auth class for checking authentication through index-search |
+| ```ServiceApplication``` | Application class for information about index-search applications |
 
 #### Get single
+
+This examples retrieves a single content item from IndexSearch with the id ```FDE455B92EEBC96F72F2447D6AD17C40```
+
 ```php
 $service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
 $single = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
 ```
 
 #### Update single
+
+This examples updates a translation with the id ```FDE455B92EEBC96F72F2447D6AD17C40``` with the new values defined in the properties.
+
 ```php
 $service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
 $single = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
