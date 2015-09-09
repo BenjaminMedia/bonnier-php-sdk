@@ -20,5 +20,6 @@ Add the following to your ```composer.json``` file.
     },
     "require-dev": {
         "bonnier/php-sdk": "2.*"
-    },
+	}
+}
 ```
