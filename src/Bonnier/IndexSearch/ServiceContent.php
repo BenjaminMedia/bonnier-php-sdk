@@ -50,7 +50,7 @@ class ServiceContent extends RestItem {
      *
      * @param $id
      * @throws \Bonnier\ServiceException
-     * @return self
+     * @return false|self
      */
     public function getById($id) {
         if(is_null($id)) {

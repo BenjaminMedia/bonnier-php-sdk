@@ -47,7 +47,7 @@ $service->save();*/
 $service->setDevelopment(TRUE);
 $apps= $service->getCollection()->execute(); */
 
-$service = new \Bonnier\Trapp\ServiceTranslation('netTest', 'A11555640D4747A5B27B46333260F2F3');
+$service = new \Bonnier\IndexSearch\ServiceContent('netTest', 'A11555640D4747A5B27B46333260F2F3');
 $service->setDevelopment(TRUE);
 
 
