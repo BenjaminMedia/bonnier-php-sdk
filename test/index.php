@@ -53,9 +53,9 @@ $service->setDevelopment(TRUE);
 
 // SAVE EXAMPLE
 
-$translation = $service->getById('55f03981c0144318058b45f1');
+/*$translation = $service->getById('55f03981c0144318058b45f1');
 
-die(var_dump($translation->getRevision(0)->getField(0)));
+die(var_dump($translation->getRevision(0)->getField(0)));*/
 
 /*$translation = $service->getById('55f00a026022b08ac50041ad');
 

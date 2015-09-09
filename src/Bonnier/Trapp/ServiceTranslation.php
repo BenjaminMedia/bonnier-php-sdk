@@ -45,7 +45,7 @@ class ServiceTranslation extends RestItem {
 	protected function getPostData() {
 		// TODO: only post fields that the api understand
 		$row = (array)$this->getRow();
-		$revision = $this->getRevision(0)->toArray();
+		$revision = $this->getRevision(count($this->getRevisions())-1)->toArray();
 		$fields = $revision['fields'];
 		$row['fields'] = $fields;
 		return $row;
@@ -112,6 +112,19 @@ class ServiceTranslation extends RestItem {
 	 */
 	public function getRevision($index) {
 		return (isset($this->row->revisions[$index])) ? TranslationRevision::fromArray((object)$this->row->revisions[$index]) : null;
+	}
+
+	/**
+	 * Get all revisions
+	 *
+	 * @return array
+	 */
+	public function getRevisions() {
+		$out = array();
+		foreach($this->row->revisions as $revision) {
+			$out[] = TranslationRevision::fromArray((object)$revision);
+		}
+		return $out;
 	}
 
 	/**
