@@ -1,23 +1,23 @@
-# bonnier-php-sdk - TRAPP example
+# bonnier-php-sdk TRAPP examples
 Service for talking with the Bonnier translation service (TRAPP)
 
 PHP SDK for communicating with the TRAPP webservice.
 
 ## Examples 
 ------------
-All related ```TRAPP``` classes extends from the ```\Bonnier\RestItem``` class - which contains a ```RestBase``` related ```Service``` property, that contains the basic functionality for communicating with webservices using the index-search authentication.
+All related ```TRAPP``` classes extends from the ```\Bonnier\RestItem``` class - which contains a ```RestBase``` related ```service``` property, that contains the basic functionality for communicating with webservices using the index-search authentication.
 
 #### Service classes
 
 | Service class      | Description   |
 | ------------- | ------------- |
-| ```ServiceLanguage``` | Service for getting translations |
+| ```ServiceLanguage``` | Service class for getting translations |
 | ```ServiceState``` | Service class for getting available states |
-| ```ServiceLanguage``` | Service for gettings available languages |
+| ```ServiceLanguage``` | Service class for gettings available languages |
 
 #### Get single
 
-This examples retrieves a single translation with the id ```FDE455B92EEBC96F72F2447D6AD17C40``
+This examples retrieves a single translation with the id ```FDE455B92EEBC96F72F2447D6AD17C40```
 
 ```php
 $translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
@@ -29,7 +29,27 @@ $translation = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
 This examples updates a translation with the id ```FDE455B92EEBC96F72F2447D6AD17C40``` with the new values defined in the properties.
 
 ```php
-// Translation
+$translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
+$translation = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
+
+// Create new field
+$field = new \Bonnier\Trapp\Translation\TranslationField('Title', 'Dette er en titel');
+
+// Add this field to a group
+$field->setGroup('Titles');
+
+// Create new revision
+$revision = new \Bonnier\Trapp\Translation\TranslationRevision();
+
+// Add the field that we created earlier
+$revision->addField($field);
+
+$translation->addRevision($revision);
+
+// Add language for the item to be translated into (english, norwegian).
+$translation->addLanguage('en_gb');
+$translation->addLanguage('nb_no');
+$translation->update();
 ```
 
 #### Save single
