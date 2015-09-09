@@ -54,7 +54,7 @@ $translation->update();
 
 #### Save single
 
-This example will create a new instance of ```ServiceContent``` and save it to TRAPP.
+This example will create a new instance of ```ServiceTranslation``` and save it to TRAPP.
 
 ```php
 $translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
@@ -90,7 +90,8 @@ $translation->save();
 ```
 
 #### Get list, add query and apply filters
-Get the results sets, query everything matching "hello", filter title by "myFilter" and content by "secondFilter". api() makes the final call to the webservice.
+Get the results sets, query everything matching locale ```da_dk``` with application id ```13``` - then skip 5 results and take 5.
+```execute()``` performs the api-call and delivers the results.
 
 ```php
 $service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
