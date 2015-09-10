@@ -2,25 +2,14 @@
 namespace Bonnier\Trapp\Translation;
 
 use Bonnier\HttpResponse;
-use Bonnier\Trapp\ServiceTranslation;
+use Bonnier\IndexSearch\IServiceCollection;
+use Bonnier\RestCollection;
 
-class TranslationCollection extends ServiceTranslation {
+class TranslationCollection extends RestCollection implements IServiceCollection {
 
     protected $total;
     protected $skip;
     protected $limit;
-    public $rows;
-
-    // TODO: Do advanced logic here
-
-    public function api($url = NULL, $method = self::METHOD_GET, array $data = NULL) {
-        $data = (is_array($data)) ? array_merge($this->_data, $data) : $this->_data;
-        return parent::api($url, $method, $data);
-    }
-
-    public function execute() {
-        return $this->api();
-    }
 
     public function setResponse(HttpResponse $response, $formattedResponse) {
         $this->skip = $formattedResponse['skip'];
@@ -31,47 +20,47 @@ class TranslationCollection extends ServiceTranslation {
     /* Filters start */
 
     public function sort($field) {
-        $this->request->addPostData('sort', $field);
+        $this->service->getHttpRequest()->addPostData('sort', $field);
         return $this;
     }
 
     public function order($order) {
-        $this->request->addPostData('order', $order);
+        $this->service->getHttpRequest()->addPostData('order', $order);
         return $this;
     }
 
     public function locale($locale) {
-        $this->request->addPostData('locale', $locale);
+        $this->service->getHttpRequest()->addPostData('locale', $locale);
         return $this;
     }
 
     public function app($appId) {
-        $this->request->addPostData('app_id', $appId);
+        $this->service->getHttpRequest()->addPostData('app_id', $appId);
         return $this;
     }
 
     public function state($state) {
-        $this->request->addPostData('state', $state);
+        $this->service->getHttpRequest()->addPostData('state', $state);
         return $this;
     }
 
     public function q($query) {
-        $this->request->addPostData('q', $query);
+        $this->service->getHttpRequest()->addPostData('q', $query);
         return $this;
     }
 
     public function skip($skip) {
-        $this->request->addPostData('skip', $skip);
+        $this->service->getHttpRequest()->addPostData('skip', $skip);
         return $this;
     }
 
     public function limit($limit) {
-        $this->request->addPostData('limit', $limit);
+        $this->service->getHttpRequest()->addPostData('limit', $limit);
         return $this;
     }
 
     public function filterOriginal($bool) {
-        $this->request->addPostData('filter_original', $bool);
+        $this->service->getHttpRequest()->addPostData('filter_original', $bool);
         return $this;
     }
 
@@ -90,15 +79,7 @@ class TranslationCollection extends ServiceTranslation {
      * @depricated Warning this method is depricated, use $this->getRequest->addPostData() instead.
      */
     public function setData($data) {
-        $this->request->setPostData($data);
-    }
-
-    public function getRows() {
-        return $this->rows;
-    }
-
-    public function setRows($rows) {
-        $this->rows = $rows;
+        $this->service->getHttpRequest()->setPostData($data);
     }
 
     /**
