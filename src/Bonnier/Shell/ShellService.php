@@ -1,0 +1,93 @@
+<?php
+
+namespace Bonnier\Shell;
+
+use Bonnier\HttpRequest;
+
+class ShellService {
+
+    protected $username;
+    protected $password;
+
+    protected $partial;
+    protected $javascriptPosition;
+
+    const SERVICE_URL = 'http://%s/api/v2/external_headers?javascript_position=%s';
+    const JS_POSITION_FOOTER = 'footer';
+
+    public function __construct($username, $password) {
+        $this->username = $username;
+        $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername() {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword() {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPartial() {
+        return $this->partial;
+    }
+
+    /**
+     * @param bool $partial
+     */
+    public function setPartial($partial) {
+        $this->partial = $partial;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJavascriptPosition() {
+        return $this->javascriptPosition;
+    }
+
+    /**
+     * @param string $javascriptPosition
+     */
+    public function setJavascriptPosition($javascriptPosition) {
+        $this->javascriptPosition = $javascriptPosition;
+    }
+
+    protected function generateUrl($domain) {
+        $url = self::SERVICE_URL;
+
+    }
+
+    public function get($domain) {
+
+        $request = new HttpRequest($this->generateUrl($domain));
+        $request->setBasicAuth($this->username, $this->password);
+
+        $response = $request->execute(true);
+        return $response->getResponse();
+    }
+
+}
