@@ -1,6 +1,7 @@
 <?php
-
 namespace Bonnier;
+
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 class HttpRequest {
 
@@ -10,9 +11,8 @@ class HttpRequest {
 	protected $options;
 	protected $data;
 	protected $timeout;
-	protected $postJson;
 
-	public function __construct($url = null) {
+	public function __construct($url = NULL) {
 
 		if (!function_exists('curl_init')) {
 			throw new \Exception('This service requires the CURL PHP extension.');
@@ -23,11 +23,10 @@ class HttpRequest {
 	}
 
 	public function reset() {
-		$this->url = null;
+		$this->url = NULL;
 		$this->options = array();
 		$this->headers = array();
 		$this->data = array();
-		$this->postJson = false;
 	}
 
 	public function addHeader($header) {
@@ -38,12 +37,20 @@ class HttpRequest {
 		$this->headers = $headers;
 	}
 
+	public function getHeaders() {
+		return $this->headers;
+	}
+
 	public function addOption($option, $value) {
 		$this->options[$option] = $value;
 	}
 
 	public function setOptions(array $options) {
 		$this->options = $options;
+	}
+
+	public function getOptions() {
+		return $this->options;
 	}
 
 	public function addPostData($key, $value) {
@@ -58,12 +65,12 @@ class HttpRequest {
 		return $this->data;
 	}
 
-	public function post($return = false) {
-		$this->options[CURLOPT_POST] = true;
+	public function post($return = FALSE) {
+		$this->options[CURLOPT_POST] = TRUE;
 		$this->execute($return);
 	}
 
-	public function get($return = false) {
+	public function get($return = FALSE) {
 		// Alias for execute
 		$this->execute($return);
 	}
@@ -84,40 +91,16 @@ class HttpRequest {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function getPostJson() {
-		return $this->postJson;
-	}
-
-	/**
-	 * @param bool $postJson
-	 */
-	public function setPostJson($postJson) {
-		$this->postJson = $postJson;
-	}
-
-	/**
 	 * @param string $url
 	 */
 	public function setUrl($url) {
 		$this->url = $url;
 	}
 
-	/**
-	 * Set basic authentication
-	 *
-	 * @param $username
-	 * @param $password
-	 */
-	public function setBasicAuth($username, $password) {
-		$this->addHeader('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $username, $password)));
-	}
-
 	public function execute($return) {
 
 		if(is_null($this->url)) {
-			throw new \InvalidArgumentException('Missing required property: url');
+			throw new InvalidArgumentException('Missing required property: url');
 		}
 
 		$handle = curl_init();
@@ -125,25 +108,21 @@ class HttpRequest {
 		curl_setopt($handle, CURLOPT_URL, $this->url);
 
 		if($return) {
-			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
 		}
 
 		if($this->timeout) {
 			curl_setopt($handle, CURLOPT_TIMEOUT_MS, $this->timeout);
 		}
 
-		// Add request data
-		if(strtolower($this->method) != 'get' && is_array($this->data)) {
-			$data = ($this->postJson) ? json_encode($this->data) : http_build_query($this->data);
-			$this->addHeader('Content-length: ' . strlen($data));
-
-			curl_setopt($handle, CURLOPT_POST, true);
-			curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+		// Add headers
+		if(is_array($this->headers) && count($this->headers)) {
+			curl_setopt($handle, CURLOPT_HTTPHEADER, $this->headers);
 		}
 
-		// Add headers
-		if(count($this->headers)) {
-			curl_setopt($handle, CURLOPT_HTTPHEADER, $this->headers);
+		// Add request data
+		if(strtolower($this->method) == 'post' && is_array($this->data)) {
+			curl_setopt($handle, CURLOPT_POSTFIELDS, http_build_query($this->data));
 		}
 
 		// Add custom curl options
