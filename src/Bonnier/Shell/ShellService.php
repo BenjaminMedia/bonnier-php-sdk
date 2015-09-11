@@ -1,5 +1,4 @@
 <?php
-
 namespace Bonnier\Shell;
 
 use Bonnier\HttpRequest;
@@ -12,7 +11,9 @@ class ShellService {
     protected $partial;
     protected $javascriptPosition;
 
-    const SERVICE_URL = 'http://%s/api/v2/external_headers?javascript_position=%s';
+    const SERVICE_URL = 'http://%s/api/v2/external_headers';
+
+    const JS_POSITION_HEADER = 'header';
     const JS_POSITION_FOOTER = 'footer';
 
     public function __construct($username, $password) {
@@ -77,17 +78,27 @@ class ShellService {
     }
 
     protected function generateUrl($domain) {
-        $url = self::SERVICE_URL;
+        $url = sprintf(self::SERVICE_URL, $domain);
 
+        if($this->javascriptPosition) {
+            $url .= sprintf('?javascript_position=%s', $this->javascriptPosition);
+        }
+
+        return $url;
     }
 
+    /**
+     * @param $domain
+     *
+     * @return \Bonnier\Shell\ShellResponse
+     */
     public function get($domain) {
+        $url = $this->generateUrl($domain);
 
-        $request = new HttpRequest($this->generateUrl($domain));
+        $request = new HttpRequest($url);
         $request->setBasicAuth($this->username, $this->password);
 
-        $response = $request->execute(true);
-        return $response->getResponse();
+        return new ShellResponse($request->execute(true));
     }
 
 }
