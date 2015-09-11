@@ -24,7 +24,7 @@ $translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
 $translation = $service->getById('55a8cb09214f48032700421f');
 ```
 
-#### Update single`
+#### Update single
 
 This examples updates a translation with the id ```55a8cb09214f48032700421f``` with the new values defined in the properties.
 
