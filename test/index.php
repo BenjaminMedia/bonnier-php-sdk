@@ -47,7 +47,7 @@ $service->save();*/
 $service->setDevelopment(TRUE);
 $apps= $service->getCollection()->execute(); */
 
-$service = new \Bonnier\Shell\ShellService('7bfb40a5c7f9897e98332ececb74df85cbdc2bf1729cf7ce594ac9fa50959ff3', '2c60c576ee353f49da07506e775110b0afceb76e82d7a584478b308007c7bdfe');
+$service = new \Bonnier\Shell\ServiceShell('7bfb40a5c7f9897e98332ececb74df85cbdc2bf1729cf7ce594ac9fa50959ff3', '2c60c576ee353f49da07506e775110b0afceb76e82d7a584478b308007c7bdfe');
 
 $shell = $service->get('staging.boligmagasinet.dk');
 
