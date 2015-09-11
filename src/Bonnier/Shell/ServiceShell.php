@@ -3,7 +3,7 @@ namespace Bonnier\Shell;
 
 use Bonnier\HttpRequest;
 
-class ShellService {
+class ServiceShell {
 
     protected $username;
     protected $password;

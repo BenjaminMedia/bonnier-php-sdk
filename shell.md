@@ -4,14 +4,14 @@ Service class for getting the shell.
 
 #### Getting the shell
 
-Creates a new instance of the ```ShellService``` and provide your ```username``` and ```secret```.
+Creates a new instance of the ```ServiceShell``` and provide your ```username``` and ```secret```.
 
 The call the ```get``` method with the domain that you want the Shell for - in this example we want the shell for ```staging.boligmagasinet.dk```.
 
 The ```get``` method will return a ```\Bonnier\Shell\ShellResponse``` object.
 
 ```php
-$service = new \Bonnier\Shell\ShellService($username, $password);
+$service = new \Bonnier\Shell\ServiceShell($username, $password);
 $shell = $service->get('staging.boligmagasinet.dk');
 ```
 
