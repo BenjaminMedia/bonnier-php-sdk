@@ -18,8 +18,8 @@ class HttpRequest {
 			throw new \Exception('This service requires the CURL PHP extension.');
 		}
 
-		$this->url = $url;
 		$this->reset();
+		$this->url = $url;
 	}
 
 	public function reset() {
@@ -133,7 +133,7 @@ class HttpRequest {
 		}
 
 		// Add request data
-		if(strtolower($this->method) != 'get' && is_array($this->data)) {
+		if($this->method && strtolower($this->method) != 'get' && is_array($this->data)) {
 			$data = ($this->postJson) ? json_encode($this->data) : http_build_query($this->data);
 			$this->addHeader('Content-length: ' . strlen($data));
 
@@ -154,7 +154,9 @@ class HttpRequest {
 		}
 
 		// Add request method
-		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $this->method);
+		if($this->method) {
+			curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $this->method);
+		}
 
 		return new HttpResponse($handle);
 	}
