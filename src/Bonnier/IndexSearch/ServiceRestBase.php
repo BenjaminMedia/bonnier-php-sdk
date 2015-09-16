@@ -62,7 +62,7 @@ abstract class ServiceRestBase extends RestBase {
 
 		// Parse the results
 		if(!is_array($response) || $response && isset($response['status'])) {
-			$error = (isset($response['error'])) ? $response['error'] : 'API returned invalid response.';
+			$error = (isset($response['error'])) ? $response['error'] : 'API returned invalid response: ' . $httpResponse->getUrl();
 			$status = (isset($response['status'])) ? $response['status'] : 0;
 
 			throw new ServiceException($error, $status, $httpResponse);
