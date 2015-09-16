@@ -12,7 +12,20 @@ The ```get``` method will return a ```\Bonnier\Shell\ShellResponse``` object.
 
 ```php
 $service = new \Bonnier\Shell\ServiceShell($username, $password);
+
+// Set javascript position example
+$service->setJavascriptPosition(\Bonnier\Shell\ServiceShell::JS_POSITION_HEADER);
+
+// Calls the service and returns a ShellResponse object
 $shell = $service->get('staging.boligmagasinet.dk');
+
+// Get the values
+$head = $shell->getHead(); // returns header
+$body = $shell->getBody(); // returns body
+$banners = $shell->getBanners(); // return banners
+$footer = $shell->getFooter(); // returns footer
+$startTag = $shell->getStartTag(); // returns start tag
+$endTag = $shell->getEndTag(); // returns end tag
 ```
 
 #### Debugging the result
