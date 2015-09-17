@@ -53,7 +53,14 @@ $shell = $service->get('staging.boligmagasinet.dk');
 
 $output = $shell->getHeader();
 
-die(var_dump($output));
+$shell->getHead();
+$shell->getHeader();
+$shell->getBanners();
+$shell->getEndTag();
+$shell->getStartTag();
+$shell->getBody();
+
+die(var_dump($shell->getBodyFooter()));
 
 
 // SAVE EXAMPLE
