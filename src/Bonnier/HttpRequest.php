@@ -153,11 +153,6 @@ class HttpRequest {
 			}
 		}
 
-		// Add request method
-		if($this->method) {
-			curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $this->method);
-		}
-
 		return new HttpResponse($handle);
 	}
 

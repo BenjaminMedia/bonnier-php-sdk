@@ -7,12 +7,6 @@ class ServiceLanguage extends RestItem {
 
 	const TYPE = 'language';
 
-	/**
-	 * This is required in order to get autocompletion to work for this element.
-	 * @var ServiceBase
-	 */
-	protected $service;
-
 	public function __construct($username, $secret) {
 		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
 		$this->service->setServiceEventListener($this);
@@ -21,8 +15,10 @@ class ServiceLanguage extends RestItem {
 	/**
 	 * @return self
 	 */
-	public function onCreateItem() {
-		return new self($this->service->getUsername(), $this->service->getSecret());
+	public function onCreateItem(){
+		$self = new self($this->service->getUsername(), $this->service->getSecret());
+		$self->setService($this->service);
+		return $self;
 	}
 
 	/**
@@ -45,5 +41,12 @@ class ServiceLanguage extends RestItem {
 	public function setDevelopment($bool) {
 		$this->service->setDevelopment($bool);
 		return $this;
+	}
+
+	/**
+	 * @return ServiceBase
+	 */
+	public function getService() {
+		return parent::getService();
 	}
 }
