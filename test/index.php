@@ -47,7 +47,19 @@ $service->save();*/
 $service->setDevelopment(TRUE);
 $apps= $service->getCollection()->execute(); */
 
-$service = new \Bonnier\Shell\ServiceShell('7bfb40a5c7f9897e98332ececb74df85cbdc2bf1729cf7ce594ac9fa50959ff3', '2c60c576ee353f49da07506e775110b0afceb76e82d7a584478b308007c7bdfe');
+$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service->setDevelopment(true);
+
+$single = $service->getById('CE77333874708A4736D71E1E1CFDDB9A');
+
+$single->title = 'Hello world 5';
+$single->description = 'My new description 2';
+
+$single->update();
+
+die(var_dump($single));
+
+/*$service = new \Bonnier\Shell\ServiceShell('7bfb40a5c7f9897e98332ececb74df85cbdc2bf1729cf7ce594ac9fa50959ff3', '2c60c576ee353f49da07506e775110b0afceb76e82d7a584478b308007c7bdfe');
 
 $shell = $service->get('staging.boligmagasinet.dk');
 
@@ -60,7 +72,7 @@ $shell->getEndTag();
 $shell->getStartTag();
 $shell->getBody();
 
-die(var_dump($shell->getBodyFooter()));
+die(var_dump($shell->getBodyFooter()));*/
 
 
 // SAVE EXAMPLE

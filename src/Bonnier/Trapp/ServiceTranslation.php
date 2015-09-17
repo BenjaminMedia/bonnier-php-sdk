@@ -11,12 +11,6 @@ class ServiceTranslation extends RestItem {
 
 	const TYPE = 'translation';
 
-	/**
-	 * This is required in order to get autocompletion to work for this element.
-	 * @var ServiceBase
-	 */
-	protected $service;
-
 	public function __construct($username, $secret) {
 		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
 		$this->service->setServiceEventListener($this);
@@ -78,8 +72,13 @@ class ServiceTranslation extends RestItem {
 		return new TranslationCollection($this->service);
 	}
 
-	public function onCreateItem() {
-		return new self($this->service->getUsername(), $this->service->getSecret());
+	/**
+	 * @return self
+	 */
+	public function onCreateItem(){
+		$self = new self($this->service->getUsername(), $this->service->getSecret());
+		$self->setService($this->service);
+		return $self;
 	}
 
 	/**
@@ -190,6 +189,13 @@ class ServiceTranslation extends RestItem {
 	public function setTitle($title) {
 		$this->row->title = $title;
 		return $this;
+	}
+
+	/**
+	 * @return ServiceBase
+	 */
+	public function getService() {
+		return parent::getService();
 	}
 
 }
