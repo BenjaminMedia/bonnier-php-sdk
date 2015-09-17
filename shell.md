@@ -2,6 +2,11 @@
 
 Service class for getting the shell.
 
+#### Official documentation
+http://mmm.dk/api/v2/documentation/external_headers
+
+### Examples
+
 #### Getting the shell
 
 Creates a new instance of the ```ServiceShell``` and provide your ```username``` and ```secret```.
@@ -20,12 +25,12 @@ $service->setJavascriptPosition(\Bonnier\Shell\ServiceShell::JS_POSITION_HEADER)
 $shell = $service->get('staging.boligmagasinet.dk');
 
 // Get the values
-$head = $shell->getHead(); // returns header
-$body = $shell->getBody(); // returns body
+$head = $shell->getHead(); // return head
+$header = $shell->getHeader(); // return header
 $banners = $shell->getBanners(); // return banners
-$footer = $shell->getFooter(); // returns footer
-$startTag = $shell->getStartTag(); // returns start tag
-$endTag = $shell->getEndTag(); // returns end tag
+$body = $shell->getEndTag(); // return end tag
+$startTag = $shell->getStartTag(); // return start tag
+$endTag $shell->getBody(); // return body \stdClass
 ```
 
 #### Debugging the result
