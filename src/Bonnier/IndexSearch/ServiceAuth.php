@@ -9,12 +9,6 @@ class ServiceAuth extends RestItem {
 
     const TYPE = 'auth';
 
-    /**
-     * This is required in order to get autocompletion to work for this element.
-     * @var ServiceBase
-     */
-    protected $service;
-
     public function __construct($username, $secret) {
         parent::__construct(new ServiceBase($username, $secret, self::TYPE));
         $this->service->setServiceEventListener($this);
@@ -23,8 +17,10 @@ class ServiceAuth extends RestItem {
     /**
      * @return self
      */
-    public function onCreateItem() {
-        return new self($this->service->getUsername(), $this->service->getSecret());
+    public function onCreateItem(){
+        $self = new self($this->service->getUsername(), $this->service->getSecret());
+        $self->setService($this->service);
+        return $self;
     }
 
     /**
@@ -44,6 +40,13 @@ class ServiceAuth extends RestItem {
     public function setDevelopment($bool) {
         $this->service->setDevelopment($bool);
         return $this;
+    }
+
+    /**
+     * @return ServiceBase
+     */
+    public function getService() {
+        return parent::getService();
     }
 
 }

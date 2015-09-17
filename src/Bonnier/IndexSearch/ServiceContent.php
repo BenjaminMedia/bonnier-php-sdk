@@ -3,18 +3,13 @@ namespace Bonnier\IndexSearch;
 
 use Bonnier\IndexSearch\Content\ContentCollection;
 use Bonnier\IRestEventListener;
+use Bonnier\RestBase;
 use Bonnier\RestItem;
 use Bonnier\ServiceException;
 
 class ServiceContent extends RestItem {
 
     const TYPE = 'content';
-
-    /**
-     * This is required in order to get autocompletion to work for this element.
-     * @var ServiceBase
-     */
-    protected $service;
 
     public function __construct($username, $secret) {
         parent::__construct(new ServiceBase($username, $secret, self::TYPE));
@@ -33,8 +28,10 @@ class ServiceContent extends RestItem {
     /**
      * @return self
      */
-    public function onCreateItem() {
-        return new self($this->service->getUsername(), $this->service->getSecret());
+    public function onCreateItem(){
+        $self = new self($this->service->getUsername(), $this->service->getSecret());
+        $self->setService($this->service);
+        return $self;
     }
 
     /**
@@ -50,7 +47,7 @@ class ServiceContent extends RestItem {
      *
      * @param $id
      * @throws \Bonnier\ServiceException
-     * @return false|self
+     * @return self|false
      */
     public function getById($id) {
         if(is_null($id)) {
@@ -64,7 +61,11 @@ class ServiceContent extends RestItem {
         return $this;
     }
 
+    /**
+     * @return ServiceBase
+     */
     public function getService() {
-        return $this->service;
+        return parent::getService();
     }
+
 }

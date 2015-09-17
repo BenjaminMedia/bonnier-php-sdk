@@ -151,7 +151,7 @@ You also get the HttpResponse object when retrieving something from the service.
 $service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
 $single = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
 
-$httpResponse = $single->getResponse(); // Returns HttpResponse object (simular as the one above)
+$httpResponse = $single->getService()->getHttpResponse(); // Returns HttpResponse object (simular as the one above)
 ```
 
 #### Extending the functionality to customize your needs

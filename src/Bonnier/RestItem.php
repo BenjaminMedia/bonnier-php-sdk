@@ -117,4 +117,8 @@ class RestItem implements IRestResult, IRestEventListener {
         return $this->service;
     }
 
+    public function setService(RestBase $service) {
+        $this->service = $service;
+    }
+
 }
