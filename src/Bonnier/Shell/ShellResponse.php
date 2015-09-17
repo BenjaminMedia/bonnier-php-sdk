@@ -40,7 +40,7 @@ class ShellResponse {
     }
 
     /**
-     * @return string
+     * @return \stdClass
      */
     public function getBody(){
         return $this->body;

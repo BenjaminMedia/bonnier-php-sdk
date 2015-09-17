@@ -9,12 +9,12 @@ All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` c
 
 #### Service classes
 
-| Service class      | Description   |
-| ------------- | ------------- |
-| ```ServiceContent``` | Service for retrieving content from index-search |
-| ```ServiceContentType``` | Service for retrieving content types from index-search |
-| ```ServiceAuth``` | Auth class for checking authentication through index-search |
-| ```ServiceApplication``` | Application class for information about index-search applications |
+| Service class             | Description                                                       |
+| -------------             | -------------                                                     |
+| ```ServiceContent```      | Service for retrieving content from index-search                  |
+| ```ServiceContentType```  | Service for retrieving content types from index-search            |
+| ```ServiceAuth```         | Auth class for checking authentication through index-search       |
+| ```ServiceApplication```  | Application class for information about index-search applications |
 
 #### Get single
 
@@ -43,16 +43,18 @@ $single->update(); // Updates the existing object with the new values form the w
 This example will create a new instance of ```ServiceContent``` and save it to index-search.
 
 ```php
-$item = new \Bonnier\Service\IndexSearch\ServiceContent($username, $secret);
+$item = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
 $item->title = 'Min titel';
 $item->app_content_id = '123123';
 $item->description = 'My description';
 $item->source_image = 'http://www.revert.dk/logo.png';
 $item->content_type = 'test';
-$item->created_at = date('d-m-Y', time());
-$item->updated_at = date('d-m-Y', time());
+$item->created_at = date(DATE_WC3, time());
+$item->updated_at = date(DATE_WC3, time());
 $item->path = '/';
-$item->active = TRUE;
+$item->locale = 'da_dk';
+$item->content_url = 'http://www.revert.dk/12213-article.html';
+$item->active = true;
 $item->save();
 ```
 
@@ -73,7 +75,7 @@ $item->content_type = 'test';
 $item->created_at = date('d-m-Y', time());
 $item->updated_at = date('d-m-Y', time());
 $item->path = '/';
-$item->active = TRUE;
+$item->active = true;
 $item->save();
 ``` 
 
@@ -111,7 +113,7 @@ Switch between production and staging environment by using:
 
 ```php
 $service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
-$service->setDevelopment(TRUE);
+$service->setDevelopment(true);
 ```
 
 If you want to implement a parameter that is not currently available, this can be done by adding it to the request-object.
