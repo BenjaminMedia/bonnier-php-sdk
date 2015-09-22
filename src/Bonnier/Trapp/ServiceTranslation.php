@@ -39,9 +39,12 @@ class ServiceTranslation extends RestItem {
 	protected function getPostData() {
 		// TODO: only post fields that the api understand
 		$row = (array)$this->getRow();
-		$revision = $this->getRevision(count($this->getRevisions())-1)->toArray();
-		$fields = $revision['fields'];
-		$row['fields'] = $fields;
+		$revision = $this->getRevision(count($this->getRevisions())-1);
+		if($revision) {
+			$revision = $revision->toArray();
+			$fields = $revision['fields'];
+			$row['fields'] = $fields;
+		}
 		return $row;
 	}
 
@@ -63,7 +66,7 @@ class ServiceTranslation extends RestItem {
 	 * @return self
 	 */
 	public function save() {
-		$this->row = $this->api(null, RestBase::METHOD_POST, $this->getPostData())->getRow();
+		$this->row = $this->api($this->id, RestBase::METHOD_PUT, $this->getPostData())->getRow();
 		return $this;
 	}
 
@@ -120,8 +123,10 @@ class ServiceTranslation extends RestItem {
 	 */
 	public function getRevisions() {
 		$out = array();
-		foreach($this->row->revisions as $revision) {
-			$out[] = TranslationRevision::fromArray((object)$revision);
+		if(isset($this->row->revisions)) {
+			foreach($this->row->revisions as $revision) {
+				$out[] = TranslationRevision::fromArray((object)$revision);
+			}
 		}
 		return $out;
 	}
