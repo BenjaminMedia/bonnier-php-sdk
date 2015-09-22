@@ -29,7 +29,7 @@ $translation = $service->getById('55a8cb09214f48032700421f');
 This examples updates a translation with the id ```55a8cb09214f48032700421f``` with the new values defined in the properties.
 
 ```php
-$translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
+$service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
 $translation = $service->getById('55a8cb09214f48032700421f');
 
 // Create new field
@@ -110,7 +110,7 @@ Switch between production and staging environment by using:
 
 ```php
 $service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-$service->setDevelopment(TRUE);
+$service->setDevelopment(true);
 ```
 
 If you want to implement a parameter that is not currently available, this can be done by adding it to the request-object.
@@ -118,10 +118,10 @@ If you want to implement a parameter that is not currently available, this can b
 **NOTE:** Please use this with caution as this is something that should be implemented into the SDK itself if the functionality is missing.
 
 ```php
-$content = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-$content->getService()->getHttpRequest()->addPostData($key, $value);
-$content->getService()->getHttpRequest()->addHeader($value);
-$content->getService()->getHttpRequest()->setTimeout(1000) // Set timeout in ms
+$service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
+$service->getService()->getHttpRequest()->addPostData($key, $value);
+$service->getService()->getHttpRequest()->addHeader($value);
+$service->getService()->getHttpRequest()->setTimeout(1000) // Set timeout in ms
 ```
 
 #### Debugging the output
@@ -192,7 +192,7 @@ class ServiceCustom extends \Bonnier\Trapp\ServiceTranslation {
 
 ```php
 $custom = new ServiceCustom($username, $secret);
-$item = $custom->getCustomCollection(); // This will return a new instance of ServiceCustom class
+$item = $custom->getCustomItem(); // This will return a new instance of ServiceCustom class
 
 
 $results = $custom->getCollection()->customFilter()->execute(); // This will return new instance of ServiceCollection class
