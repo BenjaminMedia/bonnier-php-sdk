@@ -50,9 +50,7 @@ $apps= $service->getCollection()->execute(); */
 $service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $service->setDevelopment(true);
 
-$single = $service->getById('5601679fc01443db5a8b456f');
-
-$single->getOriginalRevision()->setState('state-missing');
+$single = $service->getById('5602bf98c01443ab2c8b456e');
 $single->delete();
 
 die(var_dump($single));

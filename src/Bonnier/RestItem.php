@@ -51,6 +51,9 @@ class RestItem implements IRestResult, IRestEventListener {
      * @return static
      */
     public function getById($id) {
+        if($this->id === null) {
+            throw new ServiceException('Missing required argument "id".');
+        }
         $this->row = $this->api($id)->getRow();
         return $this;
     }
@@ -62,6 +65,9 @@ class RestItem implements IRestResult, IRestEventListener {
      * @return static
      */
     public function delete() {
+        if($this->id === null) {
+            throw new ServiceException('Failed to delete. Missing required argument "id".');
+        }
         $this->row = $this->api($this->id, RestBase::METHOD_DELETE)->getRow();
     }
 
@@ -72,6 +78,9 @@ class RestItem implements IRestResult, IRestEventListener {
      * @return static
      */
     public function update() {
+        if($this->id === null) {
+            throw new ServiceException('Failed to update. Missing required argument "id".');
+        }
         $this->row = $this->api($this->id, RestBase::METHOD_PUT, (array)$this->row)->getRow();
         return $this;
     }
