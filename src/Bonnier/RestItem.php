@@ -62,7 +62,7 @@ class RestItem implements IRestResult, IRestEventListener {
      * @return static
      */
     public function delete() {
-        return $this->api($this->id, RestBase::METHOD_DELETE);
+        $this->row = $this->api($this->id, RestBase::METHOD_DELETE)->getRow();
     }
 
     /**
