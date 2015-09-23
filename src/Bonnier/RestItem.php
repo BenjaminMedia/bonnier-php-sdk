@@ -56,9 +56,8 @@ class RestItem implements IRestResult, IRestEventListener {
     }
 
     /**
-     * Delete item by id
+     * Delete item
      *
-     * @param string $id
      * @throws \Bonnier\ServiceException
      * @return static
      */
