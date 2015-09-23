@@ -62,8 +62,8 @@ class RestItem implements IRestResult, IRestEventListener {
      * @throws \Bonnier\ServiceException
      * @return static
      */
-    public function delete($id) {
-        return $this->api($id, RestBase::METHOD_DELETE);
+    public function delete() {
+        return $this->api($this->id, RestBase::METHOD_DELETE);
     }
 
     /**
