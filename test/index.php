@@ -47,10 +47,15 @@ $service->save();*/
 $service->setDevelopment(TRUE);
 $apps= $service->getCollection()->execute(); */
 
-$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $service->setDevelopment(true);
 
-$single = $service->getById('CE77333874708A4736D71E1E1CFDDB9A');
+$single = $service->getById('5601679fc01443db5a8b456f');
+
+$single->getOriginalRevision()->setState('state-missing');
+$single->delete();
+
+die(var_dump($single));
 
 $single->title = 'Hello world 5';
 $single->description = 'My new description 2';

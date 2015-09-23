@@ -45,6 +45,7 @@ class ServiceTranslation extends RestItem {
 			$fields = $revision['fields'];
 			$row['fields'] = $fields;
 		}
+
 		return $row;
 	}
 
@@ -55,7 +56,7 @@ class ServiceTranslation extends RestItem {
 	 * @return self
 	 */
 	public function update() {
-		$this->row = $this->api(null, RestBase::METHOD_POST, $this->getPostData())->getRow();
+		$this->row = $this->api($this->id, RestBase::METHOD_PUT, $this->getPostData())->getRow();
 		return $this;
 	}
 
@@ -66,7 +67,7 @@ class ServiceTranslation extends RestItem {
 	 * @return self
 	 */
 	public function save() {
-		$this->row = $this->api($this->id, RestBase::METHOD_PUT, $this->getPostData())->getRow();
+		$this->row = $this->api($this->id, RestBase::METHOD_POST, $this->getPostData())->getRow();
 		return $this;
 	}
 
