@@ -21,16 +21,100 @@ $result = curl_exec($ch);
 
 die(var_dump($result));*/
 
-$service = new \Bonnier\IndexDB\ServiceContent('Bilindexapp', '97E0D1842264E713B4003FFF97037381');
-$cars = $service->getCollection()->setDevelopment(TRUE)->contentType('car')->execute();
+/*$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service->setDevelopment(TRUE);
+$apps = $service->getCollection()->execute();
 
-die(var_dump($test));
+$service = new \Bonnier\IndexSearch\ServiceContent('netTest', 'A11555640D4747A5B27B46333260F2F3');
+$service->setDevelopment(TRUE);
+$service->title = 'test';
+$service->locale = 'da-dk';
+$service->content_type = 'article';
+$service->content_url = 'http://www.google.dk/content/url';
+$service->active = TRUE;
+$service->created_at = '06-04-1990 10:00';
+$service->updated_at = '06-04-1990 10:00';
+$service->save();
+
+die(var_dump($service->id));
+
+die();*/
+
 /*$service->lang = 'da_dk';
 $service->save();*/
 
-//$service = $service->getById('55a8cb09214f48032700421f');
-//$service->update_endpoint_uri = 'http://www.google.dk/images/?q=alf';
-die(var_dump($service->getById('C40323C9B70D3C26D282BAB4EDCC3B76')));
+/*$service = new \Bonnier\IndexSearch\ServiceApplication('netTest', 'A11555640D4747A5B27B46333260F2F3');
+$service->setDevelopment(TRUE);
+$apps= $service->getCollection()->execute(); */
+
+$service = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$service->setDevelopment(true);
+
+$single = $service->getById('5601679fc01443db5a8b456f');
+
+$single->getOriginalRevision()->setState('state-missing');
+$single->delete();
+
+die(var_dump($single));
+
+$single->title = 'Hello world 5';
+$single->description = 'My new description 2';
+
+$single->update();
+
+die(var_dump($single));
+
+/*$service = new \Bonnier\Shell\ServiceShell('7bfb40a5c7f9897e98332ececb74df85cbdc2bf1729cf7ce594ac9fa50959ff3', '2c60c576ee353f49da07506e775110b0afceb76e82d7a584478b308007c7bdfe');
+
+$shell = $service->get('staging.boligmagasinet.dk');
+
+$output = $shell->getHeader();
+
+$shell->getHead();
+$shell->getHeader();
+$shell->getBanners();
+$shell->getEndTag();
+$shell->getStartTag();
+$shell->getBody();
+
+die(var_dump($shell->getBodyFooter()));*/
+
+
+// SAVE EXAMPLE
+
+/*$translation = $service->getById('55f03981c0144318058b45f1');
+
+die(var_dump($translation->getRevision(0)->getField(0)));*/
+
+/*$translation = $service->getById('55f00a026022b08ac50041ad');
+
+die(var_dump($translation));*/
+
+
+// Add deadline (current time plus 10 days)
+$translation = new \Bonnier\Trapp\ServiceTranslation('netTest', 'A11555640D4747A5B27B46333260F2F3');
+$translation->setDevelopment(true);
+$deadline = new DateTime();
+$deadline->add(new DateInterval('P10D'));
+
+$translation->setDeadline($deadline);
+$translation->setTitle('Min titel');
+$translation->setLocale('da_dk');
+
+$field = new \Bonnier\Trapp\Translation\TranslationField('Title', 'Dette er en titel');
+
+$revision = new \Bonnier\Trapp\Translation\TranslationRevision();
+$revision->addField($field);
+
+$translation->addRevision($revision);
+
+// Add language for the item to be translated into
+$translation->addLanguage('en_gb');
+
+$translation->save();
+
+die(var_dump($translation));
+
 
 // Save new item example
 
@@ -49,10 +133,10 @@ $response = $service->save();
 
 die(var_dump($response));*/
 
-/*$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+/*$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $role = $service->getById('472411B3EEE17052A861D1C34DF9C646');
 
-/*$service = new \Bonnier\IndexDB\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+/*$service = new \Bonnier\IndexSearch\ServiceContent('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
 $single = $service->get()->order('test')->api();*/
 
 /*die(var_dump($role));*/

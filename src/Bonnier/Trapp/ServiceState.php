@@ -1,39 +1,51 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\Trapp\Translation\TranslationCollection;
+use Bonnier\RestItem;
 
-class ServiceState extends TrappBase {
+class ServiceState extends RestItem {
 
 	const TYPE = 'state';
 
 	public function __construct($username, $secret) {
-		parent::__construct($username, $secret, self::TYPE);
+		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+		$this->service->setServiceEventListener($this);
+	}
+
+	/**
+	 * @return self
+	 */
+	public function onCreateItem(){
+		$self = new self($this->service->getUsername(), $this->service->getSecret());
+		$self->setService($this->service);
+		return $self;
 	}
 
 	/**
 	 * @param $id
-	 *
-	 * @return ServiceTranslation
 	 * @throws \Bonnier\ServiceException
+	 * @return self
 	 */
 	public function getById($id) {
 		return $this->api($id);
 	}
 
 	/**
-	 * @return \Bonnier\ServiceResult
+	 * @return \Bonnier\RestCollection
 	 */
 	public function getCollection() {
 		return $this->api();
 	}
 
+	public function setDevelopment($bool) {
+		$this->service->setDevelopment($bool);
+		return $this;
+	}
+
 	/**
-	 * @return \Bonnier\ServiceItem
-	 * @param $id string
-	 * @throws \Bonnier\ServiceException
+	 * @return ServiceBase
 	 */
-	public function delete($id) {
-		return $this->api($id, self::METHOD_DELETE);
+	public function getService() {
+		return parent::getService();
 	}
 }
