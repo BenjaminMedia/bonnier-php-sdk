@@ -79,6 +79,21 @@ $item->active = true;
 $item->save();
 ``` 
 
+#### Delete item
+
+This is a basic example of deleting an item.
+
+```php
+$service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
+
+$item = $service->getById('2131231231');
+$item->delete();
+
+if($item->deleted) {
+    // Item successfully deleted
+}
+```
+
 #### Get list, add query and apply filters
 Get the results sets, query everything matching "hello", filter title by "myFilter" and content by "secondFilter". api() makes the final call to the webservice.
 
