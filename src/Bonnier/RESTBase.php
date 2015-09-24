@@ -63,7 +63,7 @@ abstract class RESTBase {
             $postData = $data;
         }
 
-        $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;
+        $apiUrl = rtrim($this->getServiceUrl(), '/') . ($url ? '/' . $url : '');
 
         $headers = array('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $this->username, $this->secret)));
         if($this->postJson && count($postData) > 0) {
