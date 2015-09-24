@@ -34,8 +34,6 @@ class RestBase {
     /**
      * Execute api call.
      *
-     * Return type will be whats defined in the event $this->onResponseReceived().
-     *
      * @param string|null $url
      * @param string $method
      * @param array|null $data
