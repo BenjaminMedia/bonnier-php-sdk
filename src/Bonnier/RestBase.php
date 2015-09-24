@@ -49,7 +49,7 @@ class RestBase {
         $data['_method'] = $method;
 
         if($method == self::METHOD_GET && is_array($data)) {
-            $url = $url . '?'.http_build_query($data);
+            $url .= '?'.http_build_query($data);
         }
 
         $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;
