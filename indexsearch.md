@@ -7,14 +7,18 @@ These examples are pretty rough, but should give you a basic understanding on ho
 
 All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` class - which contains a ```RestBase``` related ```service``` property, that contains the basic functionality for communicating with webservices using the index-search authentication.
 
-#### Service classes
+### Service classes
 
-| Service class             | Description                                                       |
-| -------------             | -------------                                                     |
-| ```ServiceContent```      | Service for retrieving content from index-search                  |
-| ```ServiceContentType```  | Service for retrieving content types from index-search            |
-| ```ServiceAuth```         | Auth class for checking authentication through index-search       |
-| ```ServiceApplication```  | Application class for information about index-search applications |
+| Service class             	| Description                                                       |
+| -------------           		| -------------                                                     |
+| ```ServiceContent```    		| Service for retrieving content from index-search                  |
+| ```ServiceContentType```		| Service for retrieving content types from index-search            |
+| ```ServiceAuth```       		| Auth class for checking authentication through index-search       |
+| ```ServiceApplication```		| Application class for information about index-search applications |
+| ```ServiceBrandCode```  		| Service for retrieving a list of brand codes                      |
+| ```ServiceAppCode```			| Service for retrieving a list of app codes                        |
+| ```ServiceAppBrandCombination``` | Service for retrieving and checking available app and brand combinations |
+
 
 #### Get single
 
@@ -109,7 +113,7 @@ $results = $service->getCollection() // Get the queryable ServiceCollection obje
 ->execute(); // Call the service and get the results, similar to calling api()
 ```
 
-#### Advanced usage
+### Advanced usage
 
 Use DSL to apply even greater filters, by using the "setDsl" method on the ```\Bonnier\IndexSearch\Service\Content\ContentCollection``` class. 
 
@@ -214,4 +218,43 @@ $item = $custom->getCustomCollection(); // This will return a new instance of Se
 
 
 $results = $custom->getCollection()->customFilter()->execute(); // This will return new instance of ServiceCollection class
+```
+
+### Extra Services
+
+#### Get list of available app code & brand code combinations
+
+This example retrieves all available app code and brand code combinations that you have access to.
+
+```php
+$serviceAppBrandCombination = new Bonnier\IndexSearch\ServiceAppBrandCombination($username, $secret);
+$combinationList = $serviceAppBrandCombination->getList();
+
+```
+
+#### Check access to a given app code & brand code combination
+
+This example returns true or false based on access to a given app code & brand code combination
+
+```php
+$serviceCombination = new \Bonnier\IndexSearch\ ServiceAppBrandCombination($username, $secret);
+$isValidCombination =  $serviceCombination->check("kom", "fordelszonen");
+```
+
+#### Get Brand Codes
+
+This examples retrieves a list of all brand codes, typically to be used for filtering
+
+```php
+$serviceBrandCode = new \Bonnier\IndexSearch\ServiceBrandCode($username, $secret);
+$brandCodeList = $serviceBrandCode->getList();
+```
+
+#### Get App Codes
+
+This examples retrieves a list of all app codes, typically to be used for filtering
+
+```php
+$serviceAppCode = new \Bonnier\IndexSearch\ServiceAppCode($username, $secret);
+$appCodeList = $serviceAppCode->getList();
 ```
