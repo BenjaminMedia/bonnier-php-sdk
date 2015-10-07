@@ -5,11 +5,11 @@ function __autoload($file) {
 }
 
 $secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
-$key = 'Test';
+$username = 'Test';
 
-$serviceCombination = new Bonnier\IndexSearch\ServiceAppBrandCombination($key, $secret);
-$serviceBrandCode = new Bonnier\IndexSearch\ServiceBrandCode($key, $secret);
-$serviceAppCode = new Bonnier\IndexSearch\ServiceAppCode($key, $secret);
+$serviceCombination = new Bonnier\IndexSearch\ServiceAppBrandCombination($username, $secret);
+$serviceBrandCode = new Bonnier\IndexSearch\ServiceBrandCode($username, $secret);
+$serviceAppCode = new Bonnier\IndexSearch\ServiceAppCode($username, $secret);
 
 $isValidCombination =  $serviceCombination->check("kom", "fordelszonen");
 $combinationList = $serviceCombination->getList();
