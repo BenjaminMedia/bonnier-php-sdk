@@ -4,6 +4,21 @@ function __autoload($file) {
     include '../src/' . str_replace('\\', DIRECTORY_SEPARATOR, $file) . '.php';
 }
 
+$secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
+$key = 'Test';
+
+$serviceCombination = new Bonnier\IndexSearch\ServiceAppBrandCombination($key, $secret);
+$serviceBrandCode = new Bonnier\IndexSearch\ServiceBrandCode($key, $secret);
+$serviceAppCode = new Bonnier\IndexSearch\ServiceAppCode($key, $secret);
+
+$isValidCombination =  $serviceCombination->check("kom", "fordelszonen");
+$combinationList = $serviceCombination->getList();
+$brandCodeList = $serviceBrandCode->getList();
+$serviceAppCode = $serviceAppCode->getList();
+
+var_dump($isValidCombination, $combinationList, $brandCodeList, $serviceAppCode);
+
+exit();
 /*$data = array("name" => "Hagrid", "age" => "36");
 $data_string = json_encode($data);
 

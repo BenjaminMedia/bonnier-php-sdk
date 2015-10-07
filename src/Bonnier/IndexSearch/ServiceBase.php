@@ -26,4 +26,8 @@ class ServiceBase extends ServiceRestBase {
 		return $this;
 	}
 
+    public function setServiceUrl($url) {
+        $this->serviceUrl = $url;
+    }
+
 }
