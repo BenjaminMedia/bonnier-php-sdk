@@ -7,14 +7,12 @@ function __autoload($file) {
 $secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
 $username = 'Test';
 
-$serviceCombination = new Bonnier\IndexSearch\ServiceAppBrandCombination($username, $secret);
-$serviceBrandCode = new Bonnier\IndexSearch\ServiceBrandCode($username, $secret);
-$serviceAppCode = new Bonnier\IndexSearch\ServiceAppCode($username, $secret);
+$serviceAppBrandCode = new Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
 
-$isValidCombination =  $serviceCombination->check("kom", "fordelszonen");
-$combinationList = $serviceCombination->getList();
-$brandCodeList = $serviceBrandCode->getList();
-$serviceAppCode = $serviceAppCode->getList();
+$isValidCombination =  $serviceAppBrandCode->check("kom", "fordelszonen");
+$combinationList = $serviceAppBrandCode->getList();
+$brandCodeList = $serviceAppBrandCode->getBrandCodes();
+$serviceAppCode = $serviceAppBrandCode->getAppCodes();
 
 var_dump($isValidCombination, $combinationList, $brandCodeList, $serviceAppCode);
 

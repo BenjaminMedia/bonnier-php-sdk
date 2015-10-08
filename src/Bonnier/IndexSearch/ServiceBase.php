@@ -13,10 +13,12 @@ class ServiceBase extends ServiceRestBase {
 
 	protected function getServiceUrl() {
 		if($this->development) {
-			$this->serviceUrl = 'https://staging-indexdb.whitealbum.dk/api/v1/%1$s/';
+			$this->serviceUrl = 'https://staging-indexdb.whitealbum.dk/api/v1/';
 		} else {
-			$this->serviceUrl = 'https://indexdb.whitealbum.dk/api/v1/%1$s/';
+			$this->serviceUrl = 'https://indexdb.whitealbum.dk/api/v1/';
 		}
+
+        $this->serviceUrl . !empty($this->type) ? '%1$s/' : '';
 
 		return sprintf($this->serviceUrl, $this->type);
 	}

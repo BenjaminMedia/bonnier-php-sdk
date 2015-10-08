@@ -5,12 +5,10 @@ use Bonnier\RestItem;
 use Bonnier\ServiceException;
 use Bonnier\ServiceResult;
 
-class ServiceAppBrandCombination extends RestItem {
-
-    const TYPE = 'combination';
+class ServiceAppBrandCode extends RestItem {
 
     public function __construct($username, $secret) {
-        parent::__construct(new ServiceBase($username, $secret, self::TYPE));
+        parent::__construct(new ServiceBase($username, $secret));
         $this->service->setServiceEventListener($this);
     }
 
@@ -37,11 +35,11 @@ class ServiceAppBrandCombination extends RestItem {
      * @return boolean
      */
     public function check($brandCode, $appCode) {
-        if(is_null($appCode) || is_null($brandCode)) {
+        if(is_null($brandCode) || is_null($appCode)) {
             throw new ServiceException('Invalid argument for parameters');
         }
 
-        $combinations = $this->api();
+        $combinations = $this->api('combination');
 
         foreach($combinations->getRows() as $combination) {
             $appCodeValue = $combination->app_code['value'];
@@ -55,13 +53,33 @@ class ServiceAppBrandCombination extends RestItem {
     }
 
     /**
-     * Get list of combinations you have access to
+     * Returns a list of combinations you have access to
      *
      * @throws \Bonnier\ServiceException
      * @return array
      */
     public function getList() {
-        return $this->api()->getRows();
+        return $this->api('combinations')->getRows();
+    }
+
+    /**
+     * Returns a list of all Brand codes
+     *
+     * @throws \Bonnier\ServiceException
+     * @return array
+     */
+    public function getBrandCodes() {
+        return $this->api('brandcodes')->getRows();
+    }
+
+    /**
+     * Returns a list of all App codes
+     *
+     * @throws \Bonnier\ServiceException
+     * @return array
+     */
+    public function getAppCodes() {
+        return $this->api('appcodes')->getRows();
     }
 
     /**

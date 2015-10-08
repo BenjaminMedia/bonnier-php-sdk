@@ -15,9 +15,7 @@ All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` c
 | ```ServiceContentType```		| Service for retrieving content types from index-search            |
 | ```ServiceAuth```       		| Auth class for checking authentication through index-search       |
 | ```ServiceApplication```		| Application class for information about index-search applications |
-| ```ServiceBrandCode```  		| Service for retrieving a list of brand codes                      |
-| ```ServiceAppCode```			| Service for retrieving a list of app codes                        |
-| ```ServiceAppBrandCombination``` | Service for retrieving and checking available app and brand combinations |
+| ```ServiceAppBrandCode``` | Service for retrieving and checking available app and brand code combinations |
 
 
 #### Get single
@@ -222,32 +220,13 @@ $results = $custom->getCollection()->customFilter()->execute(); // This will ret
 
 ### Extra Services
 
-#### Get list of available app code & brand code combinations
-
-This example retrieves all available app code and brand code combinations that you have access to.
-
-```php
-$serviceAppBrandCombination = new Bonnier\IndexSearch\ServiceAppBrandCombination($username, $secret);
-$combinationList = $serviceAppBrandCombination->getList();
-
-```
-
-#### Check access to a given app code & brand code combination
-
-This example returns true or false based on access to a given app code & brand code combination
-
-```php
-$serviceCombination = new \Bonnier\IndexSearch\ ServiceAppBrandCombination($username, $secret);
-$isValidCombination =  $serviceCombination->check("kom", "fordelszonen");
-```
-
 #### Get Brand Codes
 
 This examples retrieves a list of all brand codes, typically to be used for filtering
 
 ```php
-$serviceBrandCode = new \Bonnier\IndexSearch\ServiceBrandCode($username, $secret);
-$brandCodeList = $serviceBrandCode->getList();
+$service = new \Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
+$brandCodeList = $serviceBrandCode->getBrandCodes();
 ```
 
 #### Get App Codes
@@ -255,6 +234,24 @@ $brandCodeList = $serviceBrandCode->getList();
 This examples retrieves a list of all app codes, typically to be used for filtering
 
 ```php
-$serviceAppCode = new \Bonnier\IndexSearch\ServiceAppCode($username, $secret);
-$appCodeList = $serviceAppCode->getList();
+$service = new \Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
+$appCodeList = $serviceAppCode->getAppCodes();
+```
+
+#### Get list of available app code & brand code combinations
+
+This example retrieves all available app code and brand code combinations that you have access to.
+
+```php
+$service = new Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
+$combinationList = $service->getList();
+```
+
+#### Check access to a given app code & brand code combination
+
+This example returns true or false based on access to a given app code & brand code combination
+
+```php
+$service = new \Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
+$isValid =  $service->check("kom", "fordelszonen");
 ```
