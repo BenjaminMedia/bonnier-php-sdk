@@ -15,7 +15,7 @@ All related ```IndexSearch``` classes extends from the ```\Bonnier\RestItem``` c
 | ```ServiceContentType```		| Service for retrieving content types from index-search            |
 | ```ServiceAuth```       		| Auth class for checking authentication through index-search       |
 | ```ServiceApplication```		| Application class for information about index-search applications |
-| ```ServiceAppBrandCode``` | Service for retrieving and checking available app and brand code combinations |
+| ```ServiceAppBrandCode```	| Service for handling app and brand code checking and listing |
 
 
 #### Get single
