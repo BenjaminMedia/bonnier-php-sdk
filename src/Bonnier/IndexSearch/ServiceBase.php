@@ -18,7 +18,7 @@ class ServiceBase extends ServiceRestBase {
 			$this->serviceUrl = 'https://indexdb.whitealbum.dk/api/v1/';
 		}
 
-        $this->serviceUrl . !empty($this->type) ? '%1$s/' : '';
+        $this->serviceUrl . empty($this->type) ? '' : '%1$s/';
 
 		return sprintf($this->serviceUrl, $this->type);
 	}
@@ -27,9 +27,5 @@ class ServiceBase extends ServiceRestBase {
 		$this->development = $bool;
 		return $this;
 	}
-
-    public function setServiceUrl($url) {
-        $this->serviceUrl = $url;
-    }
 
 }
