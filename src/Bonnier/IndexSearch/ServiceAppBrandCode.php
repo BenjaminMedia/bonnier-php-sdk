@@ -39,7 +39,7 @@ class ServiceAppBrandCode extends RestItem {
             throw new ServiceException('Invalid argument for parameters');
         }
 
-        $combinations = $this->api('combination');
+        $combinations = $this->api('combinations');
 
         foreach($combinations->getRows() as $combination) {
             $appCodeValue = $combination->app_code['value'];
