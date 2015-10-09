@@ -20,8 +20,12 @@ class RestBase {
         $this->httpRequest = new HttpRequest();
     }
 
-    protected function getServiceUrl() {
+    public function getServiceUrl() {
         return $this->serviceUrl;
+    }
+
+    public function setServiceUrl($serviceUrl) {
+        $this->serviceUrl = $serviceUrl;
     }
 
     /**

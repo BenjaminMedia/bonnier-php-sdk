@@ -11,7 +11,7 @@ class ServiceBase extends ServiceRestBase {
 		$this->type = $type;
 	}
 
-	protected function getServiceUrl() {
+	public function getServiceUrl() {
 		if($this->development) {
 			$this->serviceUrl = 'https://staging-indexdb.whitealbum.dk/api/v1/';
 		} else {
