@@ -11,7 +11,7 @@ class OAuth {
 		parent::__construct();
 	}
 
-	protected function getServiceUrl() {
+	public function getServiceUrl() {
 		return 'https://bonnier-admin.herokuapp.com/oauth/token';
 	}
 

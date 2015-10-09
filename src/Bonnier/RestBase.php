@@ -20,8 +20,12 @@ class RestBase {
         $this->httpRequest = new HttpRequest();
     }
 
-    protected function getServiceUrl() {
+    public function getServiceUrl() {
         return $this->serviceUrl;
+    }
+
+    public function setServiceUrl($serviceUrl) {
+        $this->serviceUrl = $serviceUrl;
     }
 
     /**
@@ -33,8 +37,6 @@ class RestBase {
 
     /**
      * Execute api call.
-     *
-     * Return type will be whats defined in the event $this->onResponseReceived().
      *
      * @param string|null $url
      * @param string $method
@@ -51,10 +53,10 @@ class RestBase {
         $data['_method'] = $method;
 
         if($method == self::METHOD_GET && is_array($data)) {
-            $url = $url . '?'.http_build_query($data);
+            $url .= '?'.http_build_query($data);
         }
 
-        $apiUrl = rtrim($this->getServiceUrl(), '/') . '/' . $url;
+        $apiUrl = rtrim($this->getServiceUrl(), '/') . ($url ? '/' . $url : '');
 
         $this->httpRequest->setUrl($apiUrl);
 
