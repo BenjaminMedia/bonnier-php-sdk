@@ -89,6 +89,21 @@ $translation->addLanguage('nb_no');
 $translation->save();
 ```
 
+#### Delete item
+
+This is a basic example of deleting an item.
+
+```php
+$service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
+
+$translation = $service->getById('2131231231');
+$translation->delete();
+
+if($translation->deleted) {
+    // Item successfully deleted
+}
+```
+
 #### Get list, add query and apply filters
 Get the results sets, query everything matching locale ```da_dk``` with application id ```13``` - then skip 5 results and take 5.
 ```execute()``` performs the api-call and delivers the results.
