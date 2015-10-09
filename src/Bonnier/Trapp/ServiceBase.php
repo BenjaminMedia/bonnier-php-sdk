@@ -22,7 +22,7 @@ class ServiceBase extends ServiceRestBase {
 			}
 		}
 
-		$this->serviceUrl = $this->serviceUrl . empty($this->type) ? '' : '%1$s/';
+		$this->serviceUrl .= empty($this->type) ? '' : '%1$s/';
 
 		return sprintf($this->serviceUrl, $this->type);
 	}
