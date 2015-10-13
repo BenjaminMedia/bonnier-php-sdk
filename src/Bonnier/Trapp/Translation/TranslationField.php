@@ -7,8 +7,9 @@ use Bonnier\ServiceException;
 class TranslationField {
 
 	const DISPLAY_FORMAT_TEXT = 'text';
+	const DISPLAY_FORMAT_IMAGE = 'image';
 
-	static $displayFormats = array(self::DISPLAY_FORMAT_TEXT);
+	static $displayFormats = array(self::DISPLAY_FORMAT_TEXT, self::DISPLAY_FORMAT_IMAGE);
 
 	public $id;
 	public $label;
@@ -79,7 +80,7 @@ class TranslationField {
 	/**
 	 * @param string $group
 	 */
-	public function setGroup( $group ) {
+	public function setGroup($group) {
 		$this->group = $group;
 	}
 
@@ -116,7 +117,8 @@ class TranslationField {
 			'label' => $this->label,
 			'value' => $this->value,
 			'display_format' => $this->displayFormat,
-			'group' => $this->group
+			'group' => $this->group,
+			'shared_key' => $this->sharedKey
 		);
 	}
 
@@ -129,10 +131,23 @@ class TranslationField {
 	 */
 	public static function fromArray(array $field) {
 		$object = new self($field['label'], $field['value']);
-		$object->setId($field['_id']);
-		$object->setGroup($field['group']);
-		$object->setDisplayFormat($field['display_format']);
-		$object->setSharedKey($field['shared_key']);
+
+		if(isset($field['_id'])) {
+			$object->setId($field['_id']);
+		}
+
+		if(isset($field['group'])) {
+			$object->setGroup($field['group']);
+		}
+
+		if(isset($field['display_format'])) {
+			$object->setDisplayFormat($field['display_format']);
+		}
+
+		if(isset($field['shared_key'])) {
+			$object->setSharedKey($field['shared_key']);
+		}
+
 		return $object;
 	}
 
