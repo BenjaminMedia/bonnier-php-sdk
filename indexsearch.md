@@ -80,6 +80,8 @@ $item->created_at = date('d-m-Y', time());
 $item->updated_at = date('d-m-Y', time());
 $item->path = '/';
 $item->active = true;
+$item->app_code = 'bilindex';
+$item->brand_code = 'bil';
 $item->save();
 ``` 
 
