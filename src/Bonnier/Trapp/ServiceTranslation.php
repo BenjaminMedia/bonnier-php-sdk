@@ -142,6 +142,15 @@ class ServiceTranslation extends RestItem {
 	}
 
 	/**
+	 * Get latest revision
+	 *
+	 * @return TranslationRevision|null
+	 */
+	public function getLatestRevision() {
+		return (count($this->row->revisions)) ? TranslationRevision::fromArray(end($this->row->revisions)) : null;
+	}
+
+	/**
 	 * Get locale for the original item
 	 *
 	 * @return string

@@ -13,8 +13,10 @@ class TranslationRevision {
 
 	public function getFields() {
 		$out = array();
-		foreach($this->data->fields as $field) {
-			$out[] = TranslationField::fromArray($field);
+		if(isset($this->data['fields']) && count($this->data['fields'])) {
+			foreach($this->data['fields'] as $field) {
+				$out[] = TranslationField::fromArray($field);
+			}
 		}
 
 		return $out;

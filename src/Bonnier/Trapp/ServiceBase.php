@@ -16,13 +16,11 @@ class ServiceBase extends ServiceRestBase {
 	public function getServiceUrl() {
 		if(!$this->serviceUrl) {
 			if ($this->development) {
-				$this->serviceUrl = 'http://staging-trapp.whitealbum.dk/api/v1/';
+				$this->serviceUrl = 'http://staging-trapp.whitealbum.dk/api/v1/' . empty($this->type) ? '' : '%1$s/';
 			} else {
-				$this->serviceUrl = 'http://trapp.whitealbum.dk/api/v1/';
+				$this->serviceUrl = 'http://trapp.whitealbum.dk/api/v1/' . empty($this->type) ? '' : '%1$s/';
 			}
 		}
-
-		$this->serviceUrl = $this->serviceUrl . empty($this->type) ? '' : '%1$s/';
 
 		return sprintf($this->serviceUrl, $this->type);
 	}
