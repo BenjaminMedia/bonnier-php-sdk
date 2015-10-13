@@ -57,6 +57,8 @@ $item->path = '/';
 $item->locale = 'da_dk';
 $item->content_url = 'http://www.revert.dk/12213-article.html';
 $item->active = true;
+$item->app_code = 'bilindex';
+$item->brand_code = 'bil';
 $item->save();
 ```
 
@@ -78,6 +80,8 @@ $item->created_at = date('d-m-Y', time());
 $item->updated_at = date('d-m-Y', time());
 $item->path = '/';
 $item->active = true;
+$item->app_code = 'bilindex';
+$item->brand_code = 'bil';
 $item->save();
 ``` 
 
