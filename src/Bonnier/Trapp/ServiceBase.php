@@ -21,7 +21,7 @@ class ServiceBase extends ServiceRestBase {
 				$this->serviceUrl = 'http://trapp.whitealbum.dk/api/v1/' . empty($this->type) ? '' : '%1$s/';
 			}
 		}
-		
+
 		return sprintf($this->serviceUrl, $this->type);
 	}
 
