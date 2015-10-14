@@ -25,7 +25,7 @@ class ShellResponse {
         $this->header = $responseObject->html->body->header;
         $this->endTag = $responseObject->html->end_tag;
         $this->banners = $responseObject->html->banners;
-        $this->logos = $responseObject->html->logos;
+        $this->logos = $responseObject->logos;
     }
     /**
      * @return string
