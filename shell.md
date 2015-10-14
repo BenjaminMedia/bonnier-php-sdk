@@ -30,7 +30,8 @@ $header = $shell->getHeader(); // return header
 $banners = $shell->getBanners(); // return banners
 $body = $shell->getEndTag(); // return end tag
 $startTag = $shell->getStartTag(); // return start tag
-$endTag $shell->getBody(); // return body \stdClass
+$endTag = $shell->getBody(); // return body \stdClass
+$logos = $shell->getLogos(); // return an array with a logo_standard and a logo_unicolor_white url
 ```
 
 #### Debugging the result
