@@ -12,6 +12,7 @@ class ShellResponse {
     private $header;
     private $endTag;
     private $banners;
+    private $logos;
 
     public function __construct(HttpResponse $response) {
         $this->httpResponse = $response;
@@ -24,6 +25,7 @@ class ShellResponse {
         $this->header = $responseObject->html->body->header;
         $this->endTag = $responseObject->html->end_tag;
         $this->banners = $responseObject->html->banners;
+        $this->logos = $responseObject->logos;
     }
     /**
      * @return string
@@ -72,6 +74,17 @@ class ShellResponse {
      */
     public function getHttpResponse() {
         return $this->httpResponse;
+    }
+
+    /**
+     * Returns two strings in an array. Each string contains an url
+     * referencing the location of the stored images. The images
+     * provided are 'logo_standard' and 'logo_unicolor_white'
+     *
+     * @return array
+     */
+    public function getLogos() {
+        return $this->logos;
     }
 
 }

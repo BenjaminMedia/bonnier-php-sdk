@@ -16,9 +16,9 @@ class ServiceBase extends ServiceRestBase {
 	public function getServiceUrl() {
 		if(!$this->serviceUrl) {
 			if ($this->development) {
-				$this->serviceUrl = 'http://staging-trapp.whitealbum.dk/api/v1/' . empty($this->type) ? '' : '%1$s/';
+				$this->serviceUrl = 'http://staging-trapp.whitealbum.dk/api/v1/' . (empty($this->type) ? '' : '%1$s/');
 			} else {
-				$this->serviceUrl = 'http://trapp.whitealbum.dk/api/v1/' . empty($this->type) ? '' : '%1$s/';
+				$this->serviceUrl = 'http://trapp.whitealbum.dk/api/v1/' . (empty($this->type) ? '' : '%1$s/');
 			}
 		}
 
