@@ -42,7 +42,7 @@ class RestBase {
      * @param string $method
      * @param array|null $data
      * @throws ServiceException
-     * @return mixed
+     * @return HttpResponse|mixed
      */
     public function api($url = null, $method = self::METHOD_GET, array $data = array()) {
         if(!in_array($method, self::$METHODS)) {

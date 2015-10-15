@@ -4,7 +4,32 @@ function __autoload($file) {
     include '../src/' . str_replace('\\', DIRECTORY_SEPARATOR, $file) . '.php';
 }
 
-$secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
+// The url which the user will be redirected to
+$redirectUrl = 'https://local.bonnier-sdk.dk/';
+
+$bonnierAdmin = new \Bonnier\Admin\OAuth('b6d6e6d0b08c7d12d10d15a5884321cdee7d0215f884821d8cbc6f41440ed89c', 'a84cd814e21fe95114513ae13e639e3017bd2a57c494e304177fc7ab279cdba6');
+
+if(!isset($_COOKIE['token'])) {
+    if(isset($_GET['code'])) {
+        $bonnierAdmin->setGrantToken($redirectUrl, $_GET['code']);
+        setcookie('token', $bonnierAdmin->getAccessToken(), time() * 60, '/');
+    }
+} else {
+    $bonnierAdmin->setAccessToken($_COOKIE['token']);
+}
+
+$user = $bonnierAdmin->getUser();
+
+if(!$user) {
+    // If the user is not logged in, we redirect to the login screen.
+    header('location: ' . $bonnierAdmin->getLoginUrl($redirectUrl));
+}
+
+// Contains the currently active user
+var_dump($user);
+die();
+
+/*$secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
 $username = 'Test';
 
 $serviceAppBrandCode = new Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
@@ -16,7 +41,7 @@ $serviceAppCode = $serviceAppBrandCode->getAppCodes();
 
 var_dump($isValidCombination, $combinationList, $brandCodeList, $serviceAppCode);
 
-exit();
+exit();*/
 /*$data = array("name" => "Hagrid", "age" => "36");
 $data_string = json_encode($data);
 
