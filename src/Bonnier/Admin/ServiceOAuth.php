@@ -2,10 +2,10 @@
 namespace Bonnier\Admin;
 
 use Bonnier\HttpResponse;
-use Bonnier\RESTBase;
+use Bonnier\RestBase;
 use Bonnier\ServiceException;
 
-class ServiceOAuth extends RESTBase {
+class ServiceOAuth extends RestBase {
 
 	const SERVICE_URL = 'https://bonnier-admin.herokuapp.com/';
 
