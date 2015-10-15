@@ -12,6 +12,8 @@ Creates a new instance of the ```OAuth``` and provide the ```$appId``` and ```$a
 
 Remember to change the ```$redirectUrl``` so it matches the correct route for your application.
 
+**NOTE: According to the documentation the ```redirectUrl``` is not required when setting the grant-token using the ```setGrantToken``` method. However, I werent able to make it work without - as it seems it is required by mistake or theres an error in the documentation.**
+
 ```php
 // The url which the user will be redirected to
 $redirectUrl = 'https://example.com';
