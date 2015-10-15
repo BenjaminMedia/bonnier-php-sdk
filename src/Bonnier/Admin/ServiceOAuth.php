@@ -5,7 +5,7 @@ use Bonnier\HttpResponse;
 use Bonnier\RESTBase;
 use Bonnier\ServiceException;
 
-class OAuth extends RESTBase {
+class ServiceOAuth extends RESTBase {
 
 	const SERVICE_URL = 'https://bonnier-admin.herokuapp.com/';
 

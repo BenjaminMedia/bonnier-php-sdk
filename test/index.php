@@ -7,7 +7,7 @@ function __autoload($file) {
 // The url which the user will be redirected to
 $redirectUrl = 'https://local.bonnier-sdk.dk/';
 
-$bonnierAdmin = new \Bonnier\Admin\OAuth('b6d6e6d0b08c7d12d10d15a5884321cdee7d0215f884821d8cbc6f41440ed89c', 'a84cd814e21fe95114513ae13e639e3017bd2a57c494e304177fc7ab279cdba6');
+$bonnierAdmin = new \Bonnier\Admin\ServiceOAuth('b6d6e6d0b08c7d12d10d15a5884321cdee7d0215f884821d8cbc6f41440ed89c', 'a84cd814e21fe95114513ae13e639e3017bd2a57c494e304177fc7ab279cdba6');
 
 if(!isset($_COOKIE['token'])) {
     if(isset($_GET['code'])) {
