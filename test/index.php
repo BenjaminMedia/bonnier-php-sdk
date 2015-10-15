@@ -4,11 +4,14 @@ function __autoload($file) {
     include '../src/' . str_replace('\\', DIRECTORY_SEPARATOR, $file) . '.php';
 }
 
+// The url which the user will be redirected to
+$redirectUrl = 'https://local.bonnier-sdk.dk/';
+
 $bonnierAdmin = new \Bonnier\Admin\OAuth('b6d6e6d0b08c7d12d10d15a5884321cdee7d0215f884821d8cbc6f41440ed89c', 'a84cd814e21fe95114513ae13e639e3017bd2a57c494e304177fc7ab279cdba6');
 
 if(!isset($_COOKIE['token'])) {
     if(isset($_GET['code'])) {
-        $bonnierAdmin->setGrantToken('urn:ietf:wg:oauth:2.0:oob', $_GET['code']);
+        $bonnierAdmin->setGrantToken($redirectUrl, $_GET['code']);
         setcookie('token', $bonnierAdmin->getAccessToken(), time() * 60, '/');
     }
 } else {
@@ -18,10 +21,11 @@ if(!isset($_COOKIE['token'])) {
 $user = $bonnierAdmin->getUser();
 
 if(!$user) {
-    echo sprintf('<a href="%1$s">%1$s</a>', $bonnierAdmin->getLoginUrl('urn:ietf:wg:oauth:2.0:oob'));
+    // If the user is not logged in, we redirect to the login screen.
+    header('location: ' . $bonnierAdmin->getLoginUrl($redirectUrl));
 }
 
-
+// Contains the currently active user
 var_dump($user);
 die();
 
