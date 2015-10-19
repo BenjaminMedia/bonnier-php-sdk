@@ -61,7 +61,7 @@ class ServiceContent extends RestItem {
         if(is_array($this->row->meta)) {
             $row->meta = json_encode($row->meta);
         }
-        return $row;
+        return (array)$row;
     }
 
     /**
@@ -75,7 +75,7 @@ class ServiceContent extends RestItem {
             throw new ServiceException('Failed to update. Missing required argument "id".');
         }
 
-        $this->row = $this->api($this->id, RestBase::METHOD_PUT, (array)$this->getPostData())->getRow();
+        $this->row = $this->api($this->id, RestBase::METHOD_PUT, $this->getPostData())->getRow();
         return $this;
     }
 
@@ -86,7 +86,7 @@ class ServiceContent extends RestItem {
      * @return static
      */
     public function save() {
-        $this->row = $this->api(null, RestBase::METHOD_POST, (array)$this->getPostData())->getRow();
+        $this->row = $this->api(null, RestBase::METHOD_POST, $this->getPostData())->getRow();
         return $this;
     }
 
