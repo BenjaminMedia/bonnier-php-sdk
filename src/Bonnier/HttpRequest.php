@@ -4,7 +4,6 @@ namespace Bonnier;
 
 class HttpRequest {
 
-	protected $handle;
 	protected $url;
 	protected $method;
 	protected $headers;
@@ -21,7 +20,6 @@ class HttpRequest {
 
 		$this->reset();
 		$this->url = $url;
-		$this->handle = curl_init();
 	}
 
 	public function reset() {
@@ -117,18 +115,20 @@ class HttpRequest {
 	}
 
 	public function execute($return) {
+		$handle = curl_init();
+
 		if(is_null($this->url)) {
 			throw new \InvalidArgumentException('Missing required property: url');
 		}
 
-		curl_setopt($this->handle, CURLOPT_URL, $this->url);
+		curl_setopt($handle, CURLOPT_URL, $this->url);
 
 		if($return) {
-			curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 		}
 
 		if($this->timeout) {
-			curl_setopt($this->handle, CURLOPT_TIMEOUT_MS, $this->timeout);
+			curl_setopt($handle, CURLOPT_TIMEOUT_MS, $this->timeout);
 		}
 
 		// Add request data
@@ -136,23 +136,23 @@ class HttpRequest {
 			$data = ($this->postJson) ? json_encode($this->data) : http_build_query($this->data);
 			$this->addHeader('Content-length: ' . strlen($data));
 
-			curl_setopt($this->handle, CURLOPT_POST, true);
-			curl_setopt($this->handle, CURLOPT_POSTFIELDS, $data);
+			curl_setopt($handle, CURLOPT_POST, true);
+			curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
 		}
 
 		// Add headers
 		if(count($this->headers)) {
-			curl_setopt($this->handle, CURLOPT_HTTPHEADER, $this->headers);
+			curl_setopt($handle, CURLOPT_HTTPHEADER, $this->headers);
 		}
 
 		// Add custom curl options
 		if(count($this->options)) {
 			foreach($this->options as $option => $value) {
-				curl_setopt($this->handle, $option, $value);
+				curl_setopt($handle, $option, $value);
 			}
 		}
 
-		return new HttpResponse($this->handle);
+		return new HttpResponse($handle);
 	}
 
 }
