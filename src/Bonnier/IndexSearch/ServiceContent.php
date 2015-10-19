@@ -56,6 +56,41 @@ class ServiceContent extends RestItem {
         return $this->api($id);
     }
 
+    protected function getPostData() {
+        $row = $this->row;
+        if(is_array($this->row->meta)) {
+            $row->meta = json_encode($row->meta);
+        }
+        return $row;
+    }
+
+    /**
+     * Update item
+     *
+     * @throws \Bonnier\ServiceException
+     * @return static
+     */
+    public function update() {
+        if($this->id === null) {
+            throw new ServiceException('Failed to update. Missing required argument "id".');
+        }
+
+        $this->row = $this->api($this->id, RestBase::METHOD_PUT, (array)$this->getPostData())->getRow();
+        return $this;
+    }
+
+    /**
+     * Save item
+     *
+     * @throws \Bonnier\ServiceException
+     * @return static
+     */
+    public function save() {
+        $this->row = $this->api(null, RestBase::METHOD_POST, (array)$this->getPostData())->getRow();
+        return $this;
+    }
+
+
     public function setDevelopment($bool) {
         $this->service->setDevelopment($bool);
         return $this;
