@@ -115,12 +115,11 @@ class HttpRequest {
 	}
 
 	public function execute($return) {
+		$handle = curl_init();
 
 		if(is_null($this->url)) {
 			throw new \InvalidArgumentException('Missing required property: url');
 		}
-
-		$handle = curl_init();
 
 		curl_setopt($handle, CURLOPT_URL, $this->url);
 
