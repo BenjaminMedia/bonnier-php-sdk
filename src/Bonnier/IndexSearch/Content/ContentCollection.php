@@ -63,8 +63,8 @@ class ContentCollection extends RestCollection implements IServiceCollection {
         return $this;
     }
 
-    public function site($siteCode) {
-        $this->service->getHttpRequest()->addPostData('site_code', $siteCode);
+    public function brand($siteCode) {
+        $this->service->getHttpRequest()->addPostData('brand_code', $siteCode);
         return $this;
     }
 
