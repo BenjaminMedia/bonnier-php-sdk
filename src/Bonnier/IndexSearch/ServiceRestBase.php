@@ -10,9 +10,9 @@
  */
 namespace Bonnier\IndexSearch;
 
-use Bonnier\HttpResponse;
-use Bonnier\IRestEventListener;
-use Bonnier\RestBase;
+use Pecee\Http\HttpResponse;
+use Pecee\Http\Rest\IRestEventListener;
+use Pecee\Http\Rest\RestBase;
 use Bonnier\ServiceException;
 
 abstract class ServiceRestBase extends RestBase {

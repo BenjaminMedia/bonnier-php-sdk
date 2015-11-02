@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\RestItem;
+use Pecee\Http\Rest\RestItem;
 
 class ServiceLanguage extends RestItem {
 

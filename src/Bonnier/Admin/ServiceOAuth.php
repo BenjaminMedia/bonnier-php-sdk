@@ -1,8 +1,8 @@
 <?php
 namespace Bonnier\Admin;
 
-use Bonnier\HttpResponse;
-use Bonnier\RestBase;
+use Pecee\Http\HttpResponse;
+use Pecee\Http\RestBase;
 use Bonnier\ServiceException;
 
 class ServiceOAuth extends RestBase {

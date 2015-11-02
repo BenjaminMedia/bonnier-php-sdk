@@ -2,9 +2,8 @@
 namespace Bonnier\IndexSearch;
 
 use Bonnier\IndexSearch\Content\ContentCollection;
-use Bonnier\IRestEventListener;
-use Bonnier\RestBase;
-use Bonnier\RestItem;
+use Pecee\Http\Rest\RestBase;
+use Pecee\Http\Rest\RestItem;
 use Bonnier\ServiceException;
 
 class ServiceContent extends RestItem {

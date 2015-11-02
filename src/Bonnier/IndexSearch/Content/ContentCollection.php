@@ -1,8 +1,9 @@
 <?php
 namespace Bonnier\IndexSearch\Content;
-use Bonnier\HttpResponse;
+
+use Pecee\Http\HttpResponse;
 use Bonnier\IndexSearch\IServiceCollection;
-use Bonnier\RestCollection;
+use Pecee\Http\Rest\RestCollection;
 
 class ContentCollection extends RestCollection implements IServiceCollection {
 

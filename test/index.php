@@ -4,6 +4,21 @@ function __autoload($file) {
     include '../src/' . str_replace('\\', DIRECTORY_SEPARATOR, $file) . '.php';
 }
 
+$secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
+$username = 'Test';
+
+$serviceAppBrandCode = new Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
+$serviceAppBrandCode->setDevelopment(true);
+
+$isValidCombination =  $serviceAppBrandCode->check("kom", "fordelszonen");
+$combinationList = $serviceAppBrandCode->getList();
+$brandCodeList = $serviceAppBrandCode->getBrandCodes();
+$serviceAppCode = $serviceAppBrandCode->getAppCodes();
+
+var_dump($isValidCombination, $combinationList, $brandCodeList, $serviceAppCode);
+
+die();
+
 // The url which the user will be redirected to
 $redirectUrl = 'https://local.bonnier-sdk.dk/';
 
