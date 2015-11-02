@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier\Shell;
 
-use Bonnier\HttpResponse;
+use Pecee\Http\HttpResponse;
 
 class ShellResponse {
 

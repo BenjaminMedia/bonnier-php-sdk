@@ -1,8 +1,8 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\RestBase;
-use Bonnier\RestItem;
+use Pecee\Http\Rest\RestBase;
+use Pecee\Http\Rest\RestItem;
 use Bonnier\ServiceException;
 use Bonnier\Trapp\Translation\TranslationCollection;
 use Bonnier\Trapp\Translation\TranslationRevision;

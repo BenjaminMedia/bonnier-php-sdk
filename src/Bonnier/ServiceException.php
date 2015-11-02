@@ -1,6 +1,9 @@
 <?php
 namespace Bonnier;
-class ServiceException extends \Exception {
+
+use Pecee\Http\Rest\RestException;
+
+class ServiceException extends RestException {
 
 	protected $httpResponse;
 

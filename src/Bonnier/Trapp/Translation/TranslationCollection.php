@@ -1,9 +1,9 @@
 <?php
 namespace Bonnier\Trapp\Translation;
 
-use Bonnier\HttpResponse;
+use Pecee\Http\HttpResponse;
 use Bonnier\IndexSearch\IServiceCollection;
-use Bonnier\RestCollection;
+use Pecee\Http\Rest\RestCollection;
 
 class TranslationCollection extends RestCollection implements IServiceCollection {
 
