@@ -64,8 +64,17 @@ class ContentCollection extends RestCollection implements IServiceCollection {
         return $this;
     }
 
-    public function brand($siteCode) {
-        $this->service->getHttpRequest()->addPostData('brand_code', $siteCode);
+    /**
+     * @param $siteCode
+     * @return $this|ContentCollection
+     * @depricated This method is depricated, please use brand method instead.
+     */
+    public function site($siteCode) {
+        return $this->brand($siteCode);
+    }
+
+    public function brand($brandCode) {
+        $this->service->getHttpRequest()->addPostData('brand_code', $brandCode);
         return $this;
     }
 
