@@ -2,7 +2,7 @@
 namespace Bonnier\Admin;
 
 use Pecee\Http\HttpResponse;
-use Pecee\Http\RestBase;
+use Pecee\Http\Rest\RestBase;
 use Bonnier\ServiceException;
 
 class ServiceOAuth extends RestBase {
