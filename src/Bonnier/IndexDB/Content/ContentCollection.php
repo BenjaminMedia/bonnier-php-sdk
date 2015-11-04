@@ -63,7 +63,7 @@ class ContentCollection extends ServiceContent {
     }
 
     public function meta($key, $value) {
-        $this->_data['meta_' . strtolower($key)] = $value;
+        $this->_data['meta.' . strtolower($key)] = $value;
         return $this;
     }
 
@@ -72,9 +72,18 @@ class ContentCollection extends ServiceContent {
         return $this;
     }
 
-    public function site($siteCode) {
-        $this->_data['site_code'] = $siteCode;
+    public function brand($brandCode) {
+        $this->_data['brand_code'] = $brandCode;
         return $this;
+    }
+
+    /**
+     * @param $siteCode
+     * @return self
+     * @depricated This method is depricated, please use brand method instead.
+     */
+    public function site($siteCode) {
+        return $this->brand($siteCode);
     }
 
     public function contentType($type) {
