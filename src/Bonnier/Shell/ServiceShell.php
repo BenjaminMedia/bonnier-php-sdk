@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier\Shell;
 
-use Bonnier\HttpRequest;
+use Pecee\Http\HttpRequest;
 
 class ServiceShell {
 

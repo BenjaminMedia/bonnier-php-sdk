@@ -1,10 +1,8 @@
 <?php
 namespace Bonnier\IndexSearch;
 
-use Bonnier\RestCollection;
-use Bonnier\RestItem;
+use Pecee\Http\Rest\RestItem;
 use Bonnier\ServiceException;
-use Bonnier\ServiceResult;
 
 class ServiceApplication extends RestItem {
 
