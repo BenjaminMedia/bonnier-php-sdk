@@ -1,5 +1,4 @@
 <?php
-
 namespace Bonnier\Trapp\Translation;
 
 class TranslationRevision {

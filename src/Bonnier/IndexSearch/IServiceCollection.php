@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier\IndexSearch;
 
-use Bonnier\HttpResponse;
+use Pecee\Http\HttpResponse;
 
 interface IServiceCollection {
 
