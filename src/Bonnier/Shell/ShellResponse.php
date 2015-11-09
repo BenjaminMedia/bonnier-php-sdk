@@ -61,7 +61,7 @@ class ShellResponse {
      * @return string
      */
     public function getFooter(){
-        return $this->header;
+        return $this->footer;
     }
 
     /**
