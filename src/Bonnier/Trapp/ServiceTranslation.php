@@ -1,8 +1,8 @@
 <?php
 namespace Bonnier\Trapp;
 
-use Bonnier\RestBase;
-use Bonnier\RestItem;
+use Pecee\Http\Rest\RestBase;
+use Pecee\Http\Rest\RestItem;
 use Bonnier\ServiceException;
 use Bonnier\Trapp\Translation\TranslationCollection;
 use Bonnier\Trapp\Translation\TranslationRevision;
@@ -211,6 +211,21 @@ class ServiceTranslation extends RestItem {
 	 */
 	public function getService() {
 		return parent::getService();
+	}
+
+	/**
+	 * Create new object from callback response.
+	 *
+	 * @param string $username
+	 * @param string $secret
+	 * @param \stdClass $request
+	 *
+	 * @return static
+	 */
+	public static function fromCallback($username, $secret, \stdClass $request) {
+		$translation = new static($username, $secret);
+		$translation->setRow($request);
+		return $translation;
 	}
 
 }

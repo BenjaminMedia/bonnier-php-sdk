@@ -1,8 +1,26 @@
 <?php
 
-function __autoload($file) {
-    include '../src/' . str_replace('\\', DIRECTORY_SEPARATOR, $file) . '.php';
-}
+require_once '../vendor/autoload.php';
+
+$secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
+$username = 'Test';
+
+$request = (array)json_decode(file_get_contents('http://staging-trapp.whitealbum.dk/api/v1/translation/55f8261fc01443cd158b45c5'));
+
+$serviceCallback = \Bonnier\Trapp\ServiceCallback::fromRequest($secret, $secret, $request);
+die(var_dump($serviceCallback->getRevision(0)));
+
+$serviceAppBrandCode = new Bonnier\IndexSearch\ServiceAppBrandCode($username, $secret);
+$serviceAppBrandCode->setDevelopment(true);
+
+$isValidCombination =  $serviceAppBrandCode->check("kom", "fordelszonen");
+$combinationList = $serviceAppBrandCode->getList();
+$brandCodeList = $serviceAppBrandCode->getBrandCodes();
+$serviceAppCode = $serviceAppBrandCode->getAppCodes();
+
+var_dump($isValidCombination, $combinationList, $brandCodeList, $serviceAppCode);
+
+die();
 
 // The url which the user will be redirected to
 $redirectUrl = 'https://local.bonnier-sdk.dk/';

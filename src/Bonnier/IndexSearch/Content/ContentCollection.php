@@ -1,8 +1,9 @@
 <?php
 namespace Bonnier\IndexSearch\Content;
-use Bonnier\HttpResponse;
+
+use Pecee\Http\HttpResponse;
 use Bonnier\IndexSearch\IServiceCollection;
-use Bonnier\RestCollection;
+use Pecee\Http\Rest\RestCollection;
 
 class ContentCollection extends RestCollection implements IServiceCollection {
 
@@ -63,8 +64,17 @@ class ContentCollection extends RestCollection implements IServiceCollection {
         return $this;
     }
 
+    /**
+     * @param $siteCode
+     * @return $this|ContentCollection
+     * @depricated This method is depricated, please use brand method instead.
+     */
     public function site($siteCode) {
-        $this->service->getHttpRequest()->addPostData('site_code', $siteCode);
+        return $this->brand($siteCode);
+    }
+
+    public function brand($brandCode) {
+        $this->service->getHttpRequest()->addPostData('brand_code', $brandCode);
         return $this;
     }
 

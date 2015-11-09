@@ -1,7 +1,7 @@
 <?php
 namespace Bonnier\Shell;
 
-use Bonnier\HttpResponse;
+use Pecee\Http\HttpResponse;
 
 class ShellResponse {
 
@@ -10,6 +10,7 @@ class ShellResponse {
     private $head;
     private $body;
     private $header;
+    private $footer;
     private $endTag;
     private $banners;
     private $logos;
@@ -23,6 +24,7 @@ class ShellResponse {
         $this->head = $responseObject->html->head;
         $this->body = $responseObject->html->body;
         $this->header = $responseObject->html->body->header;
+        $this->footer = $responseObject->html->body->footer;
         $this->endTag = $responseObject->html->end_tag;
         $this->banners = $responseObject->html->banners;
         $this->logos = $responseObject->logos;
@@ -53,6 +55,13 @@ class ShellResponse {
      */
     public function getHeader(){
         return $this->header;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFooter(){
+        return $this->footer;
     }
 
     /**
