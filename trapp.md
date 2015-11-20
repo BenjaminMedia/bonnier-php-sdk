@@ -119,6 +119,19 @@ $results = $service->getCollection() // Get the queryable TranslationCollection 
 ->execute(); // Call the service and get the results, similar to calling api()
 ```
 
+#### Creating object from callback
+
+If you want a nice ```ServiceTranslation``` object upon receiving the callback from Trapp, you can use the ```fromCallback``` method on the ```ServiceTranslation``` class.
+
+Example:
+
+```php
+    // Parse Trapp response
+    $callbackResponse = $_POST;
+
+    $object = \Bonnier\Trapp\ServiceTranslation::fromCallback($username, $secret, $callbackResponse);
+```
+
 #### Add custom parameters, headers, timeout - etc.
 
 Switch between production and staging environment by using:
