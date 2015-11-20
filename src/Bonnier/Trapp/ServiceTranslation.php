@@ -222,9 +222,9 @@ class ServiceTranslation extends RestItem {
 	 *
 	 * @return static
 	 */
-	public static function fromCallback($username, $secret, \stdClass $request) {
+	public static function fromCallback($username, $secret, \stdClass $response) {
 		$translation = new static($username, $secret);
-		$translation->setRow($request);
+		$translation->setRow($response);
 		return $translation;
 	}
 
