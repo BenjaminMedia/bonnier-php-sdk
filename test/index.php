@@ -2,10 +2,18 @@
 
 require_once '../vendor/autoload.php';
 
-$secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
+$secret = 'D078240EBDF4FC9DAF2DC6E7AF3E538A';
 $username = 'Test';
 
-$request = (array)json_decode(file_get_contents('http://staging-trapp.whitealbum.dk/api/v1/translation/55f8261fc01443cd158b45c5'));
+$service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
+$service->setDevelopment(true);
+$test = $service->getCollection()->metaOrder('meta.id', 'asc')->execute();
+
+echo '<pre>';
+die(var_dump($test));
+echo '</pre>';
+
+/*$request = (array)json_decode(file_get_contents('http://staging-trapp.whitealbum.dk/api/v1/translation/55f8261fc01443cd158b45c5'));
 
 $serviceCallback = \Bonnier\Trapp\ServiceCallback::fromRequest($secret, $secret, $request);
 die(var_dump($serviceCallback->getRevision(0)));
@@ -45,7 +53,7 @@ if(!$user) {
 
 // Contains the currently active user
 var_dump($user);
-die();
+die();*/
 
 /*$secret = 'E71B0555FB96A4ED95635C7030BC7C4D';
 $username = 'Test';
