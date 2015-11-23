@@ -103,4 +103,23 @@ class ContentCollection extends RestCollection implements IServiceCollection {
         $this->service->setDevelopment($bool);
         return $this;
     }
+
+    public function metaOrder($field, $sort = 'asc') {
+        if(!in_array(strtolower($sort), array('asc', 'desc'))) {
+            throw new \InvalidArgumentException('Invalid sort option');
+        }
+
+        $dsl = [
+            'sort' => [
+                'meta.' . $field => $sort,
+            ]
+        ];
+
+        $currentDsl = $this->service->getHttpRequest()->getPostData();
+        $currentDsl = (isset($currentDsl['dsl'])) ? json_decode($currentDsl['dsl']) : array();
+        $this->dsl(array_merge($currentDsl, $dsl));
+
+        return $this;
+    }
+
 }
