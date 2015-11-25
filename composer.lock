@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "pecee/http-service",
-            "version": "1.0.7.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/skipperbent/http-service.git",
-                "reference": "1e7ff3a18efbb154f58b144c66e2fd992c3ec036"
+                "reference": "9c2930a84c2d9744ab23d1fc360906defff2b7dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/skipperbent/http-service/zipball/1e7ff3a18efbb154f58b144c66e2fd992c3ec036",
-                "reference": "1e7ff3a18efbb154f58b144c66e2fd992c3ec036",
+                "url": "https://api.github.com/repos/skipperbent/http-service/zipball/9c2930a84c2d9744ab23d1fc360906defff2b7dd",
+                "reference": "9c2930a84c2d9744ab23d1fc360906defff2b7dd",
                 "shasum": ""
             },
             "require-dev": {
@@ -49,7 +49,7 @@
                 "service",
                 "web"
             ],
-            "time": "2015-11-16 20:35:56"
+            "time": "2015-11-02 17:59:38"
         }
     ],
     "packages-dev": [
@@ -957,16 +957,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.7.6",
+            "version": "v2.7.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "eca9019c88fbe250164affd107bc8057771f3f4d"
+                "reference": "4cfcd7a9fceba662b3c036b7d9a91f6197af046c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/eca9019c88fbe250164affd107bc8057771f3f4d",
-                "reference": "eca9019c88fbe250164affd107bc8057771f3f4d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/4cfcd7a9fceba662b3c036b7d9a91f6197af046c",
+                "reference": "4cfcd7a9fceba662b3c036b7d9a91f6197af046c",
                 "shasum": ""
             },
             "require": {
@@ -981,7 +981,10 @@
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Yaml\\": ""
-                }
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -999,7 +1002,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-11 09:39:48"
+            "time": "2015-11-18 13:41:01"
         }
     ],
     "aliases": [],
