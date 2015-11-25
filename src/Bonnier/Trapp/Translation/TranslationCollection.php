@@ -89,4 +89,27 @@ class TranslationCollection extends RestCollection implements IServiceCollection
         return $this->total;
     }
 
+    public function dsl(array $dsl) {
+        $this->service->getHttpRequest()->addPostData('dsl', json_encode($dsl));
+        return $this;
+    }
+
+    public function metaOrder($field, $sort = 'asc') {
+        if(!in_array(strtolower($sort), array('asc', 'desc'))) {
+            throw new \InvalidArgumentException('Invalid sort option');
+        }
+
+        $dsl = [
+            'sort' => [
+                'meta.' . $field => $sort,
+            ]
+        ];
+
+        $currentDsl = $this->service->getHttpRequest()->getPostData();
+        $currentDsl = (isset($currentDsl['dsl'])) ? json_decode($currentDsl['dsl']) : array();
+        $this->dsl(array_merge($currentDsl, $dsl));
+
+        return $this;
+    }
+
 }

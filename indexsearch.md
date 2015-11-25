@@ -115,6 +115,16 @@ $results = $service->getCollection() // Get the queryable ServiceCollection obje
 ->execute(); // Call the service and get the results, similar to calling api()
 ```
 
+### Sorting on meta fields
+
+This sample below will match the meta field ```{ "computer": { "color": "red" } }``` and order it ascending.
+
+```php
+$service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
+$service->setDevelopment(true);
+$results = $service->getCollection()->metaOrder('compuser.color', 'asc')->execute();
+```
+
 ### Advanced usage
 
 Use DSL to apply even greater filters, by using the "setDsl" method on the ```\Bonnier\IndexSearch\Service\Content\ContentCollection``` class. 
