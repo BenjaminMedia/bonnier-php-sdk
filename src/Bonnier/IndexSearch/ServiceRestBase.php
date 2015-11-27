@@ -42,7 +42,7 @@ abstract class ServiceRestBase extends RestBase {
 		$this->secret = $secret;
 
 		parent::__construct();
-		
+
 		$this->httpRequest->setTimeout(10000);
 	}
 
