@@ -40,7 +40,10 @@ abstract class ServiceRestBase extends RestBase {
 	public function __construct($username, $secret) {
 		$this->username = $username;
 		$this->secret = $secret;
+
 		parent::__construct();
+		
+		$this->httpRequest->setTimeout(10000);
 	}
 
 	/**
@@ -102,8 +105,6 @@ abstract class ServiceRestBase extends RestBase {
 			CURLOPT_SSL_VERIFYHOST => false,
 			CURLOPT_SSL_VERIFYPEER => false
 		));
-
-		$this->httpRequest->setTimeout(10000);
 
 		$data = array_merge($this->httpRequest->getPostData(), $data);
 
