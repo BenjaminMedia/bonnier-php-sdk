@@ -2,16 +2,50 @@
 
 require_once '../vendor/autoload.php';
 
-$secret = 'D078240EBDF4FC9DAF2DC6E7AF3E538A';
-$username = 'Test';
+$max = 1000;
+$content = [];
+$i = 0;
 
-$service = new \Bonnier\IndexSearch\ServiceContent($username, $secret);
-$service->setDevelopment(true);
-$test = $service->getCollection()->metaOrder('meta.id', 'asc')->execute();
+$translation = new \Bonnier\Trapp\ServiceTranslation('Translation', '6277FFAA5D43DEBAF11B62AEB25FB9B5');
+$translation->setDevelopment(true);
 
-echo '<pre>';
-die(var_dump($test));
-echo '</pre>';
+$translation->app_code = 'test';
+$translation->brand_code = 'test';
+
+// Add deadline (current time plus 10 days)
+$deadline = new DateTime();
+$deadline->add(new DateInterval('P10D'));
+
+$translation->setDeadline($deadline);
+$translation->setTitle('Min titel');
+$translation->setLocale('da_dk');
+
+$translation->state = 'state-missing';
+$translation->comment = 'test';
+
+// Create new field
+$field = new \Bonnier\Trapp\Translation\TranslationField('Title', 'Dette er en titel');
+
+// Add this field to a group
+$field->setGroup('Titles');
+
+// Create new revision
+$revision = new \Bonnier\Trapp\Translation\TranslationRevision();
+
+// Add the field that we created earlier
+$revision->addField($field);
+
+$translation->addRevision($revision);
+
+// Add language for the item to be translated into (english, norwegian).
+$translation->addLanguage('en_gb');
+$translation->addLanguage('nb_no');
+
+// Save the translation
+$translation->save();
+
+
+die(var_dump($translation));
 
 /*$request = (array)json_decode(file_get_contents('http://staging-trapp.whitealbum.dk/api/v1/translation/55f8261fc01443cd158b45c5'));
 

@@ -49,11 +49,6 @@ class TranslationRevision {
 		return $this->data->_id;
 	}
 
-	public function setState($state) {
-		$this->data->state = $state;
-		return $this;
-	}
-
 	public function getState() {
 		return $this->data->state;
 	}
