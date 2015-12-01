@@ -66,6 +66,8 @@ $deadline->add(new DateInterval('P10D'));
 $translation->setDeadline($deadline);
 $translation->setTitle('Min titel');
 $translation->setLocale('da_dk');
+$translation->setState('state-missing');
+$translation->setComment('Please dont translate the last portion');
 
 // Create new field
 $field = new \Bonnier\Trapp\Translation\TranslationField('Title', 'Dette er en titel');
