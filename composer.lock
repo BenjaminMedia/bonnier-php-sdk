@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cbde60fa3b91313b8b550e5ccdbc5820",
-    "content-hash": "3b13ab2de877a589130220dab2e75ccb",
+    "hash": "93361482ec551e64933088e3e9438f78",
     "packages": [
         {
             "name": "pecee/http-service",
-            "version": "1.0.3",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/skipperbent/http-service.git",
-                "reference": "9c2930a84c2d9744ab23d1fc360906defff2b7dd"
+                "reference": "a78b07192bdfed7a3c2da0e8bcef05c620b09b38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/skipperbent/http-service/zipball/9c2930a84c2d9744ab23d1fc360906defff2b7dd",
-                "reference": "9c2930a84c2d9744ab23d1fc360906defff2b7dd",
+                "url": "https://api.github.com/repos/skipperbent/http-service/zipball/a78b07192bdfed7a3c2da0e8bcef05c620b09b38",
+                "reference": "a78b07192bdfed7a3c2da0e8bcef05c620b09b38",
                 "shasum": ""
             },
             "require-dev": {
@@ -49,7 +48,7 @@
                 "service",
                 "web"
             ],
-            "time": "2015-11-02 17:59:38"
+            "time": "2015-11-27 12:26:45"
         }
     ],
     "packages-dev": [

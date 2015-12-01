@@ -40,7 +40,17 @@ abstract class ServiceRestBase extends RestBase {
 	public function __construct($username, $secret) {
 		$this->username = $username;
 		$this->secret = $secret;
+
 		parent::__construct();
+
+		$this->httpRequest->setOptions(array(
+				CURLOPT_SSL_VERIFYHOST => false,
+				CURLOPT_SSL_VERIFYPEER => false
+		));
+
+		// Add authentication required by index-search
+		$this->httpRequest->setBasicAuth($this->username, $this->secret);
+		$this->httpRequest->setTimeout(20000);
 	}
 
 	/**
@@ -98,17 +108,7 @@ abstract class ServiceRestBase extends RestBase {
 
 	public function api($url = null, $method = self::METHOD_GET, array $data = array()) {
 
-		$this->httpRequest->setOptions(array(
-			CURLOPT_SSL_VERIFYHOST => false,
-			CURLOPT_SSL_VERIFYPEER => false
-		));
-
-		$this->httpRequest->setTimeout(10000);
-
 		$data = array_merge($this->httpRequest->getPostData(), $data);
-
-		// Add authentication required by index-search
-		$this->httpRequest->setBasicAuth($this->username, $this->secret);
 
 		// Execute the API-call
 		return $this->onResponseReceived( parent::api($url, $method, $data) );
