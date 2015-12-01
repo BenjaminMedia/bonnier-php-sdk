@@ -172,6 +172,16 @@ class ServiceTranslation extends RestItem {
 		return $this->row->translate_into;
 	}
 
+	public function setComment($comment) {
+		$this->row->comment = $comment;
+		return $this;
+	}
+
+	public function setState($state){
+		$this->row->state = $state;
+		return $this;
+	}
+
 	/**
 	 * Add language for the item to be translated into
 	 *
