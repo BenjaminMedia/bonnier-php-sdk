@@ -26,10 +26,10 @@ class ServiceTranslation extends RestItem {
 	 *
 	 * @param int $id
 	 * @throws \Bonnier\ServiceException
-	 * @return TranslationRevision
+	 * @return self
 	 */
 	public function getById($id) {
-		if($id === null) {
+		if(is_null($id)) {
 			throw new ServiceException('Invalid argument for parameter $id');
 		}
 
@@ -151,6 +151,15 @@ class ServiceTranslation extends RestItem {
 	}
 
 	/**
+	 * Get locale for the original item
+	 *
+	 * @return string
+	 */
+	public function getLocale() {
+		return $this->row->locale;
+	}
+
+	/**
 	 * Set the locale for the original item
 	 *
 	 * @param string $locale
@@ -163,18 +172,48 @@ class ServiceTranslation extends RestItem {
 		return $this->row->translate_into;
 	}
 
+	public function setComment($comment) {
+		$this->row->comment = $comment;
+		return $this;
+	}
+
+	public function setState($state){
+		$this->row->state = $state;
+		return $this;
+	}
+
+	/**
+	 * Add language for the item to be translated into
+	 *
+	 * @param string $locale
+	 * @return self
+	 */
+	public function addLanguage($locale) {
+		$this->row->translate_into[] = $locale;
+		return $this;
+	}
+
 	public function addRevision(TranslationRevision $revision) {
 		$this->row->revisions[] = $revision->toArray();
 		return $this;
 	}
 
-	/**
-	 * Get locale for the original item
-	 *
-	 * @return string
-	 */
-	public function getLocale() {
-		return $this->row->locale;
+	public function getDeadline() {
+		return new \DateTime($this->row->deadline);
+	}
+
+	public function setDeadline(\DateTime $datetime) {
+		$this->row->deadline = $datetime->format(DATE_W3C);
+		return $this;
+	}
+
+	public function getTitle() {
+		return $this->row->title;
+	}
+
+	public function setTitle($title) {
+		$this->row->title = $title;
+		return $this;
 	}
 
 	/**
