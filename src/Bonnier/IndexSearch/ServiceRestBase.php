@@ -50,6 +50,7 @@ abstract class ServiceRestBase extends RestBase {
 
 		// Add authentication required by index-search
 		$this->httpRequest->setBasicAuth($this->username, $this->secret);
+
 		$this->httpRequest->setTimeout(20000);
 	}
 

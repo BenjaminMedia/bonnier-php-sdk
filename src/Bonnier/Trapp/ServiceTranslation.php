@@ -228,7 +228,7 @@ class ServiceTranslation extends RestItem {
 	 *
 	 * @param string $username
 	 * @param string $secret
-	 * @param \stdClass $request
+	 * @param \stdClass $response
 	 *
 	 * @return static
 	 */
