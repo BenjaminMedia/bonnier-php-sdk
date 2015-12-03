@@ -12,8 +12,8 @@ class TranslationRevision {
 
 	public function getFields() {
 		$out = array();
-		if(isset($this->data['fields']) && count($this->data['fields'])) {
-			foreach($this->data['fields'] as $field) {
+		if(isset($this->data->fields) && count($this->data->fields)) {
+			foreach($this->data->fields as $field) {
 				$out[] = TranslationField::fromArray($field);
 			}
 		}
@@ -51,6 +51,45 @@ class TranslationRevision {
 
 	public function getState() {
 		return $this->data->state;
+	}
+
+	public function getDeadline() {
+		return new \DateTime($this->row->deadline);
+	}
+
+	public function setDeadline(\DateTime $datetime) {
+		$this->row->deadline = $datetime->format(DATE_W3C);
+		return $this;
+	}
+
+	public function getTitle() {
+		return $this->row->title;
+	}
+
+	public function setTitle($title) {
+		$this->row->title = $title;
+		return $this;
+	}
+
+	public function setComment($comment) {
+		$this->row->comment = $comment;
+		return $this;
+	}
+
+	public function setState($state){
+		$this->row->state = $state;
+		return $this;
+	}
+
+	/**
+	 * Add language for the item to be translated into
+	 *
+	 * @param string $locale
+	 * @return self
+	 */
+	public function addLanguage($locale) {
+		$this->row->translate_into[] = $locale;
+		return $this;
 	}
 
 	public function __set($name, $value = null) {
