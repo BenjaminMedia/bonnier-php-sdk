@@ -57,10 +57,19 @@ class ServiceContent extends RestItem {
     }
 
     protected function getPostData() {
+        $deleteKeys = ['indexsearch_created_at', 'indexsearch_updated_at', 'images', 'id', 'type', 'parent_id', 'relative_content_url'];
         $row = $this->row;
-        if(is_array($this->row->meta)) {
+
+        foreach($deleteKeys as $key) {
+            if(isset($row->{$key})) {
+                unset($row->{$key});
+            }
+        }
+
+        if(isset($this->row->meta) && is_array($this->row->meta)) {
             $row->meta = json_encode($row->meta);
         }
+
         return (array)$row;
     }
 
