@@ -1,6 +1,7 @@
 <?php
 namespace Bonnier\Trapp;
 
+use Bonnier\Trapp\Translation\TranslationField;
 use Pecee\Http\Rest\RestBase;
 use Pecee\Http\Rest\RestItem;
 use Bonnier\ServiceException;
@@ -15,7 +16,6 @@ class ServiceTranslation extends RestItem {
 		parent::__construct(new ServiceBase($username, $secret, self::TYPE));
 		$this->service->setServiceEventListener($this);
 		$this->service->getHttpRequest()->setPostJson(true);
-		$this->row->revisions = array();
 		$this->row->fields = array();
 		$this->row->translate_into = array();
 	}
@@ -36,16 +36,10 @@ class ServiceTranslation extends RestItem {
 		return $this->api($id);
 	}
 
-	protected function getPostData() {
-		// TODO: only post fields that the api understand
-		$row = (array)$this->getRow();
-		$revision = $this->getRevision(count($this->getRevisions())-1);
-		if($revision) {
-			$revision = $revision->toArray();
-			$fields = $revision['fields'];
-			$row['fields'] = $fields;
-		}
 
+    // TODO: possibly rename to toArray() or delete if unused?
+	public function getPostData() {
+		$row = (array)$this->getRow();
 		return $row;
 	}
 
@@ -100,57 +94,6 @@ class ServiceTranslation extends RestItem {
 	}
 
 	/**
-	 * Checks if theres any revisions available
-	 *
-	 * @return bool
-	 */
-	public function hasRevisions() {
-		return (count($this->row->revisions) > 0);
-	}
-
-	/**
-	 * Get revision by index
-	 * @param int $index
-	 * @return TranslationRevision
-	 */
-	public function getRevision($index) {
-		return (isset($this->row->revisions[$index])) ? TranslationRevision::fromArray((object)$this->row->revisions[$index]) : null;
-	}
-
-	/**
-	 * Get all revisions
-	 *
-	 * @return array
-	 */
-	public function getRevisions() {
-		$out = array();
-		if(isset($this->row->revisions)) {
-			foreach($this->row->revisions as $revision) {
-				$out[] = TranslationRevision::fromArray((object)$revision);
-			}
-		}
-		return $out;
-	}
-
-	/**
-	 * Get the original revision
-	 *
-	 * @return TranslationRevision|null
-	 */
-	public function getOriginalRevision() {
-		return $this->getRevision(0);
-	}
-
-	/**
-	 * Get latest revision
-	 *
-	 * @return TranslationRevision|null
-	 */
-	public function getLatestRevision() {
-		return (count($this->row->revisions)) ? TranslationRevision::fromArray(end($this->row->revisions)) : null;
-	}
-
-	/**
 	 * Get locale for the original item
 	 *
 	 * @return string
@@ -168,19 +111,86 @@ class ServiceTranslation extends RestItem {
 		$this->row->locale = $locale;
 	}
 
-	public function getLanguages() {
+
+    /**
+     * Returns an array of languages to be translated into
+     *
+     * @return array
+     */
+    public function getLanguages() {
 		return $this->row->translate_into;
 	}
 
-	public function setComment($comment) {
+    /**
+     * Set comment
+     *
+     * @param string $comment
+     * @return self
+     */
+    public function setComment($comment) {
 		$this->row->comment = $comment;
 		return $this;
 	}
 
-	public function setState($state){
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return self
+     */
+    public function setState($state){
 		$this->row->state = $state;
 		return $this;
 	}
+
+
+    /**
+     * Get array of fields
+     *
+     * @return array(TranslationField)
+     */
+    public function getFields() {
+        $out = array();
+        if(isset($this->row->fields) && count($this->row->fields)) {
+            foreach($this->row->fields as $field) {
+                $out[] = TranslationField::fromArray($field);
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * Add field to be translated
+     *
+     * @param TranslationField $field
+     * @return self
+     */
+    public function addField(TranslationField $field) {
+        $this->row->fields[] = $field->toArray();
+        return $this;
+    }
+
+    /**
+     * Set fields
+     *
+     * @param array $fields must be of type TranslationField
+     * @return self
+     * @throws ServiceException
+     */
+    public function setFields(array $fields) {
+        $newFields = [];
+        /** @var \Bonnier\Trapp\Translation\TranslationField $field */
+        foreach ($fields as $field) {
+            if (! $field instanceof TranslationField) {
+                throw new ServiceException('Objects in array passed to setFields() must be instance of TranslationField');
+            }
+            $newFields[] = $field->toArray();
+        }
+        $this->row->fields = $newFields;
+        return $this;
+    }
 
 	/**
 	 * Add language for the item to be translated into
@@ -193,23 +203,37 @@ class ServiceTranslation extends RestItem {
 		return $this;
 	}
 
-	public function addRevision(TranslationRevision $revision) {
-		$this->row->revisions[] = $revision->toArray();
-		return $this;
-	}
 
-	public function getDeadline() {
+    /**
+     * Get the deadline
+     *
+     * @return \DateTime
+     */
+    public function getDeadline() {
 		return new \DateTime($this->row->deadline);
 	}
 
-	public function setDeadline(\DateTime $datetime) {
+
+    /**
+     * Set the deadline
+     *
+     * @param \DateTime $datetime
+     * @return $this
+     */
+    public function setDeadline(\DateTime $datetime) {
 		$this->row->deadline = $datetime->format(DATE_W3C);
 		return $this;
 	}
 
-	public function getTitle() {
+    /**
+     * Returns the title
+     *
+     * @return string title
+     */
+    public function getTitle() {
 		return $this->row->title;
 	}
+
 
 	public function setTitle($title) {
 		$this->row->title = $title;
