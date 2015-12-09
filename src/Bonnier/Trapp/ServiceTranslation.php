@@ -2,6 +2,7 @@
 namespace Bonnier\Trapp;
 
 use Bonnier\Trapp\Translation\TranslationField;
+use Bonnier\Trapp\Translation\TranslationLanguage;
 use Pecee\Http\Rest\RestBase;
 use Pecee\Http\Rest\RestItem;
 use Bonnier\ServiceException;
@@ -20,6 +21,9 @@ class ServiceTranslation extends RestItem {
 		$this->row->translate_into = array();
 	}
 
+    public function getId() {
+        return $this->id;
+    }
 
 	/**
 	 * Get translation by id
@@ -115,11 +119,47 @@ class ServiceTranslation extends RestItem {
     /**
      * Returns an array of languages to be translated into
      *
-     * @return array
+     * @return array(TranslationLanguage)
      */
-    public function getLanguages() {
-		return $this->row->translate_into;
+    public function getTranslateInto() {
+        $out = array();
+        if(isset($this->row->translate_into) && count($this->row->translate_into)) {
+            foreach($this->row->translate_into as $language) {
+                $out[] = TranslationLanguage::fromArray($language);
+            }
+        }
+        return $out;
 	}
+
+    /**
+     * Add language for the item to be translated into
+     *
+     * @param TranslationLanguage $language
+     * @return ServiceTranslation
+     */
+    public function addTranslateInto(TranslationLanguage $language) {
+        $this->row->translate_into[] = $language->getLocale();
+        return $this;
+    }
+
+    /**
+     * Sets new array of languages to be translated into
+     * @param array $languages
+     * @return $this
+     * @throws ServiceException
+     */
+    public function setTranslateInto(array $languages) {
+        $newLanguages = [];
+        /** @var \Bonnier\Trapp\Translation\TranslationField $field */
+        foreach ($languages as $language) {
+            if (! $language instanceof TranslationLanguage) {
+                throw new ServiceException('Objects in array passed to setTranslateInto() must be instance of TranslationLanguage');
+            }
+            $newLanguages[] = $language->getLocale();
+        }
+        $this->row->translate_into = $newLanguages;
+        return $this;
+    }
 
     /**
      * Set comment
@@ -132,6 +172,32 @@ class ServiceTranslation extends RestItem {
 		return $this;
 	}
 
+    /**
+     * Set comment
+     *
+     * @return string Comment
+     */
+    public function getComment() {
+        return  $this->row->comment;
+    }
+
+    /**
+     * Set comment
+     *
+     * @return string Comment
+     */
+    public function getOriginalId() {
+        return  $this->row->original_entity_id;
+    }
+
+    /**
+     * Set comment
+     *
+     * @return string Comment
+     */
+    public function isOriginal() {
+        return is_null($this->row->original_entity_id);
+    }
 
     /**
      * Set state
@@ -144,6 +210,16 @@ class ServiceTranslation extends RestItem {
 		return $this;
 	}
 
+    /**
+     * Add field to be translated
+     *
+     * @param TranslationField $field
+     * @return self
+     */
+    public function addField(TranslationField $field) {
+        $this->row->fields[] = $field->toArray();
+        return $this;
+    }
 
     /**
      * Get array of fields
@@ -161,16 +237,6 @@ class ServiceTranslation extends RestItem {
         return $out;
     }
 
-    /**
-     * Add field to be translated
-     *
-     * @param TranslationField $field
-     * @return self
-     */
-    public function addField(TranslationField $field) {
-        $this->row->fields[] = $field->toArray();
-        return $this;
-    }
 
     /**
      * Set fields
@@ -191,17 +257,6 @@ class ServiceTranslation extends RestItem {
         $this->row->fields = $newFields;
         return $this;
     }
-
-	/**
-	 * Add language for the item to be translated into
-	 *
-	 * @param string $locale
-	 * @return self
-	 */
-	public function addLanguage($locale) {
-		$this->row->translate_into[] = $locale;
-		return $this;
-	}
 
 
     /**
@@ -240,7 +295,38 @@ class ServiceTranslation extends RestItem {
 		return $this;
 	}
 
-	/**
+    /**
+     * Returns the app_code
+     *
+     * @return string app_code
+     */
+    public function getAppCode() {
+        return $this->row->app_code;
+    }
+
+
+    public function setAppCode($appCode) {
+        $this->row->app_code = $appCode;
+        return $this;
+    }
+
+    /**
+     * Returns the brand_code
+     *
+     * @return string brand_code
+     */
+    public function getBrandCode() {
+        return $this->row->brand_code;
+    }
+
+
+    public function setBrandCode($brandCode) {
+        $this->row->brand_code = $brandCode;
+        return $this;
+    }
+
+
+    /**
 	 * @return ServiceBase
 	 */
 	public function getService() {
