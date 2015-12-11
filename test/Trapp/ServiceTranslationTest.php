@@ -23,8 +23,8 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $locale = 'en_gb';
         $title = $this->faker->text(80);
 
-        $translateIntoString = 'da_dk';
-        $translateInto = new \Bonnier\Trapp\Translation\TranslationLanguage($translateIntoString);
+        $translateIntoLocale = 'da_dk';
+        //$translateInto = new \Bonnier\Trapp\Translation\TranslationLanguage($translateIntoString);
 
         $deadline = new DateTime('tomorrow');
         $comment = $this->faker->text();
@@ -40,7 +40,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $service->setBrandCode($this->brandCode);
 		$service->setLocale($locale);
         $service->setTitle($title);
-        $service->addTranslateInto($translateInto);
+        $service->addTranslatation($translateIntoLocale);
         $service->setDeadline($deadline);
         $service->setComment($comment);
         $service->addField($field);
@@ -64,7 +64,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $this->assertEquals($this->brandCode, $return->getBrandCode());
         $this->assertEquals($locale, $return->getLocale());
         $this->assertEquals($title, $return->getTitle());
-        $this->assertEquals($translateInto->getLocale(), $return->getTranslateInto()[0]->getLocale());
+        $this->assertTrue($return->hasTranslation($translateIntoLocale));
 		$this->assertEquals($deadline, $return->getDeadline());
         $this->assertEquals($comment, $return->getComment());
 
@@ -89,14 +89,12 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $service->getService()->setServiceUrl($this->serviceUrl);
         $service->setDevelopment(true);
 
-        $original = $service->getById($id);
-        $updated = $service->getById($id);
+        $beforeUpdate = $service->getById($id);
+        $unsavedUpdate = $service->getById($id);
 
-        $locale = 'da_dk';
         $title = $this->faker->text(80);
 
-        $translateIntoString = 'sv_se';
-        $translateInto = new \Bonnier\Trapp\Translation\TranslationLanguage($translateIntoString);
+        $translateIntoLocale = 'sv_se';
 
         $deadline = new DateTime('now');
         $comment = $this->faker->text();
@@ -107,48 +105,47 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         );
         $field =  \Bonnier\Trapp\Translation\TranslationField::fromArray($testField);
 
-        $updated->setAppCode($this->appCode);
-        $updated->setBrandCode($this->brandCode);
-        $updated->setLocale($locale);
-        $updated->setTitle($title);
-        $updated->addTranslateInto($translateInto);
-        $updated->setDeadline($deadline);
-        $updated->setComment($comment);
-        $updated->addField($field);
+        $unsavedUpdate->setAppCode($this->appCode);
+        $unsavedUpdate->setBrandCode($this->brandCode);
+        $unsavedUpdate->setTitle($title);
+        $unsavedUpdate->addTranslatation($translateIntoLocale);
+        $unsavedUpdate->setDeadline($deadline);
+        $unsavedUpdate->setComment($comment);
+        $unsavedUpdate->addField($field);
 
-        var_dump($translateInto);
-        die();
-
-        $return = null;
+        $savedUpdate = null;
 		try {
-            $return = $updated->update();
+            $savedUpdate = $unsavedUpdate->update();
 		}catch(Exception $e) {
+
 			echo sprintf('Error: %s', print_r($e->getHttpResponse()->getResponse(), true));
+            die();
 		}
 
         // Get id from returned translation
-        $id = $return->getId();
+        $id = $savedUpdate->getId();
         // Check that the id is actually set
         $this->assertNotNull($id);
 
         // Ensure the correct properties remains on set object.
-        $this->assertEquals($this->appCode, $return->getAppCode());
-        $this->assertEquals($this->brandCode, $return->getBrandCode());
-        $this->assertEquals($locale, $return->getLocale());
-        $this->assertEquals($title, $return->getTitle());
-        $this->assertEquals($translateInto, $return->getTranslateInto()[1]['locale']);
-        $this->assertEquals($deadline, $return->getDeadline());
-        $this->assertEquals($comment, $return->getComment());
+        $this->assertEquals($this->appCode, $savedUpdate->getAppCode());
+        $this->assertEquals($this->brandCode, $savedUpdate->getBrandCode());
+        $this->assertEquals($title, $savedUpdate->getTitle());
+
+        $this->assertTrue($savedUpdate->hasTranslation($translateIntoLocale));
+        $this->assertEquals($deadline, $savedUpdate->getDeadline());
+        $this->assertEquals($comment, $savedUpdate->getComment());
+
         // Ensure the correct properties was set on object.
-        $this->assertNotEquals($original->getAppCode(), $return->getAppCode());
-        $this->assertNotEquals($original->getBrandCode(), $return->getBrandCode());
-        $this->assertNotEquals($original->getLocale(), $return->getLocale());
-        $this->assertNotEquals($original->getTitle(), $return->getTitle());
-        $this->assertNotEquals($original->getTranslateInto()[0]['locale'], $return->getTranslateInto()[1]['locale']);
-        $this->assertNotEquals($original->getDeadline(), $return->getDeadline());
-        $this->assertNotEquals($original->getComment(), $return->getComment());
+        $this->assertNotEquals($beforeUpdate->getAppCode(), $savedUpdate->getAppCode());
+        $this->assertNotEquals($beforeUpdate->getBrandCode(), $savedUpdate->getBrandCode());
+        $this->assertNotEquals($beforeUpdate->getLocale(), $savedUpdate->getLocale());
+        $this->assertNotEquals($beforeUpdate->getTitle(), $savedUpdate->getTitle());
+        $this->assertNotEquals($beforeUpdate->getTranslateInto()[0]['locale'], $savedUpdate->getTranslateInto()[1]['locale']);
+        $this->assertNotEquals($beforeUpdate->getDeadline(), $savedUpdate->getDeadline());
+        $this->assertNotEquals($beforeUpdate->getComment(), $savedUpdate->getComment());
         // Check that the field was correctly returned with expected values
-        $this->assertNotEquals($original->getFields(), $return->getFields());
+        $this->assertNotEquals($beforeUpdate->getFields(), $savedUpdate->getFields());
 
 	}
 

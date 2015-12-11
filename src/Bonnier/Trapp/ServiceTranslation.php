@@ -117,14 +117,14 @@ class ServiceTranslation extends RestItem {
 
 
     /**
-     * Returns an array of languages to be translated into
+     * Returns an array of related translations
      *
      * @return array(TranslationLanguage)
      */
-    public function getTranslateInto() {
+    public function getRelatedTranslations() {
         $out = array();
-        if(isset($this->row->translate_into) && count($this->row->translate_into)) {
-            foreach($this->row->translate_into as $language) {
+        if(isset($this->row->related_translations) && count($this->row->related_translations)) {
+            foreach($this->row->related_translations as $language) {
                 $out[] = TranslationLanguage::fromArray($language);
             }
         }
@@ -134,32 +134,52 @@ class ServiceTranslation extends RestItem {
     /**
      * Add language for the item to be translated into
      *
-     * @param TranslationLanguage $language
+     * @param string $locale a valid locale ie: da_dk, sv_se, ect.
      * @return ServiceTranslation
      */
-    public function addTranslateInto(TranslationLanguage $language) {
-        $this->row->translate_into[] = $language->getLocale();
+    public function addTranslatation($locale) {
+        $this->row->translate_into[] = $locale;
         return $this;
     }
 
     /**
      * Sets new array of languages to be translated into
-     * @param array $languages
+     * @param array $locales
      * @return $this
      * @throws ServiceException
      */
-    public function setTranslateInto(array $languages) {
-        $newLanguages = [];
-        /** @var \Bonnier\Trapp\Translation\TranslationField $field */
-        foreach ($languages as $language) {
-            if (! $language instanceof TranslationLanguage) {
-                throw new ServiceException('Objects in array passed to setTranslateInto() must be instance of TranslationLanguage');
-            }
-            $newLanguages[] = $language->getLocale();
-        }
-        $this->row->translate_into = $newLanguages;
+    public function setTranslateInto(array $locales) {
+        $this->row->translate_into = $locales;
         return $this;
     }
+
+    /**
+     * Returns an array of languages to be translated into
+     *
+     * @return array(TranslationLanguage)
+     */
+    public function getTranslateInto() {
+        return $this->row->translate_into;
+    }
+
+    /**
+     * Check if item has a translation with provided locale
+     *
+     * @param string $locale the locale to look for
+     * @return array
+     */
+    public function hasTranslation($locale) {
+        if (isset($this->row->related_translations) && count($this->row->related_translations)) {
+            /** @var TranslationLanguage $translation */
+            foreach($this->row->related_translations as $translation) {
+                if(TranslationLanguage::fromArray($translation)->getLocale() === $locale) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Set comment
