@@ -1,6 +1,6 @@
 <?php
 
-class ServiceContentType extends PHPUnit_Framework_TestCase  {
+class ServiceContentTypeTest extends PHPUnit_Framework_TestCase  {
 
 	const IS_USERNAME = 'Bilindex';
 	const IS_SECRET = '3E8AFD2A9544EA01A05F641049E59380';
