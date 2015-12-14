@@ -11,9 +11,10 @@ All related ```TRAPP``` classes extends from the ```\Bonnier\RestItem``` class -
 
 | Service class      | Description   |
 | ------------- | ------------- |
-| ```ServiceLanguage``` | Service class for getting translations |
+| ```ServiceTranslation``` | Service class for getting translations |
 | ```ServiceState``` | Service class for getting available states |
 | ```ServiceLanguage``` | Service class for gettings available languages |
+| ```ServiceRevision``` | Service class for returning available revisions (Not intended for external use) |
 
 #### Get single
 
@@ -23,72 +24,75 @@ This examples retrieves a single translation with the id ```55a8cb09214f48032700
 $translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
 $translation = $service->getById('55a8cb09214f48032700421f');
 ```
+#### Create Single
+```php
+$service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
+        $service->getService()->setServiceUrl($this->serviceUrl);
+        $service->setDevelopment(true);
+
+        // Set attributes
+        $service->setAppCode('fordelszonen');
+        $service->setBrandCode('kom');
+        $service->setLocale('da_dk');
+        $service->setTitle('This is a title');
+        $service->addTranslatation('en_gb');
+        $service->setDeadline(new DateTime('tomorrow'));
+        $service->setComment('This is a comment');
+        $service->setState('state-waiting'); // Note: Not required - this defaults to 'state-waiting' if not provided.
+        
+        // Create a field
+        // Build field array
+        $newFieldArray = array(
+            'label' => 'This is the name of my paragraph',
+            'value' => 'This is the content of my paragraph',
+            'display_format' => 'text', // Can be 'text' or 'image'
+            'group' => 'Group1', // Used for grouping multiple fields - not required
+        );
+        // Create field object
+        $fieldObject =  \Bonnier\Trapp\Translation\TranslationField::fromArray($newFieldArray);
+        // Add field
+        $service->addField($fieldObject);
+        
+        $savedTranlation = $service->save(); // Both the return and $service object is now a new translation
+```
 
 #### Update single
 
 This examples updates a translation with the id ```55a8cb09214f48032700421f``` with the new values defined in the properties.
 
 ```php
-$service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-$translation = $service->getById('55a8cb09214f48032700421f');
+$service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
+        $service->getService()->setServiceUrl($this->serviceUrl);
+        $service->setDevelopment(true);
+        
+        $service->getById('55a8cb09214f48032700421f');
 
-// Create new field
-$field = new \Bonnier\Trapp\Translation\TranslationField('Title', 'Dette er en titel');
-
-// Add this field to a group
-$field->setGroup('Titles');
-
-// Create new revision
-$revision = new \Bonnier\Trapp\Translation\TranslationRevision();
-
-// Add the field that we created earlier
-$revision->addField($field);
-
-$translation->addRevision($revision);
-
-// Add language for the item to be translated into (english, norwegian).
-$translation->addLanguage('en_gb');
-$translation->addLanguage('nb_no');
-$translation->update();
-```
-
-#### Save single
-
-This example will create a new instance of ```ServiceTranslation``` and save it to TRAPP.
-
-```php
-$translation = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-
-// Add deadline (current time plus 10 days)
-$deadline = new DateTime();
-$deadline->add(new DateInterval('P10D'));
-
-$translation->setDeadline($deadline);
-$translation->setTitle('Min titel');
-$translation->setLocale('da_dk');
-$translation->setState('state-missing');
-$translation->setComment('Please dont translate the last portion');
-
-// Create new field
-$field = new \Bonnier\Trapp\Translation\TranslationField('Title', 'Dette er en titel');
-
-// Add this field to a group
-$field->setGroup('Titles');
-
-// Create new revision
-$revision = new \Bonnier\Trapp\Translation\TranslationRevision();
-
-// Add the field that we created earlier
-$revision->addField($field);
-
-$translation->addRevision($revision);
-
-// Add language for the item to be translated into (english, norwegian).
-$translation->addLanguage('en_gb');
-$translation->addLanguage('nb_no');
-
-// Save the translation
-$translation->save();
+        // Set attributes
+        $service->setTitle('This is a updated title');
+        $service->addTranslatation('sv_se');
+        $service->setDeadline(new DateTime('today'));
+        $service->setComment('This is a updated comment');
+        
+        // Update an existing field on an existing translation
+        $fields = $service->getFields();
+        $fields[0]->setValue('This is an updated value');
+        // Set the new array of updated fields.
+        $service->setFields($fields); // Note setFields() overrides existing fields.
+        
+        // Create a new field on the existing translation
+        // Build field array
+        $newFieldArray = array(
+            'label' => 'This is the name of a new paragraph',
+            'value' => 'This is the content of a new paragraph',
+            'display_format' => 'text', // Can be 'text' or 'image'
+            'group' => 'Group1', // Used for grouping multiple fields - not required
+        );
+        // Create field object
+        $fieldObject =  \Bonnier\Trapp\Translation\TranslationField::fromArray($newFieldArray);
+        // Add field
+        $service->addField($fieldObject);
+        
+        $savedTranlation = $service->update(); // Both the return and $service object is now the new version of the translation
 ```
 
 #### Delete item
