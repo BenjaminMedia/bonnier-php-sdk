@@ -119,6 +119,16 @@ class ServiceTranslation extends RestItem
     }
 
     /**
+     * Get edit uri for the item
+     *
+     * @return string
+     */
+    public function getEditUri()
+    {
+        return $this->row->edit_uri;
+    }
+
+    /**
      * Set the locale for the original item
      *
      * @param string $locale
@@ -251,6 +261,16 @@ class ServiceTranslation extends RestItem
     {
         $this->row->state = $state;
         return $this;
+    }
+
+    /**
+     * Get state
+     * @return ServiceTranslation
+     * @internal param string $state
+     */
+    public function getState()
+    {
+        return $this->row->state;
     }
 
     /**
