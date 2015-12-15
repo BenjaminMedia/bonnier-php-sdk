@@ -254,6 +254,16 @@ class ServiceTranslation extends RestItem
     }
 
     /**
+     * Get state
+     * @return ServiceTranslation
+     * @internal param string $state
+     */
+    public function getState()
+    {
+        return $this->row->state;
+    }
+
+    /**
      * Add field to be translated
      *
      * @param TranslationField $field
