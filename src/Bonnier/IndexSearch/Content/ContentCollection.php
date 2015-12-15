@@ -55,7 +55,7 @@ class ContentCollection extends RestCollection implements IServiceCollection {
     }
 
     public function meta($key, $value) {
-        $this->service->getHttpRequest()->addPostData('meta_' . strtolower($key), $value);
+        $this->service->getHttpRequest()->addPostData('meta.' . strtolower($key), $value);
         return $this;
     }
 
