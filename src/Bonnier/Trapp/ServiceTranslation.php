@@ -377,9 +377,55 @@ class ServiceTranslation extends RestItem
     }
 
 
+    /**
+     * @param $title
+     * @return $this
+     */
     public function setTitle($title)
     {
         $this->row->title = $title;
+        return $this;
+    }
+
+    /**
+     * Returns the do_callback variable
+     *
+     * @return boolean title
+     */
+    public function getDoCallback()
+    {
+        return $this->row->do_callback;
+    }
+
+
+    /**
+     * @param $bool
+     * @return $this
+     */
+    public function setDoCallback($bool)
+    {
+        $this->row->do_callback = $bool;
+        return $this;
+    }
+
+    /**
+     * Returns the update_endpoint_uri
+     *
+     * @return string update_endpoint_uri
+     */
+    public function getUpdateEndpointUri()
+    {
+        return $this->row->update_endpoint_uri;
+    }
+
+
+    /**
+     * @param $uri
+     * @return $this
+     */
+    public function setUpdateEndpointUri($uri)
+    {
+        $this->row->update_endpoint_uri = $uri;
         return $this;
     }
 
