@@ -483,7 +483,7 @@ class ServiceTranslation extends RestItem
      */
     public static function fromCallback($username, $secret, $response)
     {
-        $data = json_decode($response, true);
+        $data = (object) json_decode($response, true);
         $translation = new static($username, $secret);
         $translation->setRow($data);
         return $translation;
