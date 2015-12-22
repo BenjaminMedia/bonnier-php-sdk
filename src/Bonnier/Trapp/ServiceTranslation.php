@@ -431,14 +431,15 @@ class ServiceTranslation extends RestItem
      *
      * @param string $username
      * @param string $secret
-     * @param \stdClass $response
+     * @param string $response the raw response body string containing encoded json
      *
      * @return static
      */
-    public static function fromCallback($username, $secret, \stdClass $response)
+    public static function fromCallback($username, $secret, $response)
     {
+        $data = json_decode($response, true);
         $translation = new static($username, $secret);
-        $translation->setRow($response);
+        $translation->setRow($data);
         return $translation;
     }
 
