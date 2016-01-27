@@ -1,21 +1,23 @@
 <?php
 namespace Bonnier\Admin;
 
-use Pecee\Http\HttpResponse;
-use Pecee\Http\Rest\RestBase;
+use GuzzleHttp\Client;
 use Bonnier\ServiceException;
 
-class ServiceOAuth extends RestBase {
+class ServiceOAuth extends Client {
 
 	const SERVICE_URL = 'https://bonnier-admin.herokuapp.com/';
+	/** @var null|string Overrides self::SERVICE_URL */
+	private $serviceEndpoint = null;
 
 	private $accessToken, $appId, $appSecret, $user;
 
-	public function __construct($appId, $appSecret) {
-		parent::__construct();
-
+	public function __construct($appId, $appSecret, $serviceEndpoint = null) {
 		$this->appId = $appId;
 		$this->appSecret = $appSecret;
+		$this->serviceEndpoint = $serviceEndpoint;
+
+		parent::__construct(['base_uri' => $this->getServiceUrl()]);
 	}
 
 	/**
@@ -73,12 +75,13 @@ class ServiceOAuth extends RestBase {
 	 */
 	public function setGrantToken($redirectUrl, $code) {
 		$data = array('client_id' => $this->appId,
-		              'client_secret' => $this->appSecret,
-		              'code' => $code,
-		              'grant_type' => 'authorization_code',
-		              'redirect_uri' => $redirectUrl);
+			'client_secret' => $this->appSecret,
+			'code' => $code,
+			'grant_type' => 'authorization_code',
+			'redirect_uri' => $redirectUrl);
 
-		$response = json_decode($this->api('oauth/token', self::METHOD_POST, $data)->getResponse(), true);
+		$response = $this->post('oauth/token', ['form_params' => $data]);
+		$response = json_decode($response->getBody()->getContents(), true);
 
 		if(isset($response['error'])) {
 			throw new ServiceException($response['error_description']);
@@ -103,12 +106,13 @@ class ServiceOAuth extends RestBase {
 		}
 
 		if($this->accessToken) {
-			$this->httpRequest->addHeader('Authorization: Bearer ' . $this->accessToken);
-			/* @var $response HttpResponse */
-			$response = $this->api('api/users/current.json');
+
+			$response = $this->get('api/users/current.json', ['headers' => [
+				'Authorization' => 'Bearer ' . $this->accessToken
+			]]);
 
 			if($response->getStatusCode() == 200) {
-				$this->user = json_decode($response->getResponse());
+				$this->user = json_decode($response->getBody()->getContents());
 			}
 		}
 
@@ -150,7 +154,10 @@ class ServiceOAuth extends RestBase {
 	 * @return string
 	 */
 	public function getServiceUrl() {
-		return self::SERVICE_URL;
+		if(is_null($this->serviceEndpoint)) {
+			return self::SERVICE_URL;
+		}
+		return $this->serviceEndpoint;
 	}
 
 }
