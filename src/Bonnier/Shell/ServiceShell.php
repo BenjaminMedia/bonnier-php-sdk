@@ -78,6 +78,10 @@ class ServiceShell {
     }
 
     protected function generateUrl($domain) {
+        if(filter_var($domain, FILTER_VALIDATE_URL)) {
+            return $domain;
+        }
+
         $url = sprintf(self::SERVICE_URL, $domain);
 
         if($this->javascriptPosition) {
