@@ -80,7 +80,7 @@ class ServiceOAuth extends Client {
 			'grant_type' => 'authorization_code',
 			'redirect_uri' => $redirectUrl);
 
-		$response = $this->post('oauth/token', ['form_params' => $data]);
+		$response = $this->post($this->getSubUrl('/oauth/token'), ['form_params' => $data]);
 		$response = json_decode($response->getBody()->getContents(), true);
 
 		if(isset($response['error'])) {
@@ -128,7 +128,7 @@ class ServiceOAuth extends Client {
 	 */
 	public function getLoginUrl($redirectUri = '', $code = '') {
 		$params = array('client_id' => $this->appId, 'redirect_uri' => $redirectUri, 'response_type' => 'code');
-		return $this->getUrl('oauth/authorize', $params);
+		return $this->getUrl($this->getSubUrl('oauth/authorize'), $params);
 	}
 
 	/**
@@ -145,6 +145,20 @@ class ServiceOAuth extends Client {
 			$url .= '?' . http_build_query($params);
 		}
 
+		return $url;
+	}
+
+
+	/**
+	 * Preppends api/ to the sub url if needed by the set service url
+	 *
+	 * @param $url
+	 * @return string $url the appropriate sub url
+     */
+	private function getSubUrl($url) {
+		if($this->serviceEndpoint !== self::SERVICE_URL) {
+			$url = 'api/' . $url;
+		}
 		return $url;
 	}
 
