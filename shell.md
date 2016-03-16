@@ -18,11 +18,13 @@ The ```get``` method will return a ```\Bonnier\Shell\ShellResponse``` object.
 ```php
 $service = new \Bonnier\Shell\ServiceShell($username, $password);
 
-// Set javascript position example
-$service->setJavascriptPosition(\Bonnier\Shell\ServiceShell::JS_POSITION_HEADER);
-
 // Calls the service and returns a ShellResponse object
-$shell = $service->get('staging.boligmagasinet.dk');
+$service->withoutBanners()
+  ->setJavascriptPosition(\Bonnier\Shell\ServiceShell::JS_POSITION_HEADER)
+  ->get('staging.boligmagasinet.dk');
+
+// alternatively just provide the full URI to the get method
+$service->get('http://staging.boligmagasinet.dk/api/v2/external_headers?without_baners=true');
 
 // Get the values
 $head = $shell->getHead(); // return head
@@ -44,8 +46,8 @@ The ```\Bonnier\Shell\ShellResponse``` contains a original instance of the ```Ht
 $service = new \Bonnier\Shell\ShellService($username, $password);
 $shell = $service->get('staging.boligmagasinet.dk');
 
-$info = $shell->getHttpResponse()->getInfo(); // Returns information about the request, http-code etc.
-$response = $shell->getHttpResponse()->getResponse(); // Returns raw response
+$requestUri = $shell->getRequestUri(); // Returns the URI that was requested
+$response = $shell->getHttpResponse()->getBody()->getContents(); // Returns raw response body
 $httpCode = $shell->getHttpResponse()->getStatusCode(); // Returns http status code
-$handle = $shell->getHttpResponse()->getHandle(); // Returns the curl handle
+$headers = $shell->getHttpResponse()->getHeaders(); // Returns response headers
 ```
