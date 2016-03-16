@@ -1,10 +1,11 @@
 <?php
 namespace Bonnier\Shell;
 
-use Pecee\Http\HttpResponse;
+use GuzzleHttp\Psr7\Response;
 
 class ShellResponse {
 
+    /* @var \GuzzleHttp\Psr7\Response $httpResponse */
     private $httpResponse;
     private $startTag;
     private $head;
@@ -14,11 +15,12 @@ class ShellResponse {
     private $endTag;
     private $banners;
     private $logos;
+    private $requestUri;
 
-    public function __construct(HttpResponse $response) {
+    public function __construct(Response $response, $requestUri) {
         $this->httpResponse = $response;
 
-        $responseObject = json_decode($this->httpResponse->getResponse());
+        $responseObject = json_decode($response->getBody()->getContents());
 
         $this->startTag = $responseObject->html->start_tag;
         $this->head = $responseObject->html->head;
@@ -28,6 +30,7 @@ class ShellResponse {
         $this->endTag = $responseObject->html->end_tag;
         $this->banners = $responseObject->html->banners;
         $this->logos = $responseObject->logos;
+        $this->requestUri = $requestUri;
     }
     /**
      * @return string
@@ -79,7 +82,7 @@ class ShellResponse {
     }
 
     /**
-     * @return \Bonnier\HttpResponse
+     * @return \GuzzleHttp\Psr7\Response
      */
     public function getHttpResponse() {
         return $this->httpResponse;
@@ -94,6 +97,15 @@ class ShellResponse {
      */
     public function getLogos() {
         return $this->logos;
+    }
+
+    /**
+     * Returns the uri that was requested
+     *
+     * @return String $requestUri
+     */
+    public function getRequestUri() {
+        return $this->requestUri;
     }
 
 }
