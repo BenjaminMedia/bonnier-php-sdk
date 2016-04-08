@@ -9,18 +9,16 @@ use Bonnier\ServiceException;
 use Bonnier\Trapp\Translation\TranslationCollection;
 use Bonnier\Trapp\Translation\TranslationRevision;
 
-class ServiceTranslation extends RestItem
+class ServiceTranslation extends ServiceBase
 {
 
     const TYPE = 'translation';
 
     public function __construct($username, $secret)
     {
-        parent::__construct(new ServiceBase($username, $secret, self::TYPE));
-        $this->service->setServiceEventListener($this);
-        $this->service->getHttpRequest()->setPostJson(true);
-        $this->row->fields = array();
-        $this->row->translate_into = array();
+        parent::__construct($username, $secret, self::TYPE);
+        $this->fields = array();
+        $this->translate_into = array();
     }
 
     public function getId()
@@ -41,7 +39,11 @@ class ServiceTranslation extends RestItem
             throw new ServiceException('Invalid argument for parameter $id');
         }
 
-        return $this->api($id);
+        $newService = clone $this;
+
+        $newService->setRow($this->api($id));
+
+        return $newService;
     }
 
 
@@ -60,7 +62,7 @@ class ServiceTranslation extends RestItem
      */
     public function update()
     {
-        $this->row = $this->api($this->id, RestBase::METHOD_PUT, $this->getPostData())->getRow();
+        $this->setRow($this->api($this->id, self::METHOD_PUT, $this->toArray()));
         return $this;
     }
 
@@ -72,7 +74,7 @@ class ServiceTranslation extends RestItem
      */
     public function save()
     {
-        $this->row = $this->api($this->id, RestBase::METHOD_POST, $this->getPostData())->getRow();
+        $this->setRow($this->api($this->id, self::METHOD_POST, $this->toArray()));
         return $this;
     }
 
@@ -102,12 +104,6 @@ class ServiceTranslation extends RestItem
         return $this->onCreateCollection();
     }
 
-    public function setDevelopment($bool)
-    {
-        $this->service->setDevelopment($bool);
-        return $this;
-    }
-
     /**
      * Get locale for the original item
      *
@@ -115,7 +111,7 @@ class ServiceTranslation extends RestItem
      */
     public function getLocale()
     {
-        return $this->row->locale;
+        return $this->locale;
     }
 
     /**
@@ -125,7 +121,7 @@ class ServiceTranslation extends RestItem
      */
     public function getEditUri()
     {
-        return $this->row->edit_uri;
+        return $this->edit_uri;
     }
 
     /**
@@ -135,7 +131,7 @@ class ServiceTranslation extends RestItem
      */
     public function setLocale($locale)
     {
-        $this->row->locale = $locale;
+        $this->locale = $locale;
     }
 
 
@@ -147,8 +143,8 @@ class ServiceTranslation extends RestItem
     public function getRelatedTranslations()
     {
         $out = array();
-        if (isset($this->row->related_translations) && count($this->row->related_translations)) {
-            foreach ($this->row->related_translations as $language) {
+        if (isset($this->related_translations) && count($this->related_translations)) {
+            foreach ($this->related_translations as $language) {
                 $out[] = TranslationLanguage::fromArray($language);
             }
         }
@@ -163,7 +159,9 @@ class ServiceTranslation extends RestItem
      */
     public function addTranslatation($locale)
     {
-        $this->row->translate_into[] = $locale;
+        $translateInto = $this->getTranslateInto();
+        $translateInto[] = $locale;
+        $this->setTranslateInto($translateInto);
         return $this;
     }
 
@@ -175,7 +173,7 @@ class ServiceTranslation extends RestItem
      */
     public function setTranslateInto(array $locales)
     {
-        $this->row->translate_into = $locales;
+        $this->translate_into = $locales;
         return $this;
     }
 
@@ -186,7 +184,7 @@ class ServiceTranslation extends RestItem
      */
     public function getTranslateInto()
     {
-        return $this->row->translate_into;
+        return $this->translate_into;
     }
 
     /**
@@ -197,9 +195,9 @@ class ServiceTranslation extends RestItem
      */
     public function hasTranslation($locale)
     {
-        if (isset($this->row->related_translations) && count($this->row->related_translations)) {
+        if (isset($this->related_translations) && count($this->related_translations)) {
             /** @var TranslationLanguage $translation */
-            foreach ($this->row->related_translations as $translation) {
+            foreach ($this->related_translations as $translation) {
                 if (TranslationLanguage::fromArray($translation)->getLocale() === $locale) {
                     return true;
                 }
@@ -217,7 +215,7 @@ class ServiceTranslation extends RestItem
      */
     public function setComment($comment)
     {
-        $this->row->comment = $comment;
+        $this->comment = $comment;
         return $this;
     }
 
@@ -228,7 +226,7 @@ class ServiceTranslation extends RestItem
      */
     public function getComment()
     {
-        return $this->row->comment;
+        return $this->comment;
     }
 
     /**
@@ -238,7 +236,7 @@ class ServiceTranslation extends RestItem
      */
     public function getOriginalId()
     {
-        return $this->row->original_entity_id;
+        return $this->original_entity_id;
     }
 
     /**
@@ -248,7 +246,7 @@ class ServiceTranslation extends RestItem
      */
     public function isOriginal()
     {
-        return is_null($this->row->original_entity_id);
+        return is_null($this->original_entity_id);
     }
 
     /**
@@ -259,7 +257,7 @@ class ServiceTranslation extends RestItem
      */
     public function setState($state)
     {
-        $this->row->state = $state;
+        $this->state = $state;
         return $this;
     }
 
@@ -270,7 +268,7 @@ class ServiceTranslation extends RestItem
      */
     public function getState()
     {
-        return $this->row->state;
+        return $this->state;
     }
 
     /**
@@ -281,7 +279,9 @@ class ServiceTranslation extends RestItem
      */
     public function addField(TranslationField $field)
     {
-        $this->row->fields[] = $field->toArray();
+        $fields = $this->getFields();
+        $fields[] = $field;
+        $this->setFields($fields);
         return $this;
     }
 
@@ -293,8 +293,8 @@ class ServiceTranslation extends RestItem
     public function getFields()
     {
         $out = array();
-        if (isset($this->row->fields) && count($this->row->fields)) {
-            foreach ($this->row->fields as $field) {
+        if (isset($this->fields) && count($this->fields)) {
+            foreach ($this->fields as $field) {
                 $out[] = TranslationField::fromArray($field);
             }
         }
@@ -309,8 +309,8 @@ class ServiceTranslation extends RestItem
     */
     public function getFieldBySharedKey($sharedKey)
     {
-        if (isset($this->row->fields) && count($this->row->fields)) {
-            foreach ($this->row->fields as $field) {
+        if (isset($this->fields) && count($this->fields)) {
+            foreach ($this->fields as $field) {
                 if($field['shared_key'] == $sharedKey){
                     return TranslationField::fromArray($field);
                 }
@@ -338,7 +338,7 @@ class ServiceTranslation extends RestItem
             }
             $newFields[] = $field->toArray();
         }
-        $this->row->fields = $newFields;
+        $this->fields = $newFields;
         return $this;
     }
 
@@ -350,7 +350,7 @@ class ServiceTranslation extends RestItem
      */
     public function getDeadline()
     {
-        return new \DateTime($this->row->deadline);
+        return new \DateTime($this->deadline);
     }
 
 
@@ -362,7 +362,7 @@ class ServiceTranslation extends RestItem
      */
     public function setDeadline(\DateTime $datetime)
     {
-        $this->row->deadline = $datetime->format(DATE_W3C);
+        $this->deadline = $datetime->format(DATE_W3C);
         return $this;
     }
 
@@ -373,13 +373,13 @@ class ServiceTranslation extends RestItem
      */
     public function getTitle()
     {
-        return $this->row->title;
+        return $this->title;
     }
 
 
     public function setTitle($title)
     {
-        $this->row->title = $title;
+        $this->title = $title;
         return $this;
     }
 
@@ -390,13 +390,13 @@ class ServiceTranslation extends RestItem
      */
     public function getAppCode()
     {
-        return $this->row->app_code;
+        return $this->app_code;
     }
 
 
     public function setAppCode($appCode)
     {
-        $this->row->app_code = $appCode;
+        $this->app_code = $appCode;
         return $this;
     }
 
@@ -407,13 +407,13 @@ class ServiceTranslation extends RestItem
      */
     public function getBrandCode()
     {
-        return $this->row->brand_code;
+        return $this->brand_code;
     }
 
 
     public function setBrandCode($brandCode)
     {
-        $this->row->brand_code = $brandCode;
+        $this->brand_code = $brandCode;
         return $this;
     }
 
@@ -423,7 +423,7 @@ class ServiceTranslation extends RestItem
      */
     public function getService()
     {
-        return parent::getService();
+        return $this;
     }
 
     /**
