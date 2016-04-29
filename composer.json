@@ -15,7 +15,7 @@
     ],
     "require": {
         "pecee/http-service": "1.*",
-        "guzzlehttp/guzzle": "6.*"
+        "guzzlehttp/guzzle": "^6"
     },
     "require-dev": {
         "pecee/http-service": "1.*",
