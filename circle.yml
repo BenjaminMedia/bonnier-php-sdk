@@ -1,6 +1,6 @@
 machine:
   php:
-    version: 7.0.1
+    version: 7.0.0
   environment:
     TRAPP_SERVICE_URL: http://trapp.whitealbum.dk/api/v1/
     TRAPP_API_USER: Translation
