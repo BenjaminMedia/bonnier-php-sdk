@@ -1,0 +1,21 @@
+machine:
+  php:
+    version: 7.0.4
+  environment:
+    IS_CIRCLE_CI: true
+    TRAPP_SERVICE_URL: http://trapp.whitealbum.dk/api/v1/
+    TRAPP_API_USER: Translation
+    TRAPP_API_KEY: 6277FFAA5D43DEBAF11B62AEB25FB9B5
+
+    APP_CODE: fordelszonen
+    BRAND_CODE: kom
+
+    USER_AUTH_APP_ID: dfbfd90b3bf682a3542883329698ef249046eef95515e05f7f24022b7f211469
+    USER_AUTH_SECRET: 2ac939a9292ba60ce18bc0443f0131d420ef3aebca13262d69eaf68373eac428
+    USER_AUTH_ENDPOINT: http://woman.dk/
+
+    WA_SHELL_UID: 3edea4c6cd45eb69c816f776924a6e26b3baac48b40a80bf515d1357c45db44a
+    WA_SHELL_SECRET: ee21b3981ef62ef3c5534dda3437b51354471a31e82f60674d39ff35179ac100
+test:
+  override:
+    - ./vendor/bin/phpunit test
