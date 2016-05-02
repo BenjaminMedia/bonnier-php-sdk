@@ -15,3 +15,6 @@ machine:
 
     WA_SHELL_UID: 3edea4c6cd45eb69c816f776924a6e26b3baac48b40a80bf515d1357c45db44a
     WA_SHELL_SECRET: ee21b3981ef62ef3c5534dda3437b51354471a31e82f60674d39ff35179ac100
+test:
+  override:
+    - ./vendor/bin/phpunit test
