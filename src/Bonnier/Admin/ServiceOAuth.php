@@ -125,8 +125,7 @@ class ServiceOAuth extends Client {
 	 * Get login url
 	 *
 	 * @param string $redirectUri
-	 * @param string $code
-	 * @param null $userRole
+	 * @param null|string $userRole the user role required by the user logging in
 	 * @return string
 	 */
 	public function getLoginUrl($redirectUri = '', $userRole = null) {
