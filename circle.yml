@@ -2,6 +2,7 @@ machine:
   php:
     version: 7.0.4
   environment:
+    IS_CIRCLE_CI: true
     TRAPP_SERVICE_URL: http://trapp.whitealbum.dk/api/v1/
     TRAPP_API_USER: Translation
     TRAPP_API_KEY: 6277FFAA5D43DEBAF11B62AEB25FB9B5
