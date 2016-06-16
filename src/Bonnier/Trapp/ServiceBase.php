@@ -2,6 +2,7 @@
 namespace Bonnier\Trapp;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Middleware;
 
 class ServiceBase extends Client {
 
@@ -13,14 +14,13 @@ class ServiceBase extends Client {
 	const METHOD_DELETE = 'DELETE';
 
 	private $serviceEndpoint = null;
-
 	protected $user;
 	protected $secret;
-
 	protected $development;
 	protected $type;
-
 	protected $row = [];
+	protected $debug;
+	protected $serviceUrl;
 
 	public function __construct($user, $secret, $type, $development = false, $serviceEndpoint = null) {
 
@@ -30,11 +30,11 @@ class ServiceBase extends Client {
 		$this->development = $development;
 		$this->type = $type;
 
-		parent::__construct($this->getConstructOptions());
+		$this->setupClient();
 	}
 
-	private function getConstructOptions() {
-		return [
+	private function setupClient() {
+		parent::__construct([
 			'base_uri' => $this->getServiceUrl(),
 			'auht' => [$this->user, $this->secret],
 			'curl' => [
@@ -43,7 +43,7 @@ class ServiceBase extends Client {
 				CURLOPT_FRESH_CONNECT => 1
 			],
 			'timeout' => 0
-		];
+		]);
 	}
 
 	public function getServiceUrl() {
@@ -63,21 +63,37 @@ class ServiceBase extends Client {
 
 	public function setServiceUrl($url) {
 		$this->serviceEndpoint = $url;
-		parent::__construct($this->getConstructOptions());
+		$this->setupClient();
 	}
 
 	public function setDevelopment($bool) {
 		$this->development = $bool;
+		$this->setupClient();
 		return $this;
 	}
 
 	public function api($id, $method = self::METHOD_GET, $data = []) {
 
-		$request = $this->request($method, $id, [
+		$options = [
 			'json' => $data,
-		]);
+		];
+
+		if($this->debug) {
+			$options['handler'] = $this->debug;
+		}
+
+		$request = $this->request($method, $id, $options);
 
 		return json_decode($request->getBody(), true);
+	}
+
+	public function debugRequest($callback) {
+		// Grab the client's handler instance.
+		$clientHandler = $this->getConfig('handler');
+		// Create a middleware that taps into the request
+		$tapMiddleware = Middleware::tap($callback);
+		// Apply the middleware to the handler
+		$this->debug = $tapMiddleware($clientHandler);
 	}
 
 	public function getRow() {

@@ -3,7 +3,7 @@ Service for talking with the Bonnier translation service (TRAPP)
 
 PHP SDK for communicating with the TRAPP webservice.
 
-## Examples 
+## Examples
 ------------
 All related ```TRAPP``` classes extends from the ```\Bonnier\RestItem``` class - which contains a ```RestBase``` related ```service``` property, that contains the basic functionality for communicating with webservices using the index-search authentication.
 
@@ -39,7 +39,7 @@ $service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
         $service->setDeadline(new DateTime('tomorrow'));
         $service->setComment('This is a comment');
         $service->setState('state-waiting'); // Note: Not required - this defaults to 'state-waiting' if not provided.
-        
+
         // Create a field
         // Build field array
         $newFieldArray = array(
@@ -52,7 +52,7 @@ $service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
         $fieldObject =  \Bonnier\Trapp\Translation\TranslationField::fromArray($newFieldArray);
         // Add field
         $service->addField($fieldObject);
-        
+
         $savedTranlation = $service->save(); // Both the return and $service object is now a new translation
 ```
 
@@ -64,7 +64,7 @@ This examples updates a translation with the id ```55a8cb09214f48032700421f``` w
 $service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
         $service->getService()->setServiceUrl($this->serviceUrl);
         $service->setDevelopment(true);
-        
+
         $service->getById('55a8cb09214f48032700421f');
 
         // Set attributes
@@ -72,13 +72,13 @@ $service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
         $service->addTranslatation('sv_se');
         $service->setDeadline(new DateTime('today'));
         $service->setComment('This is a updated comment');
-        
+
         // Update an existing field on an existing translation
         $fields = $service->getFields();
         $fields[0]->setValue('This is an updated value');
         // Set the new array of updated fields.
         $service->setFields($fields); // Note setFields() overrides existing fields.
-        
+
         // Create a new field on the existing translation
         // Build field array
         $newFieldArray = array(
@@ -91,7 +91,7 @@ $service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
         $fieldObject =  \Bonnier\Trapp\Translation\TranslationField::fromArray($newFieldArray);
         // Add field
         $service->addField($fieldObject);
-        
+
         $savedTranlation = $service->update(); // Both the return and $service object is now the new version of the translation
 ```
 
@@ -147,87 +147,51 @@ $service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
 $service->setDevelopment(true);
 ```
 
-If you want to implement a parameter that is not currently available, this can be done by adding it to the request-object.
+### Debugging the request
 
-**NOTE:** Please use this with caution as this is something that should be implemented into the SDK itself if the functionality is missing.
+The service lets you debug the request being sent by adding a callback function
+that gets called before the request is executed, this gives you access to
+properties from the request.
+Sample code:
+``` php
 
-```php
 $service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-$service->getService()->getHttpRequest()->addPostData($key, $value);
-$service->getService()->getHttpRequest()->addHeader($value);
-$service->getService()->getHttpRequest()->setTimeout(1000) // Set timeout in ms
+
+$service->debugRequest(function($request) {
+    // Get the request uri
+    var_dump($request->getUri());
+    // Get the request method
+    var_dump($request->getMethod());
+    // Get the contents of the body
+    var_dump($request->getBody()->getContents());
+    die();
+});
+
+$translation = $service->getById('2131231231');
+
 ```
 
-#### Debugging the output
+### Handling errors
 
-The service will throw an ```ServiceException``` on error.
+Since the service extends GuzzleHttp client it will throw ClientExceptions on failure.
+By catching the exception you may debug the error like so:
 
-This class contains some methods which will help debug the error.
-
-```
+``` php
 try {
-	// Something here made the service explode
-} catch(ServiceException $e) {
-	$url = $e->getHttpResponse()->getUrl(); // Returns the full URL that the service has called.
-	$info = $e->getHttpResponse()->getInfo(); // Returns information about the response, http/code, length etc, parameters, headers etc.
-	$httpCode = $e->getHttpResponse()->getStatusCode(); // Returns the http status code
-	$rawResponse = $e->getHttpResponse()->getResponse(); // Returns the raw response
-	$handle = $e->getHttpResponse()->getHandle(); // Returns curl handle
-}
-```
+         $service->save();
+     } catch (\GuzzleHttp\Exception\ClientException $e ) {
+         // Get request uri
+         var_dump($e->getRequest()->getUri());
+         // Get request method
+         var_dump($e->getRequest()->getMethod());
+         // Get request body
+         var_dump($e->getRequest()->getBody()->getContents());
 
-You also get the HttpResponse object when retrieving something from the service.
+         // Get Response code
+         var_dump($e->getResponse()->getStatusCode());
+         // Get Response Body
+         var_dump($e->getResponse()->getBody()->getContents());
 
-```php
-$service = new \Bonnier\Trapp\ServiceTranslation($username, $secret);
-$single = $service->getById('FDE455B92EEBC96F72F2447D6AD17C40');
-
-$httpResponse = $single->getResponse(); // Returns HttpResponse object (simular as the one above)
-```
-
-#### Extending the functionality to customize your needs
-
-If you want to return your own set of classes or add functionality to one of the service classes, this can be done using the example below:
-
-```php
-class CustomCollection extends \Bonnier\Trapp\Translation\TranslationCollection {
-	public function customFilter() {
-		$this->service->getHttpRequest()->addPostData('q', $query);
-		return $this;
-	}
-}
-
-class ServiceCustom extends \Bonnier\Trapp\ServiceTranslation {
-    /**
-     * This event is fired when a collection is returned from the service
-     *
-     * @return CustomCollection
-     */
-    public function onCreateCollection() {
-        return new CustomCollection($this->service);
-    }
-
-    /**
-     * This event is fired when a single item is returned from the service
-     *
-     * @return self
-     */
-    public function onCreateItem() {
-        return new self($this->service->getUsername(), $this->service->getSecret());
-    }
-    
-    public function getCustomItem($id) {
-        return $this->api('/custom/item/' . $id);
-    }
-}
-```
-
-**Usage:**
-
-```php
-$custom = new ServiceCustom($username, $secret);
-$item = $custom->getCustomItem(); // This will return a new instance of ServiceCustom class
-
-
-$results = $custom->getCollection()->customFilter()->execute(); // This will return new instance of ServiceCollection class
+         die();
+     }
 ```
