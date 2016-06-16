@@ -18,11 +18,12 @@ if(!isset($_COOKIE['wa_token'])) {
 }
 
 $user = $service->getUser();
+$userRoleList = $service->getUserRoleList();
 
 if(!$user) {
     // If the user is not logged in, we redirect to the login screen.
-    header("Location: ".$service->getLoginUrl($host));
+    header("Location: ".$service->getLoginUrl($host, 'users'));
 }
 else {
-    die(var_dump($user));
+    die(var_dump($user, $userRoleList));
 }

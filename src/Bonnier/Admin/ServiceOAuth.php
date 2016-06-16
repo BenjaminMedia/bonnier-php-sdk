@@ -10,7 +10,7 @@ class ServiceOAuth extends Client {
 	/** @var null|string Overrides self::SERVICE_URL */
 	private $serviceEndpoint = null;
 
-	private $accessToken, $appId, $appSecret, $user;
+	private $accessToken, $appId, $appSecret, $user, $userRoleList;
 
 	public function __construct($appId, $appSecret, $serviceEndpoint = null) {
 		$this->appId = $appId;
@@ -74,11 +74,13 @@ class ServiceOAuth extends Client {
 	 * @throws ServiceException
 	 */
 	public function setGrantToken($redirectUrl, $code) {
-		$data = array('client_id' => $this->appId,
+		$data = [
+			'client_id' => $this->appId,
 			'client_secret' => $this->appSecret,
 			'code' => $code,
 			'grant_type' => 'authorization_code',
-			'redirect_uri' => $redirectUrl);
+			'redirect_uri' => $redirectUrl
+		];
 
 		$response = $this->post($this->getSubUrl('/oauth/token'), ['form_params' => $data]);
 		$response = json_decode($response->getBody()->getContents(), true);
@@ -123,11 +125,20 @@ class ServiceOAuth extends Client {
 	 * Get login url
 	 *
 	 * @param string $redirectUri
-	 * @param string $code
+	 * @param null|string $userRole the user role required by the user logging in
 	 * @return string
 	 */
-	public function getLoginUrl($redirectUri = '', $code = '') {
-		$params = array('client_id' => $this->appId, 'redirect_uri' => $redirectUri, 'response_type' => 'code');
+	public function getLoginUrl($redirectUri = '', $userRole = null) {
+		$params = [
+			'client_id' => $this->appId,
+			'redirect_uri' => $redirectUri,
+			'response_type' => 'code'
+		];
+
+		if($userRole) {
+			$params['accessible_for'] = $userRole;
+		}
+
 		return $this->getUrl($this->getSubUrl('oauth/authorize'), $params);
 	}
 
@@ -172,6 +183,22 @@ class ServiceOAuth extends Client {
 			return self::SERVICE_URL;
 		}
 		return $this->serviceEndpoint;
+	}
+
+	public function getUserRoleList() {
+
+		if ($this->userRoleList !== null) {
+			return $this->userRoleList;
+		}
+
+		$response = $this->get('api/user_roles');
+
+		if($response->getStatusCode() == 200) {
+			$this->userRoleList = json_decode($response->getBody()->getContents(), true);
+		}
+
+		return $this->userRoleList;
+
 	}
 
 }

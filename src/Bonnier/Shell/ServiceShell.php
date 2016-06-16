@@ -1,15 +1,16 @@
 <?php
 namespace Bonnier\Shell;
 
-use Pecee\Http\HttpRequest;
+use GuzzleHttp\Client;
 
-class ServiceShell {
+class ServiceShell extends Client{
 
     protected $username;
     protected $password;
 
     protected $partial;
     protected $javascriptPosition;
+    protected $withoutBanners = false;
 
     const SERVICE_URL = 'http://%s/api/v2/external_headers';
 
@@ -19,6 +20,7 @@ class ServiceShell {
     public function __construct($username, $password) {
         $this->username = $username;
         $this->password = $password;
+        parent::__construct(['auth' => [$username, $password]]);
     }
 
     /**
@@ -72,33 +74,59 @@ class ServiceShell {
 
     /**
      * @param string $javascriptPosition
+     * @return $this
      */
     public function setJavascriptPosition($javascriptPosition) {
         $this->javascriptPosition = $javascriptPosition;
+        return $this;
     }
 
     protected function generateUrl($domain) {
+
+        if(filter_var($domain, FILTER_VALIDATE_URL)) {
+            return $domain;
+        }
+
         $url = sprintf(self::SERVICE_URL, $domain);
 
         if($this->javascriptPosition) {
             $url .= sprintf('?javascript_position=%s', $this->javascriptPosition);
         }
 
+        if($this->withoutBanners) {
+
+            if (strpos($url, '?')) {
+                $url .= '&without_banners=true';
+            }else {
+                $url .= '?without_banners=true';
+            }
+        }
+
         return $url;
     }
 
     /**
-     * @param $domain
+     * Disable banners
+     *
+     * @return $this
+     */
+    public function withoutBanners() {
+        $this->withoutBanners = true;
+        return $this;
+    }
+
+    /**
+     * @param String $uri domain for the shell i.e. woman.dk or full api URI ie. http://woman.dk/api/v2/external_headers
      *
      * @return \Bonnier\Shell\ShellResponse
      */
-    public function get($domain) {
-        $url = $this->generateUrl($domain);
+    public function get($uri) {
 
-        $request = new HttpRequest($url);
-        $request->setBasicAuth($this->username, $this->password);
+        $requestUrl = $this->generateUrl($uri);
 
-        return new ShellResponse($request->execute(true));
+        $request = parent::get($requestUrl);
+
+        return new ShellResponse($request, $requestUrl);
     }
 
 }

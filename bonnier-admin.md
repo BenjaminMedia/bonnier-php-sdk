@@ -38,8 +38,13 @@ if(!isset($_COOKIE['wa_token'])) {
 $user = $service->getUser();
 
 if(!$user) {
+    // When building the login url you may pass a second parameter containing
+    // a role that the user should be validated against, it should be a
+    // system_key from one of the roles returned by the getUserRoles() function
+    $loginUrl = $service->getLoginUrl($host, 'subscribers');
+
     // If the user is not logged in, we redirect to the login screen.
-    header("Location: ".$service->getLoginUrl($host));
+    header("Location: ".$loginUrl);
 }
 else {
     // the user is logged in and we successfully retrieved the information about them form the api
@@ -49,6 +54,17 @@ else {
 
 ```
 
+###### Getting the list of available user roles
+
+``` php
+
+$service = new \Bonnier\Admin\ServiceOAuth(getenv('USER_AUTH_APP_ID'), getenv('USER_AUTH_SECRET'), getenv('USER_AUTH_ENDPOINT'));
+
+$userRoleList = $service->getUserRoleList();
+
+die(var_dump($userRoleList));
+
+```
 ---
 #### For Bonnier employee's (no need to read if you are an external developer)
 If you are an employee at Bonnier and need to register an application it can be done by going to [Bonnier OAuth Admin](https://bonnier-admin.herokuapp.com/admin) (For WA backend applications only).
