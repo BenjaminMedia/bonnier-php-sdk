@@ -187,9 +187,9 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $service->setDevelopment(true);
 
         $translation = $service->getById($id);
-        $deletedTranslation = $translation->delete();
-        //TODO: FIX THIS TEST
-        $this->assertTrue(true);
+
+        $this->assertTrue($translation->delete());
+        $this->assertEquals([], $translation->getRow());
     }
 
 }
