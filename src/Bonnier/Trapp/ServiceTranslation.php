@@ -78,6 +78,20 @@ class ServiceTranslation extends ServiceBase
         return $this;
     }
 
+    /**
+     * Delete translation
+     *
+     * @throws \Bonnier\ServiceException
+     * @return boolean
+     */
+    public function delete()
+    {
+        $response = $this->api($this->id, self::METHOD_DELETE, $this->toArray());
+        if($response['deleted']) {
+            $this->setRow([]);
+        }
+        return $response['deleted'];
+    }
 
     public function onCreateCollection()
     {
