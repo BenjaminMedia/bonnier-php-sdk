@@ -431,6 +431,26 @@ class ServiceTranslation extends ServiceBase
         return $this;
     }
 
+    /**
+     * Returns the update_endpoint_uri
+     *
+     * @return string update_endpoint_uri
+     */
+    public function getUpdateEndpointUri()
+    {
+        return $this->update_endpoint_uri;
+    }
+
+
+    /**
+     * @param string $uri the update_endpoint_uri
+     * @return $this
+     */
+    public function setUpdateEndpointUri($uri)
+    {
+        $this->update_endpoint_uri = $uri;
+        return $this;
+    }
 
     /**
      * @return ServiceBase
