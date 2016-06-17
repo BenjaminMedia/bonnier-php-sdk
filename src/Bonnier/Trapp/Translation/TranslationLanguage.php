@@ -6,10 +6,14 @@ class TranslationLanguage {
 	public $id;
 	public $locale;
 	public $isOriginal;
+	public $editUri;
+	public $state;
 
-	public function __construct($locale, $isOriginal = false) {
+	public function __construct($locale, $isOriginal = false, $editUri = null, $state = null) {
 		$this->locale = $locale;
         $this->isOriginal = $isOriginal;
+        $this->editUri = $editUri;
+        $this->state = $state;
 	}
 
 	/**
@@ -36,10 +40,42 @@ class TranslationLanguage {
 		return $this->isOriginal;
 	}
 
-    /**
+	/**
+	 * @return string|null
+	 */
+	public function getEditUri()
+	{
+		return $this->editUri;
+	}
+
+	/**
+	 * @param string $editUri
+	 */
+	public function setEditUri($editUri)
+	{
+		$this->editUri = $editUri;
+	}
+
+	/**
+	 * @return string|null $state
+	 */
+	public function getState()
+	{
+		return $this->state;
+	}
+
+	/**
+	 * @param string $state
+	 */
+	public function setState($state)
+	{
+		$this->state = $state;
+	}
+
+	/**
      * @return bool
      */
-    private function getOriginal() {
+    private function getIsOriginal() {
         return $this->isOriginal;
     }
 
@@ -47,7 +83,7 @@ class TranslationLanguage {
      * @param $original
      * @return bool
      */
-    private function setOriginal($original) {
+    private function setIsOriginal($original) {
         $this->isOriginal = $original;
         return $this;
     }
@@ -83,12 +119,21 @@ class TranslationLanguage {
 		$object = new self($field['locale']);
 
         if(isset($field['is_original'])){
-            $object->setOriginal($field['is_original']);
+            $object->setIsOriginal($field['is_original']);
         }
 
         if(isset($field['id'])){
             $object->setId($field['id']);
         }
+
+		if(isset($field['state'])){
+			$object->setState($field['state']);
+		}
+
+		if(isset($field['edit_uri'])){
+			$object->setEditUri($field['edit_uri']);
+		}
+
 		return $object;
 	}
 

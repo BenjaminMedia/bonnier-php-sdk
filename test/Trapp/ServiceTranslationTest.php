@@ -1,6 +1,6 @@
 <?php
 
-use Carbon\Carbon;
+use Bonnier\Trapp\Translation\TranslationLanguage;
 use Faker\Factory;
 
 class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
@@ -16,6 +16,19 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $this->brandCode = getenv('BRAND_CODE');
 	}
 
+    public function testSetDevelopmentWithDebugRequest() {
+        $service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
+        $service->setDevelopment(true);
+
+        $service->debugRequest(function(GuzzleHttp\Psr7\Request $request) {
+            $this->assertEquals('staging-trapp.whitealbum.dk', $request->getUri()->getHost());
+            $this->assertEquals('/api/v1/translation/test', $request->getUri()->getPath());
+            $this->assertEquals('GET', $request->getMethod());
+        });
+
+        $service->getById('test');
+    }
+
 	public function testInsert() {
 		$service = new \Bonnier\Trapp\ServiceTranslation($this->apiUser, $this->apiKey);
         $service->getService()->setServiceUrl($this->serviceUrl);
@@ -25,7 +38,6 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $title = $this->faker->text(80);
 
         $translateIntoLocale = 'da_dk';
-        //$translateInto = new \Bonnier\Trapp\Translation\TranslationLanguage($translateIntoString);
 
         $deadline = new DateTime('tomorrow');
         $comment = $this->faker->text();
@@ -134,8 +146,7 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $this->assertEquals($title, $savedUpdate->getTitle());
 
         $this->assertTrue($savedUpdate->hasTranslation($translateIntoLocale));
-
-//        $this->assertEquals($deadline->format(DATE_W3C), $savedUpdate->getDeadline());
+        
         $this->assertEquals($comment, $savedUpdate->getComment());
 
         // Ensure the correct properties was set on object.
@@ -143,6 +154,17 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
         $this->assertEquals($beforeUpdate->getBrandCode(), $savedUpdate->getBrandCode());
         $this->assertEquals($beforeUpdate->getLocale(), $savedUpdate->getLocale());
         $this->assertNotEquals($beforeUpdate->getTitle(), $savedUpdate->getTitle());
+
+        // Test TranslationLanguage
+        $relatedTranslations = $savedUpdate->getRelatedTranslations();
+        /* @var TranslationLanguage $relatedTranslation */
+        foreach ($relatedTranslations as $relatedTranslation) {
+            if($relatedTranslation->getLocale() === $translateIntoLocale) {
+                $this->assertFalse($relatedTranslation->isOriginal());
+                $this->assertContains($relatedTranslation->getId(), $relatedTranslation->getEditUri());
+                $this->assertNotNull($relatedTranslation->getState());
+            }
+        }
 
         // Fetch the returned field
         $returnField = $savedUpdate->getFields()[1];
