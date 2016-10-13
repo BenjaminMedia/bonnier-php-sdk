@@ -16,6 +16,8 @@ class ServiceShell extends Client{
 
     const JS_POSITION_HEADER = 'header';
     const JS_POSITION_FOOTER = 'footer';
+    const WITHOUT_BANNERS = 'without_banners=true';
+    const WITHOUT_ADS = 'without_ads=true';
 
     public function __construct($username, $password) {
         $this->username = $username;
@@ -95,10 +97,12 @@ class ServiceShell extends Client{
 
         if($this->withoutBanners) {
 
+            $withoutBannerParam = $this->getWithoutBannersParam($url);
+
             if (strpos($url, '?')) {
-                $url .= '&without_banners=true';
+                $url .= '&' . $withoutBannerParam;
             }else {
-                $url .= '?without_banners=true';
+                $url .= '?' . $withoutBannerParam;
             }
         }
 
@@ -127,6 +131,10 @@ class ServiceShell extends Client{
         $request = parent::get($requestUrl);
 
         return new ShellResponse($request, $requestUrl);
+    }
+
+    private function getWithoutBannersParam($url) {
+        return strpos($url, 'v3') ? self::WITHOUT_ADS : self::WITHOUT_BANNERS;
     }
 
 }

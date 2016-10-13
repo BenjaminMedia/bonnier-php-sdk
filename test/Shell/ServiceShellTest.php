@@ -62,4 +62,25 @@ class ServiceShellTest extends PHPUnit_Framework_TestCase  {
         $this->assertEquals($url, $shellNoBanners->getRequestUri());
 
     }
+
+	public function testGetShellV3() {
+
+		$service = new ServiceShell(self::SHELL_USER, self::SHELL_SECRET);
+
+		$url = 'http://staging.mmm.dk/api/v3/external_headers?without_ads=true';
+
+		$shellNoBanners = $service->get($url);
+
+		$this->assertNotEmpty($shellNoBanners->getHead());
+		$this->assertNotEmpty($shellNoBanners->getHeader());
+		$this->assertNotEmpty($shellNoBanners->getLogos());
+		$this->assertNotEmpty($shellNoBanners->getStartTag());
+		$this->assertNotEmpty($shellNoBanners->getEndTag());
+		$this->assertNotEmpty($shellNoBanners->getBody());
+		$this->assertNotEmpty($shellNoBanners->getBanners());
+		$this->assertNotEmpty($shellNoBanners->getFooter());
+
+		$this->assertEquals($url, $shellNoBanners->getRequestUri());
+
+	}
 }
