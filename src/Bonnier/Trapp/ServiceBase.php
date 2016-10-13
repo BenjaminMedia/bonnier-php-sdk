@@ -39,7 +39,7 @@ class ServiceBase extends Client
     {
         parent::__construct([
             'base_uri' => $this->getServiceUrl(),
-            'auht' => [$this->user, $this->secret],
+            'auth' => [$this->user, $this->secret],
             'curl' => [
                 CURLOPT_SSL_VERIFYHOST => 0,
                 CURLOPT_SSL_VERIFYPEER => 0,
