@@ -167,7 +167,7 @@ class ServiceOAuth extends Client {
 	 * @return string $url the appropriate sub url
      */
 	private function getSubUrl($url) {
-		if($this->serviceEndpoint !== self::SERVICE_URL) {
+		if($this->serviceEndpoint !== self::SERVICE_URL && $this->serviceEndpoint !== null) {
 			$url = 'api/' . $url;
 		}
 		return $url;
