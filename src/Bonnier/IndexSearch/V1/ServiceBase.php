@@ -131,4 +131,8 @@ abstract class ServiceBase extends Client
     {
         return isset($this->row[$name]);
     }
+
+    public function __call($name, $arguments) {
+
+    }
 }
