@@ -16,6 +16,8 @@ class ServiceAppBrandCodeTest extends PHPUnit_Framework_TestCase  {
         
         $service = new \Bonnier\IndexSearch\V1\ServiceAppBrandCode($this->apiUser, $this->apiKey);
 
+        $service->setDevelopment(true);
+
         $appCodes = $service->getAppCodes();
         $brandCodes = $service->getBrandCodes();
         $combinations = $service->getList();
