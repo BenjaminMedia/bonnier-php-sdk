@@ -28,7 +28,7 @@ class ShellResponse {
         $this->header = $responseObject->html->body->header;
         $this->footer = $responseObject->html->body->footer;
         $this->endTag = $responseObject->html->end_tag;
-        $this->banners = $responseObject->html->banners;
+        $this->banners = isset($responseObject->html->banners) ? $responseObject->html->banners : $responseObject->html->ad;
         $this->logos = $responseObject->logos;
         $this->requestUri = $requestUri;
     }
