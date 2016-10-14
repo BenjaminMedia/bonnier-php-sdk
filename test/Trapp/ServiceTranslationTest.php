@@ -2,6 +2,7 @@
 
 use Bonnier\Trapp\Translation\TranslationLanguage;
 use Faker\Factory;
+use GuzzleHttp\Exception\ClientException;
 
 class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
 
@@ -26,7 +27,11 @@ class ServiceTranslationTest extends PHPUnit_Framework_TestCase  {
             $this->assertEquals('GET', $request->getMethod());
         });
 
-        $service->getById('test');
+        try {
+            $service->getById('test');
+        } catch (ClientException $e) {
+
+        }
     }
 
 	public function testInsert() {
