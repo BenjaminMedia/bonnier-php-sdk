@@ -6,15 +6,12 @@ use GuzzleHttp\Middleware;
 
 abstract class ServiceBase extends Client
 {
-
     const SERVICE_URL = 'http://indexdb.whitealbum.dk/api/v1/';
     const DEV_SERVICE_URL = 'http://staging-indexdb.whitealbum.dk/api/v1/';
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
     const METHOD_PUT = 'PUT';
     const METHOD_DELETE = 'DELETE';
-
-    private $serviceEndpoint = null;
     protected $user;
     protected $secret;
     protected $development;
@@ -22,10 +19,10 @@ abstract class ServiceBase extends Client
     protected $row = [];
     protected $debug;
     protected $serviceUrl;
+    private $serviceEndpoint = null;
 
     public function __construct($user, $secret, $type, $development = false, $serviceEndpoint = null)
     {
-
         $this->user = $user;
         $this->secret = $secret;
         $this->serviceEndpoint = $serviceEndpoint;
@@ -51,7 +48,6 @@ abstract class ServiceBase extends Client
 
     public function getServiceUrl()
     {
-
         if (!$this->serviceEndpoint) {
             if ($this->development) {
                 $this->serviceUrl = self::DEV_SERVICE_URL . (empty($this->type) ? '' : '%1$s/');
@@ -80,7 +76,6 @@ abstract class ServiceBase extends Client
 
     public function api($id, $method = self::METHOD_GET, $data = [])
     {
-
         $options = [
             'json' => $data,
         ];
@@ -119,11 +114,6 @@ abstract class ServiceBase extends Client
         return (array)$this->row;
     }
 
-    public function __set($name, $value)
-    {
-        $this->row[$name] = $value;
-    }
-
     public function __get($name)
     {
         if (isset($this->row[$name])) {
@@ -132,15 +122,13 @@ abstract class ServiceBase extends Client
         return null;
     }
 
+    public function __set($name, $value)
+    {
+        $this->row[$name] = $value;
+    }
+
     public function __isset($name)
     {
         return isset($this->row[$name]);
     }
-
-    public function __call($name, $arguments)
-    {
-
-    }
-
-
 }
